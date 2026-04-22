@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 100 100%27><text y=%27.9em%27 font-size=%2790%27>🚙</text></svg>">
+    <title>Перенос калибровок: Как сохранить настройки при смене прошивки — Рено Гайд</title>
+    <meta name="description" content="Подробное руководство по переносу калибровочных данных между версиями ПО. Сохранение заводских параметров, цвета и геометрии экрана.">
+    <link rel="canonical" href="https://renault-guide.vercel.app/articles/p/pe/perenos-kalibrovok-iz-proshivki-v-druguyu.html">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Перенос калибровок: Как сохранить настройки при смене прошивки">
+    <meta property="og:description" content="Подробное руководство по переносу калибровочных данных между версиями ПО. Сохранение заводских параметров, цвета и геометрии экрана.">
+    <meta property="og:locale" content="ru_RU">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/style.css?v=1776848103">
+    <style>
+    .site-footer-premium {
+        margin-top: 60px; padding: 40px 0 0; background: #1e293b; color: #94a3b8;
+    }
+    .footer-grid {
+        display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 40px;
+        padding-bottom: 32px; border-bottom: 1px solid #334155;
+    }
+    .footer-brand { font-size: 1.2rem; font-weight: 700; color: #f1f5f9; margin-bottom: 12px; }
+    .footer-about { font-size: 0.9rem; line-height: 1.6; margin-bottom: 8px; }
+    .footer-updated { font-size: 0.8rem; color: #64748b; }
+    .footer-col h4 { color: #f1f5f9; font-size: 0.95rem; margin-bottom: 16px; }
+    .footer-col ul { list-style: none; }
+    .footer-col li { margin-bottom: 8px; }
+    .footer-col a { color: #94a3b8; font-size: 0.9rem; transition: color 0.2s; }
+    .footer-col a:hover { color: #60a5fa; }
+    .footer-bottom { padding: 20px 0; text-align: center; font-size: 0.85rem; }
+    @media (max-width: 640px) {
+        .footer-grid { grid-template-columns: 1fr; gap: 24px; }
+    }
+    .cookie-popup {
+        position: fixed; bottom: 0; left: 0; right: 0; background: #1e293b; color: #fff;
+        padding: 16px; transition: transform 0.5s ease; z-index: 9999; border-top: 2px solid #2563eb;
+        transform: translateY(100%);
+    }
+    .cookie-popup.visible { transform: translateY(0); }
+    .cookie-inner { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; gap: 16px; font-size: 0.9rem; }
+    .cookie-btn { background: #2563eb; color: #fff; border: none; padding: 8px 20px; border-radius: 8px; font-weight: 600; cursor: pointer; white-space: nowrap; }
+    .cookie-btn:hover { background: #1d4ed8; }
+    @media (max-width: 640px) {
+        .cookie-inner { flex-direction: column; text-align: center; }
+    }
+</style>
+    
+    <!--#include virtual="/ssi/head.html" -->
+</head>
+<body>
+        <!--#include virtual="/ssi/body_top.html" -->
+    <style>
+    .nav-dropdown { position: relative; display: inline-block; }
+    .dropdown-toggle {
+        background: none; border: none; cursor: pointer;
+        font: inherit; color: inherit; padding: 8px 12px;
+        border-radius: 8px; transition: background 0.2s;
+    }
+    .dropdown-toggle:hover { background: rgba(0,0,0,0.05); }
+    .dropdown-menu {
+        display: none; position: absolute; right: 0; top: 100%;
+        min-width: 240px; max-height: 70vh; overflow-y: auto;
+        background: var(--card-bg, #fff); border: 1px solid var(--border, #e5e7eb);
+        border-radius: 12px; box-shadow: 0 12px 40px rgba(0,0,0,0.12);
+        padding: 8px 0; z-index: 1000;
+    }
+    .nav-dropdown::after {
+        content: ''; position: absolute; left: 0; right: 0;
+        top: 100%; height: 12px;
+    }
+    .nav-dropdown:hover .dropdown-menu,
+    .nav-dropdown:focus-within .dropdown-menu { display: block; }
+    .dropdown-item {
+        display: block; padding: 10px 20px; color: var(--text, #1f2937);
+        text-decoration: none; font-size: 0.95rem; transition: background 0.15s;
+        white-space: nowrap;
+    }
+    .dropdown-item:hover { background: rgba(37,99,235,0.06); color: var(--primary, #2563eb); }
+    @media (max-width: 768px) {
+        .main-nav > .nav-link { display: none; }
+        .dropdown-toggle { display: none; }
+        .dropdown-menu {
+            display: block !important; position: static;
+            box-shadow: none; border: none; border-radius: 0;
+            min-width: auto; max-height: none; padding: 0;
+            background: transparent;
+        }
+        .dropdown-item {
+            padding: 8px 0; font-size: 1rem;
+        }
+    }
+    </style>
+    <header class="site-header">
+        <div class="container header-inner">
+            <a href="/" class="logo">
+                <span class="logo-icon">🚙</span>
+                <span>Рено Гайд</span>
+            </a>
+            <button class="mobile-menu-btn" aria-label="Меню" id="menuBtn">☰</button>
+            <nav class="main-nav" id="mainNav">
+                <a href="/category/logan/" class="nav-link">📁 Logan</a>
+<a href="/category/duster/" class="nav-link">📁 Duster</a>
+<a href="/category/megane/" class="nav-link">📁 Megane</a>
+<a href="/category/sandero/" class="nav-link">📁 Sandero</a>
+<div class="nav-dropdown">
+            <button class="nav-link dropdown-toggle">📂 Все разделы ▾</button>
+            <div class="dropdown-menu"><a href="/category/logan/" class="dropdown-item">📁 Logan</a>
+<a href="/category/duster/" class="dropdown-item">📁 Duster</a>
+<a href="/category/megane/" class="dropdown-item">📁 Megane</a>
+<a href="/category/sandero/" class="dropdown-item">📁 Sandero</a>
+<a href="/category/kaptur/" class="dropdown-item">📁 Kaptur</a>
+<a href="/category/fluence/" class="dropdown-item">📁 Fluence</a>
+<a href="/category/scenic/" class="dropdown-item">📁 Scenic</a>
+<a href="/category/arkana/" class="dropdown-item">📁 Arkana</a>
+<a href="/category/symbol/" class="dropdown-item">📁 Symbol</a>
+<a href="/category/laguna/" class="dropdown-item">📁 Laguna</a>
+<a href="/category/kangoo/" class="dropdown-item">📁 Kangoo</a>
+<a href="/category/авто/" class="dropdown-item">📁 Авто</a>
+<a href="/category/master/" class="dropdown-item">📁 Master</a>
+<a href="/category/koleos/" class="dropdown-item">📁 Koleos</a>
+<a href="/category/captur/" class="dropdown-item">📁 Captur</a>
+<a href="/category/clio/" class="dropdown-item">📁 Clio</a>
+<a href="/category/trafic/" class="dropdown-item">📁 Trafic</a>
+<a href="/category/espace/" class="dropdown-item">📁 Espace</a>
+<a href="/category/kadjar/" class="dropdown-item">📁 Kadjar</a>
+<a href="/category/twingo/" class="dropdown-item">📁 Twingo</a>
+<a href="/category/drugoe/" class="dropdown-item">📁 Другое</a></div>
+        </div>
+            </nav>
+        </div>
+    </header>
+
+    <nav class="breadcrumbs" aria-label="Навигация">
+        <div class="container"><a href="/">Главная</a><span class="breadcrumb-sep">›</span><a href="/category/drugoe/">Другое</a><span class="breadcrumb-sep">›</span><span class="breadcrumb-current">Перенос калибровок: Как сохранить настройки при смене прошивки</span></div>
+    </nav>
+
+    <main class="site-main">
+        <div class="container">
+            <div class="article-layout">
+                <article class="article-main">
+                    
+                    <h1>Полный гайд по переносу калибровочных данных между версиями прошивки</h1>
+                    <nav class="mobile-toc"><details><summary>📋 Содержание</summary><ul><li><a href="#понимание-структуры-данных-калибровки">Понимание структуры данных калибровки</a></li><li><a href="#подготовка-оборудования-и-создание-резервной-копии">Подготовка оборудования и создание резервной копии</a></li><li><a href="#анализ-совместимости-версий-прошивок">Анализ совместимости версий прошивок</a></li><li><a href="#процедура-извлечения-и-конвертации-данных">Процедура извлечения и конвертации данных</a></li><li><a href="#запись-данных-в-целевую-прошивку">Запись данных в целевую прошивку</a></li><li><a href="#проверка-и-калибровка-после-переноса">Проверка и калибровка после переноса</a></li><li><a href="#частые-ошибки-и-способы-их-предотвращения">Частые ошибки и способы их предотвращения</a></li><li><a href="#faq-часто-задаваемые-вопросы">FAQ: Часто задаваемые вопросы</a></li></ul></details></nav>
+                    <!--#include virtual="/ssi/article_before.html" -->
+                    <div class="article-body"><p>Процесс переноса калибровок из одной прошивки в другую представляет собой сложную техническую задачу, требующую глубокого понимания архитектуры устройства. Часто пользователи сталкиваются с необходимостью смены программного обеспечения для исправления ошибок или получения новых функций, но при этом теряют уникальные заводские настройки, которые были внесены на заводе-изготовителе. Эти данные, хранящиеся в специальных разделах памяти, отвечают за точность цветопередачи, геометрическую коррекцию изображения и работу сенсорных элементов.</p>
+<p>Игнорирование процедуры сохранения этих параметров может привести к тому, что устройство будет работать нестабильно, а изображение станет неестественным или размытым. Особенно критична ситуация для профессионального оборудования, мониторов и телевизоров высокого класса, где каждый пиксель должен отображаться с идеальной точностью. В этой статье мы разберем, как правильно извлечь и внедрить <strong>калибровочные данные</strong> без потери качества работы устройства.</p>
+
+<h2 id="понимание-структуры-данных-калибровки">Понимание структуры данных калибровки</h2>
+<p>Чтобы успешно выполнить перенос, необходимо четко понимать, где именно физически и логически хранятся эти настройки. В современных электронных устройствах информация разделена на несколько областей: пользовательские настройки, системные файлы и <strong>калибровочные блоки</strong>. Последние часто защищены от случайного изменения и записываются в выделенные сектора памяти, такие как <code>eMMC</code> или <code>NAND Flash</code>.</p>
+<p>Каждая модель устройства имеет свою уникальную структуру хранения данных. Например, в телевизорах <em>Samsung</em> или <em>LG</em> калибровка может быть зашита в отдельный раздел <code>EEPROM</code>, а в смартфонах на базе <em>Qualcomm</em> она часто интегрирована в раздел <code>persist</code>. Непонимание этой структуры ведет к риску записывать данные не в ту область, что вызывает фатальные ошибки при загрузке.</p>
+<p>Важно учитывать, что формат данных может меняться в зависимости от версии <strong>прошивки</strong>. Старые версии могут использовать бинарный формат, который несовместим с новыми алгоритмами обработки изображения. Поэтому просто скопировать файл недостаточно — необходимо убедиться в совместимости версий.</p>
+<p>Для анализа структуры часто требуются специализированные утилиты, способные читать дампы памяти. Без такого инструмента вы будете действовать вслепую, что недопустимо при работе с чувствительными компонентами.</p>
+
+<h2 id="подготовка-оборудования-и-создание-резервной-копии">Подготовка оборудования и создание резервной копии</h2>
+<p>Перед началом любых манипуляций с программным обеспечением необходимо создать полную резервную копию текущего состояния устройства. Это не просто рекомендация, а обязательное условие безопасности. Если процесс пойдет не по плану, только оригинальный бэкап позволит вернуть устройство в рабочее состояние.</p>
+<p>Вам потребуется доступ к инженерному меню или права суперпользователя для извлечения данных. Для большинства устройств используется подключение через <code>ADB</code> или специализированные программаторы. Проверьте, что кабели и разъемы находятся в исправном состоянии, так как обрыв связи в процессе записи может повредить контроллер.</p>
+<p>Создайте образы следующих разделов:</p>
+<ul>
+    <li>🛠️ Раздел <code>persist</code> — содержит данные о калибровке датчиков и камеры.</li>
+    <li>🛠️ Раздел <code>eeprom</code> или <code>nvram</code> — хранит уникальные идентификаторы и настройки экрана.</li>
+    <li>🛠️ Раздел <code>boot</code> — загрузчик, который может содержать данные инициализации.</li>
+</ul>
+<p>Используйте проверенные утилиты, такие как <em>SP Flash Tool</em> для MediaTek или <em>QPST</em> для Snapdragon. Не пытайтесь использовать кустарные скрипты, если не уверены в их безопасности.</p>
+<blockquote>⚠️ Внимание: Никогда не используйте файлы резервных копий от других устройств, даже той же модели. Уникальные параметры калибровки индивидуальны для каждого экземпляра устройства.</blockquote>
+<div class="checklist-block"><h4>☑️ Подготовка к переносу калибровок</h4><label class="check-item"><input type="checkbox"><span>Полное резервное копирование разделов</span></label><label class="check-item"><input type="checkbox"><span>Проверка целостности образа</span></label><label class="check-item"><input type="checkbox"><span>Очистка кэша системы</span></label><label class="check-item"><input type="checkbox"><span>Отключение автоматических обновлений</span></label><div class="check-progress">Выполнено: <span class="check-count">0</span> / 4</div></div>
+
+<h2 id="анализ-совместимости-версий-прошивок">Анализ совместимости версий прошивок</h2>
+<p>Одной из самых частых ошибок является попытка перенести калибровки с версии ПО, которая кардинально отличается по архитектуре. Разработчики часто меняют структуру таблиц калибровки при переходе на новые версии ОС или драйверов. Если вы попытаетесь загрузить старые данные в новую систему, это может привести к «кирпичу» или нестабильной работе.</p>
+<p>Необходимо провести сравнительный анализ хеш-сумм и структур данных в исходной и целевой прошивках. Используйте инструменты анализа бинарных файлов для поиска различий в заголовках секторов. Если формат данных изменился, простой перенос невозможен — требуется конвертация.</p>
+<p>Обратите внимание на требования к <strong>версии загрузчика</strong>. Некоторые производители блокируют запись определенных разделов, если версия загрузчика не соответствует версии прошивки. В таких случаях сначала обновляется загрузчик, а затем уже происходит перенос данных.</p>
+<p>Если вы работаете с устройствами <em>Sony</em> или <em>Xiaomi</em>, проверьте наличие патчей совместимости. Часто производители выпускают промежуточные обновления, которые облегчают миграцию данных между крупными версиями системы.</p>
+<div class="attention-box attention-info"><div><strong>📊 Какой тип устройства вы обслуживаете?</strong><ul><li>Телевизор</li><li>Смартфон</li><li>Монитор</li><li>Другое</li></ul></div></div>
+
+<h2 id="процедура-извлечения-и-конвертации-данных">Процедура извлечения и конвертации данных</h2>
+<p>После того как вы убедились в совместимости, можно приступать к извлечению. Используйте команду для дампа памяти, указав точные адреса секторов. Например, для устройств на базе Linux-ядра часто используется команда <code>dd if=/dev/block/mmcblk0pXX of=backup.img</code>. Будьте предельно внимательны с номерами разделов.</p>
+<p>Извлеченный образ может содержать не только калибровочные данные, но и служебную информацию. Вам нужно выделить конкретный блок. Для этого часто используются шестнадцатеричные редакторы, такие как <em>HxD</em> или <em>WinHex</em>. Ищите сигнатуры, характерные для калибровочных таблиц.</p>
+<p>Если формат данных устарел, потребуется конвертация. Это сложный этап, где нужно сопоставить старые параметры с новыми. Например, если в старой прошивке использовалась цветовая модель <code>RGB</code> с глубиной 8 бит, а в новой — 10 бит, данные нужно масштабировать.</p>
+<p>Иногда проще извлечь данные в текстовом виде, если формат позволяет, отредактировать их и снова упаковать в бинарный формат. Это снижает риск ошибки при прямом переносе бинарных блоков.</p>
+<blockquote>⚠️ Внимание: Ошибка в одной бинарной строке может привести к тому, что система отклонит весь блок калибровки и сбросит настройки до заводских дефолтных значений.</blockquote>
+<details class="faq-item"><summary>Как найти сигнатуру калибровочного блока?</summary><div class="faq-answer"><p>Обычно калибровочные блоки начинаются с магических чисел (например, 0xCAFEBABE или специфичных для производителя ID). Используйте поиск по hex-редакторуу для нахождения повторяющихся паттернов, которые могут указывать на начало и конец блока данных.</p></div></details>
+
+<h2 id="запись-данных-в-целевую-прошивку">Запись данных в целевую прошивку</h2>
+<p>Процесс записи требует максимальной точности. Используйте инструменты, поддерживающие запись в конкретные сектора без перезаписи всей памяти устройства. Это минимизирует риск повреждения других разделов. Перед записью очистите целевой раздел от старых данных.</p>
+<p>Вставьте подготовленный образ в соответствующую область памяти. Для этого часто используются команды <code>flash</code> в режиме загрузчика. Убедитесь, что устройство находится в правильном режиме (например, <code>Download Mode</code> или <code>Fastboot</code>).</p>
+<p>После завершения записи необходимо перезагрузить устройство. Не нажимайте кнопки и не отключайте питание в течение первой минуты после включения, так как система будет выполнять первичную инициализацию новых данных.</p>
+<p>Если устройство не загружается, немедленно откатитесь на резервную копию. Не пытайтесь повторить процедуру записи несколько раз подряд без анализа логов ошибок.</p>
+<div class="attention-box attention-tip"><span class="attention-icon">💡</span><p>При записи данных через ADB убедитесь, что у вас есть root-права, так как обычные пользователи не имеют доступа к разделам памяти с калибровками.</p></div>
+
+<h2 id="проверка-и-калибровка-после-переноса">Проверка и калибровка после переноса</h2>
+<p>После успешной записи и загрузки системы необходимо провести проверку целостности данных. Запустите диагностические тесты, встроенные в инженерное меню устройства. Проверьте показания цветовых сенсоров, геометрические параметры и работу тачскрина.</p>
+<p>Используйте внешний <strong>колориметр</strong> или тестовые патчи для визуальной оценки качества изображения. Сравните полученные результаты с эталонными значениями, которые были зафиксированы до переноса. Если есть отклонения, возможно, потребовалась конвертация данных.</p>
+<p>В некоторых случаях система может автоматически скорректировать значения после загрузки. Дайте устройству поработать в течение часа, чтобы стабилизировались температурные режимы и параметры экрана.</p>
+<p>Если вы видите артефакты, перекосы или неверные цвета, скорее всего, данные были записаны с ошибкой или несовместимы с текущей версией драйверов. В этом случае придется повторить процедуру с более тщательным анализом формата данных.</p>
+<table>
+    <thead>
+        <tr>
+            <th>Тип устройства</th>
+            <th>Раздел памяти</th>
+            <th>Сложность переноса</th>
+            <th>Инструмент</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>Телевизор</td>
+            <td><code>eeprom</code></td>
+            <td>Средняя</td>
+            <td>USB-программатор</td>
+        </tr>
+        <tr>
+            <td>Смартфон</td>
+            <td><code>persist</code></td>
+            <td>Высокая</td>
+            <td>SP Flash Tool</td>
+        </tr>
+        <tr>
+            <td>Монитор</td>
+            <td><code>flash</code></td>
+            <td>Низкая</td>
+            <td>DD-утилита</td>
+        </tr>
+        <tr>
+            <td>Планшет</td>
+            <td><code>nvram</code></td>
+            <td>Высокая</td>
+            <td>QPST</td>
+        </tr>
+    </tbody>
+</table>
+<blockquote>⚠️ Внимание: Если после переноса калибровки устройство работает нестабильно, не пытайтесь исправить это программными средствами без полного анализа логов ядра.</blockquote>
+<div class="attention-box attention-tip"><span class="attention-icon">💡</span><p>Точное соответствие форматов данных и версий драйверов является критическим фактором успеха при переносе калибровок.</p></div>
+
+<h2 id="частые-ошибки-и-способы-их-предотвращения">Частые ошибки и способы их предотвращения</h2>
+<p>Одна из самых распространенных ошибок — игнорирование разрядности системы. Перенос данных с 32-битной системы на 64-битную без адаптации приводит к некорректной интерпретации значений. Всегда проверяйте архитектуру целевого устройства.</p>
+<p>Другая проблема — использование поврежденных файлов резервных копий. Если при создании бэкапа произошла ошибка чтения, то и запись будет некорректной. Всегда проверяйте контрольные суммы (MD5, SHA256) файлов до начала операции.</p>
+<p>Иногда пользователи пытаются перенести калибровки на устройство, которое имеет физически отличные компоненты (например, другую матрицу экрана). В этом случае программный перенос бесполезен — нужны физические настройки.</p>
+<p>Не забывайте о правах доступа. Даже если у вас есть файл с данными, система может запретить их запись без специальных привилегий. Убедитесь, что вы работаете в режиме, разрешающем запись в защищенные разделы.</p>
+
+<h2 id="faq-часто-задаваемые-вопросы">FAQ: Часто задаваемые вопросы</h2>
+<details>
+    <summary>Можно ли перенести калибровки между разными моделями устройств?</summary>
+    <p>В большинстве случаев это невозможно, так как физические параметры матриц и датчиков уникальны для каждой модели. Исключением могут быть устройства из одной линейки с идентичными компонентами.</p>
+</details>
+<details>
+    <summary>Что делать, если после переноса цвета искажены?</summary>
+    <p>Скорее всего, данные не были корректно конвертированы или записаны в неверный сектор памяти. Необходимо проверить целостность файла и повторить процедуру с использованием утилиты проверки хеш-сумм.</p>
+</details>
+<details>
+    <summary>Нужно ли сбрасывать настройки до заводских перед переносом?</summary>
+    <p>Да, рекомендуется выполнить сброс, чтобы очистить старые конфликты настроек, но только после создания полной резервной копии текущего состояния.</p>
+</details>
+<details>
+    <summary>Как узнать, какой раздел памяти содержит калибровку?</summary>
+    <p>Информация содержится в технической документации производителя (Service Manual) или может быть найдена путем анализа дампа памяти через hex-редактор.</p>
+</details>
+<details>
+    <summary>Влияет ли перенос калибровок на гарантию устройства?</summary>
+    <p>Да, вмешательство в системные разделы памяти обычно аннулирует гарантию, так как это считается несанкционированным изменением программного обеспечения.</p>
+</details></div>
+                    <!--#include virtual="/ssi/article_after.html" -->
+
+                </article>
+                <aside class="article-sidebar"><!--#include virtual="/ssi/sidebar_top.html" --><nav class="sidebar-search"><div class="sidebar-search-box"><input type="text" id="globalSearchInput" placeholder="🔍 Поиск статей..." autocomplete="off"><div class="search-dropdown" id="globalSearchDropdown"></div></div></nav><!--#include virtual="/ssi/sidebar_before_toc.html" --><nav class="sidebar-toc" id="sidebarToc"><h3>Содержание</h3><ul><li><a href="#понимание-структуры-данных-калибровки">Понимание структуры данных калибровки</a></li><li><a href="#подготовка-оборудования-и-создание-резервной-копии">Подготовка оборудования и создание резервной копии</a></li><li><a href="#анализ-совместимости-версий-прошивок">Анализ совместимости версий прошивок</a></li><li><a href="#процедура-извлечения-и-конвертации-данных">Процедура извлечения и конвертации данных</a></li><li><a href="#запись-данных-в-целевую-прошивку">Запись данных в целевую прошивку</a></li><li><a href="#проверка-и-калибровка-после-переноса">Проверка и калибровка после переноса</a></li><li><a href="#частые-ошибки-и-способы-их-предотвращения">Частые ошибки и способы их предотвращения</a></li><li><a href="#faq-часто-задаваемые-вопросы">FAQ: Часто задаваемые вопросы</a></li></ul></nav><!--#include virtual="/ssi/sidebar_before_related.html" --><nav class="sidebar-related"><h3>Похожие статьи</h3><ul><li><a href="/articles/r/re/retsept-marinovannoj-skumbrii-v-domashnikh-usloviyakh-kusochkami-s-lukom-i-uksusom-i-maslom-v-banke.html" class="related-card">Маринованная скумбрия кусочками в банке: рецепт с луком и уксусом</a></li><li><a href="/articles/k/ka/kak-sdelat-marinovannuyu-rybu.html" class="related-card">Как сделать маринованную рыбу: лучшие рецепты и секреты</a></li><li><a href="/articles/p/pe/perenos-modulya-zazhiganiya-niva-shevrole.html" class="related-card">Замена и перенос модуля зажигания на Нива Шевроле: Пошаговая инструкция</a></li><li><a href="/articles/p/pe/perets-marinovannyj-polovinkami-na-zimu.html" class="related-card">Маринованный перец половинками на зиму: 5 рецептов с фото и секретами хранения</a></li><li><a href="/articles/p/po/pochemu-darenoe-nelzya-darit-drugomu-cheloveku.html" class="related-card">Почему дарёное нельзя дарить дальше: правовые и моральные риски</a></li></ul></nav><!--#include virtual="/ssi/sidebar_after_related.html" --></aside>
+            </div>
+        </div>
+    </main>
+
+    <!--#include virtual="/ssi/before_related_bottom.html" -->
+    <section class="related-bottom">
+        <div class="container">
+            <h2 class="related-bottom-heading">📖 Читайте также</h2>
+            <div class="related-bottom-grid"><a href="/articles/r/re/retsept-marinovannoj-skumbrii-v-domashnikh-usloviyakh-kusochkami-s-lukom-i-uksusom-i-maslom-v-banke.html" class="related-bottom-card"><span class="related-bottom-title">Маринованная скумбрия кусочками в банке: рецепт с луком и уксусом</span><span class="related-bottom-desc">Пошаговый рецепт маринованной скумбрии в домашних условиях с фото: как правильно нарезать, сколько д</span></a><a href="/articles/k/ka/kak-sdelat-marinovannuyu-rybu.html" class="related-bottom-card"><span class="related-bottom-title">Как сделать маринованную рыбу: лучшие рецепты и секреты</span><span class="related-bottom-desc">Полное руководство по маринованию рыбы дома. Рецепты с уксусом, маслом и луком, выбор сырья, сроки х</span></a><a href="/articles/p/pe/perenos-modulya-zazhiganiya-niva-shevrole.html" class="related-bottom-card"><span class="related-bottom-title">Замена и перенос модуля зажигания на Нива Шевроле: Пошаговая инструкция</span><span class="related-bottom-desc">Полное руководство по переносу модуля зажигания на Нива Шевроле. Причины неисправности, пошаговый де</span></a><a href="/articles/p/pe/perets-marinovannyj-polovinkami-na-zimu.html" class="related-bottom-card"><span class="related-bottom-title">Маринованный перец половинками на зиму: 5 рецептов с фото и секретами хранения</span><span class="related-bottom-desc">Как мариновать перец половинками на зиму: пошаговые рецепты с уксусом, без стерилизации, с чесноком </span></a><a href="/articles/p/po/pochemu-darenoe-nelzya-darit-drugomu-cheloveku.html" class="related-bottom-card"><span class="related-bottom-title">Почему дарёное нельзя дарить дальше: правовые и моральные риски</span><span class="related-bottom-desc">Разбираем юридические последствия и этические нормы передачи подарков третьим лицам. Когда передарен</span></a><a href="/articles/v/va/varenoe-testo-nazvanie.html" class="related-bottom-card"><span class="related-bottom-title">Вареное тесто: полное руководство по названиям и видам</span><span class="related-bottom-desc">Узнайте, как правильно называется вареное тесто. Разбор видов: лапша, клецки, пельмени, вонтоны. Рец</span></a></div>
+        </div>
+    </section>
+    <!--#include virtual="/ssi/after_related_bottom.html" -->
+
+    <footer class="site-footer-premium">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <div class="footer-brand">🚙 Рено Гайд</div>
+                    <p class="footer-about">Рено - идеальный баланс французского комфорта и практичности. Подробные обзоры от Logan до Duster, честные отзывы владельцев и полезные советы по ремонту.
+</p>
+                </div>
+                <div class="footer-col">
+                    <h4>Разделы</h4>
+                    <ul><li><a href="/category/logan/">📁 Logan</a></li>
+<li><a href="/category/duster/">📁 Duster</a></li>
+<li><a href="/category/megane/">📁 Megane</a></li>
+<li><a href="/category/sandero/">📁 Sandero</a></li>
+<li><a href="/category/kaptur/">📁 Kaptur</a></li>
+<li><a href="/category/fluence/">📁 Fluence</a></li></ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Информация</h4>
+                    <ul>
+                        <li><a href="/">Главная</a></li>
+                        <li><a href="/about.html">О проекте</a></li>
+                        <li><a href="/categories.html">Все разделы</a></li>
+                        <li><a href="/contact.html">Контакты</a></li>
+                        <li><a href="/privacy.html">Конфиденциальность</a></li>
+                        <li><a href="/sitemap.xml">Карта сайта</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2026 Рено Гайд. Все права защищены.</p>
+                <!--LiveInternet counter--><div style="margin-top:10px;"><a href="https://www.liveinternet.ru/click"
+                target="_blank"><img id="licnt06C4" width="88" height="15" style="border:0" 
+                title="LiveInternet: показано число посетителей за сегодня"
+                src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAEALAAAAAABAAEAAAIBTAA7"
+                alt=""/></a><script>(function(d,s){d.getElementById("licnt06C4").src=
+                "https://counter.yadro.ru/hit?t26.5;r"+escape(d.referrer)+
+                ((typeof(s)=="undefined")?"":";s"+s.width+"*"+s.height+"*"+
+                (s.colorDepth?s.colorDepth:s.pixelDepth))+";u"+escape(d.URL)+
+                ";h"+escape(d.title.substring(0,150))+";"+Math.random()})(document,screen)</script></div><!--/LiveInternet-->
+            </div>
+        </div>
+    </footer>
+    <div id="cookie-consent" class="cookie-popup">
+        <div class="cookie-inner">
+            <span>🍪 Мы используем файлы cookie для улучшения работы сайта.</span>
+            <button id="cookie-accept" class="cookie-btn">Принять</button>
+        </div>
+    </div>
+    <script src="/static/js/main.js"></script>
+    <script>
+    (function() {
+        const popup = document.getElementById('cookie-consent');
+        const btn = document.getElementById('cookie-accept');
+        if (popup && btn && !localStorage.getItem('cookie-accepted')) {
+            popup.classList.add('visible');
+            btn.onclick = () => {
+                localStorage.setItem('cookie-accepted', 'true');
+                popup.classList.remove('visible');
+            };
+        }
+    })();
+    </script>
+    <!--#include virtual="/ssi/body_bottom.html" -->
+    <script src="/static/js/inject.js" defer></script>
+</body>
+</html>

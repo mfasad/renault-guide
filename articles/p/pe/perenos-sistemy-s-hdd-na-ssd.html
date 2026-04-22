@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 100 100%27><text y=%27.9em%27 font-size=%2790%27>🚙</text></svg>">
+    <title>Как перенести систему с HDD на SSD без потери данных: пошаговое руководство — Рено Гайд</title>
+    <meta name="description" content="Подробная инструкция по клонированию Windows с HDD на SSD: выбор ПО, настройка BIOS, оптимизация после переноса. Сравнение способов и советы экспертов.">
+    <link rel="canonical" href="https://renault-guide.vercel.app/articles/p/pe/perenos-sistemy-s-hdd-na-ssd.html">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Как перенести систему с HDD на SSD без потери данных: пошаговое руководство">
+    <meta property="og:description" content="Подробная инструкция по клонированию Windows с HDD на SSD: выбор ПО, настройка BIOS, оптимизация после переноса. Сравнение способов и советы экспертов.">
+    <meta property="og:locale" content="ru_RU">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/style.css?v=1776848103">
+    <style>
+    .site-footer-premium {
+        margin-top: 60px; padding: 40px 0 0; background: #1e293b; color: #94a3b8;
+    }
+    .footer-grid {
+        display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 40px;
+        padding-bottom: 32px; border-bottom: 1px solid #334155;
+    }
+    .footer-brand { font-size: 1.2rem; font-weight: 700; color: #f1f5f9; margin-bottom: 12px; }
+    .footer-about { font-size: 0.9rem; line-height: 1.6; margin-bottom: 8px; }
+    .footer-updated { font-size: 0.8rem; color: #64748b; }
+    .footer-col h4 { color: #f1f5f9; font-size: 0.95rem; margin-bottom: 16px; }
+    .footer-col ul { list-style: none; }
+    .footer-col li { margin-bottom: 8px; }
+    .footer-col a { color: #94a3b8; font-size: 0.9rem; transition: color 0.2s; }
+    .footer-col a:hover { color: #60a5fa; }
+    .footer-bottom { padding: 20px 0; text-align: center; font-size: 0.85rem; }
+    @media (max-width: 640px) {
+        .footer-grid { grid-template-columns: 1fr; gap: 24px; }
+    }
+    .cookie-popup {
+        position: fixed; bottom: 0; left: 0; right: 0; background: #1e293b; color: #fff;
+        padding: 16px; transition: transform 0.5s ease; z-index: 9999; border-top: 2px solid #2563eb;
+        transform: translateY(100%);
+    }
+    .cookie-popup.visible { transform: translateY(0); }
+    .cookie-inner { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; gap: 16px; font-size: 0.9rem; }
+    .cookie-btn { background: #2563eb; color: #fff; border: none; padding: 8px 20px; border-radius: 8px; font-weight: 600; cursor: pointer; white-space: nowrap; }
+    .cookie-btn:hover { background: #1d4ed8; }
+    @media (max-width: 640px) {
+        .cookie-inner { flex-direction: column; text-align: center; }
+    }
+</style>
+    
+    <!--#include virtual="/ssi/head.html" -->
+</head>
+<body>
+        <!--#include virtual="/ssi/body_top.html" -->
+    <style>
+    .nav-dropdown { position: relative; display: inline-block; }
+    .dropdown-toggle {
+        background: none; border: none; cursor: pointer;
+        font: inherit; color: inherit; padding: 8px 12px;
+        border-radius: 8px; transition: background 0.2s;
+    }
+    .dropdown-toggle:hover { background: rgba(0,0,0,0.05); }
+    .dropdown-menu {
+        display: none; position: absolute; right: 0; top: 100%;
+        min-width: 240px; max-height: 70vh; overflow-y: auto;
+        background: var(--card-bg, #fff); border: 1px solid var(--border, #e5e7eb);
+        border-radius: 12px; box-shadow: 0 12px 40px rgba(0,0,0,0.12);
+        padding: 8px 0; z-index: 1000;
+    }
+    .nav-dropdown::after {
+        content: ''; position: absolute; left: 0; right: 0;
+        top: 100%; height: 12px;
+    }
+    .nav-dropdown:hover .dropdown-menu,
+    .nav-dropdown:focus-within .dropdown-menu { display: block; }
+    .dropdown-item {
+        display: block; padding: 10px 20px; color: var(--text, #1f2937);
+        text-decoration: none; font-size: 0.95rem; transition: background 0.15s;
+        white-space: nowrap;
+    }
+    .dropdown-item:hover { background: rgba(37,99,235,0.06); color: var(--primary, #2563eb); }
+    @media (max-width: 768px) {
+        .main-nav > .nav-link { display: none; }
+        .dropdown-toggle { display: none; }
+        .dropdown-menu {
+            display: block !important; position: static;
+            box-shadow: none; border: none; border-radius: 0;
+            min-width: auto; max-height: none; padding: 0;
+            background: transparent;
+        }
+        .dropdown-item {
+            padding: 8px 0; font-size: 1rem;
+        }
+    }
+    </style>
+    <header class="site-header">
+        <div class="container header-inner">
+            <a href="/" class="logo">
+                <span class="logo-icon">🚙</span>
+                <span>Рено Гайд</span>
+            </a>
+            <button class="mobile-menu-btn" aria-label="Меню" id="menuBtn">☰</button>
+            <nav class="main-nav" id="mainNav">
+                <a href="/category/logan/" class="nav-link">📁 Logan</a>
+<a href="/category/duster/" class="nav-link">📁 Duster</a>
+<a href="/category/megane/" class="nav-link">📁 Megane</a>
+<a href="/category/sandero/" class="nav-link">📁 Sandero</a>
+<div class="nav-dropdown">
+            <button class="nav-link dropdown-toggle">📂 Все разделы ▾</button>
+            <div class="dropdown-menu"><a href="/category/logan/" class="dropdown-item">📁 Logan</a>
+<a href="/category/duster/" class="dropdown-item">📁 Duster</a>
+<a href="/category/megane/" class="dropdown-item">📁 Megane</a>
+<a href="/category/sandero/" class="dropdown-item">📁 Sandero</a>
+<a href="/category/kaptur/" class="dropdown-item">📁 Kaptur</a>
+<a href="/category/fluence/" class="dropdown-item">📁 Fluence</a>
+<a href="/category/scenic/" class="dropdown-item">📁 Scenic</a>
+<a href="/category/arkana/" class="dropdown-item">📁 Arkana</a>
+<a href="/category/symbol/" class="dropdown-item">📁 Symbol</a>
+<a href="/category/laguna/" class="dropdown-item">📁 Laguna</a>
+<a href="/category/kangoo/" class="dropdown-item">📁 Kangoo</a>
+<a href="/category/авто/" class="dropdown-item">📁 Авто</a>
+<a href="/category/master/" class="dropdown-item">📁 Master</a>
+<a href="/category/koleos/" class="dropdown-item">📁 Koleos</a>
+<a href="/category/captur/" class="dropdown-item">📁 Captur</a>
+<a href="/category/clio/" class="dropdown-item">📁 Clio</a>
+<a href="/category/trafic/" class="dropdown-item">📁 Trafic</a>
+<a href="/category/espace/" class="dropdown-item">📁 Espace</a>
+<a href="/category/kadjar/" class="dropdown-item">📁 Kadjar</a>
+<a href="/category/twingo/" class="dropdown-item">📁 Twingo</a>
+<a href="/category/drugoe/" class="dropdown-item">📁 Другое</a></div>
+        </div>
+            </nav>
+        </div>
+    </header>
+
+    <nav class="breadcrumbs" aria-label="Навигация">
+        <div class="container"><a href="/">Главная</a><span class="breadcrumb-sep">›</span><a href="/category/drugoe/">Другое</a><span class="breadcrumb-sep">›</span><span class="breadcrumb-current">Как перенести систему с HDD на SSD без потери данных: пошаговое руководство</span></div>
+    </nav>
+
+    <main class="site-main">
+        <div class="container">
+            <div class="article-layout">
+                <article class="article-main">
+                    
+                    <h1>Перенос Windows с HDD на SSD: полное руководство от подготовки до оптимизации</h1>
+                    <nav class="mobile-toc"><details><summary>📋 Содержание</summary><ul><li><a href="#почему-стоит-перенести-windows-на-ssd-реальные-преимущества">Почему стоит перенести Windows на SSD: реальные преимущества</a></li><li><a href="#подготовка-к-переносу-что-нужно-сделать-до-клонирования">Подготовка к переносу: что нужно сделать до клонирования</a></li><li><a href="#способы-переноса-windows-на-ssd-сравнение-методов">Способы переноса Windows на SSD: сравнение методов</a></li><li><a href="#пошаговая-инструкция-клонируем-windows-на-ssd-с-macrium-reflect">Пошаговая инструкция: клонируем Windows на SSD с Macrium Reflect</a></li><li><a href="#настройка-bios-и-первая-загрузка-с-ssd">Настройка BIOS и первая загрузка с SSD</a></li><li><a href="#оптимизация-ssd-после-переноса-что-нужно-сделать-обязательно">Оптимизация SSD после переноса: что нужно сделать обязательно</a></li><li><a href="#типичные-ошибки-при-переносе-и-как-их-избежать">Типичные ошибки при переносе и как их избежать</a></li><li><a href="#faq-ответы-на-частые-вопросы">FAQ: ответы на частые вопросы</a></li></ul></details></nav>
+                    <!--#include virtual="/ssi/article_before.html" -->
+                    <div class="article-body"><p>Переход с традиционного жёсткого диска (<em>HDD</em>) на твердотельный накопитель (<em>SSD</em>) — один из самых эффективных способов ускорить работу компьютера. Даже на старых машинах с <code>SATA II</code> разница в скорости загрузки системы и запуска программ достигает <strong>300-500%</strong>. Но многие пользователи боятся потерять данные или столкнуться с ошибками при переносе. На самом деле, процесс клонирования системы на <em>SSD</em> проще, чем кажется — если знать ключевые нюансы.</p>
+
+<p>В этой статье мы разберём <strong>все этапы переноса</strong>: от выбора подходящего <em>SSD</em> (с учётом форм-фактора и интерфейса) до настройки <code>BIOS/UEFI</code> и оптимизации системы после миграции. Особое внимание уделим <mark>скрытым ловушкам, которые приводят к сбоям загрузки или потере производительности</mark> — например, неправильному выравниванию разделов или игнорированию режима <code>AHCI</code>. Также сравним популярные программы для клонирования и дадим рекомендации по выбору в зависимости от вашей конфигурации.</p>
+
+<h2 id="почему-стоит-перенести-windows-на-ssd-реальные-преимущества">Почему стоит перенести Windows на SSD: реальные преимущества</h2>
+
+<p>Твердотельные накопители не просто быстрее — они меняют сам подход к работе с компьютером. Вот ключевые улучшения, которые вы заметите сразу после переноса:</p>
+
+<ul>
+  <li>⚡ <strong>Мгновенная загрузка системы</strong>: Windows стартует за <em>8-15 секунд</em> (против 30-60 секунд на <em>HDD</em>), а приложения типа <em>Photoshop</em> или <em>Visual Studio</em> открываются почти без задержки.</li>
+  <li>🔄 <strong>Отсутствие "подвисаний"</strong>: даже при 100% загрузке диска (например, при индексировании файлов) система остаётся отзывчивой.</li>
+  <li>💾 <strong>Устойчивость к физическим повреждениям</strong>: в <em>SSD</em> нет движущихся частей, поэтому он не боится ударов или вибраций (актуально для ноутбуков).</li>
+  <li>🔋 <strong>Экономия энергии</strong>: потребление электроэнергии ниже на <em>30-50%</em>, что продлевает время работы ноутбука от батареи.</li>
+</ul>
+
+<p>Однако не все <em>SSD</em> одинаковы. Например, бюджетные модели на базе контроллера <em>Phison S11</em> (вроде <em>Kingston A400</em>) могут проседать в скорости при записи больших файлов, тогда как <em>Samsung 980 Pro</em> или <em>WD Black SN850X</em> показывают стабильную производительность даже под нагрузкой. При выборе накопителя ориентируйтесь не только на объём, но и на тип памяти (<code>TLC</code> vs <code>QLC</code>) и ресурс записи (<em>TBW</em>).</p>
+
+<blockquote>⚠️ <strong>Внимание</strong>: если ваш <em>HDD</em> имеет объём <em>1 ТБ</em>, а вы покупаете <em>SSD</em> на <em>500 ГБ</em>, клонирование может завершиться ошибкой из-за нехватки места. Перед переносом <strong>обязательно очистите диск</strong> от ненужных файлов или используйте инструменты вроде <em>TreeSize</em>, чтобы найти и удалить "тяжёлые" папки.</blockquote>
+
+<div class="attention-box attention-info"><div><strong>📊 Какой объём SSD вы планируете использовать?</strong><ul><li>256 ГБ</li><li>500 ГБ</li><li>1 ТБ</li><li>2 ТБ и более</li></ul></div></div>
+
+<h2 id="подготовка-к-переносу-что-нужно-сделать-до-клонирования">Подготовка к переносу: что нужно сделать до клонирования</h2>
+
+<p>Неправильная подготовка — главная причина сбоев при миграции. Следуйте этому чеклисту, чтобы избежать типичных ошибок:</p>
+
+
+<p>Очистить диск от мусора (временные файлы, кэш, старые обновления)</p>
+<p>Проверить здоровье HDD с помощью <em>CrystalDiskInfo</em> (параметр <code>Reallocated Sectors Count</code> должен быть равен 0)</p>
+<p>Обновить Windows до последней версии (особенно критично для систем старше <em>Windows 10 1809</em>)</p>
+<p>Отключить шифрование <code>BitLocker</code> (если используется)</p>
+<p>Подключить SSD к компьютеру через <code>SATA</code> или <code>USB-адаптер</code> (но не в тот же порт, что и HDD!)</p>
+<p>--></p>
+
+<p>Особое внимание уделите <strong>разметке диска</strong>. Если ваш <em>HDD</em> использует устаревшую таблицу разделов <code>MBR</code>, а объём <em>SSD</em> превышает <em>2 ТБ</em>, придётся конвертировать её в <code>GPT</code> <strong>до</strong> клонирования. Сделать это можно через стандартную утилиту <code>diskpart</code>:</p>
+
+<pre><code>diskpart
+<p>list disk</p>
+<p>select disk X  (где X — номер вашего HDD)</p>
+<p>convert gpt</code></pre></p>
+
+<p>Также проверьте, включён ли в <code>BIOS</code> режим <code>AHCI</code> (а не <code>IDE</code> или <code>RAID</code>). Если нет, после переноса система может не загрузиться. Чтобы избежать проблем, <strong>переключите режим заранее</strong> и установите соответствующие драйверы через <em>Диспетчер устройств</em> (раздел <code>Контроллеры запоминающих устройств</code>).</p>
+
+<details class="faq-item"><summary>Что будет если не переключить BIOS в режим AHCI?</summary><div class="faq-answer"><p>
+<p>При загрузке Windows вы получите ошибку <code>INACCESSIBLE_BOOT_DEVICE</code> (синий экран). Исправить это можно будет только через безопасный режим с командной строкой, где придётся вручную подгружать драйвер <code>storahci.sys</code>. Проще сделать всё правильно сразу!</p></div></details></p>
+
+<h2 id="способы-переноса-windows-на-ssd-сравнение-методов">Способы переноса Windows на SSD: сравнение методов</h2>
+
+<p>Существует три основных подхода к миграции системы. Каждый имеет свои плюсы и минусы:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Метод</th>
+      <th>Преимущества</th>
+      <th>Недостатки</th>
+      <th>Рекомендации</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Клонирование с помощью ПО</strong> (<em>Macrium Reflect</em>, <em>Clonezilla</em>)</td>
+      <td>Сохраняет все настройки, программы и файлы. Минимальный риск ошибок.</td>
+      <td>Требует дополнительного накопителя для резервной копии. Некоторые программы платные.</td>
+      <td>Лучший выбор для большинства пользователей. Используйте <em>Macrium Reflect Free</em> для простых задач.</td>
+    </tr>
+    <tr>
+      <td><strong>Чистая установка Windows</strong> с последующим восстановлением данных</td>
+      <td>Идеальная "чистота" системы, нет мусора от старого диска.</td>
+      <td>Долго (установка + настройка программ). Нужно вручную переносить личные файлы.</td>
+      <td>Оптимально для опытных пользователей или при переходе на новую версию Windows.</td>
+    </tr>
+    <tr>
+      <td><strong>Перенос через облако</strong> (например, <em>OneDrive</em> + <em>Windows To Go</em>)</td>
+      <td>Не требует физического подключения SSD. Можно сделать на другом ПК.</td>
+      <td>Медленно, нужно много трафика. Не все программы будут работать корректно.</td>
+      <td>Подходит только для аварийного восстановления, не рекомендуется для постоянного использования.</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Для 90% пользователей оптимальным решением станет <strong>клонирование с помощью специализированного ПО</strong>. Among наиболее популярных инструментов:</p>
+
+<ul>
+  <li>🔹 <em>Macrium Reflect Free</em> — простой интерфейс, поддержка <code>UEFI</code> и <code>GPT</code>, возможность создания загрузочного USB.</li>
+  <li>🔹 <em>Clonezilla</em> — бесплатный и мощный, но сложный для новичков (интерфейс в стиле <code>Norton Ghost</code> 2000-х).</li>
+  <li>🔹 <em>Samsung Data Migration</em> — оптимизирован для накопителей <em>Samsung</em>, автоматически настраивает выравнивание разделов.</li>
+  <li>🔹 <em>Acronis True Image</em> — платный, но с расширенными функциями (например, облачное резервное копирование).</li>
+</ul>
+
+<p>Если вы выбираете <em>Clonezilla</em>, будьте готовы к ручной настройке параметров клонирования. Например, при переносе на <em>SSD</em> меньшего размера придётся вручную уменьшать раздел <code>C:</code> через <code>GParted</code>. В <em>Macrium Reflect</em> этот процесс автоматизирован — программа сама предложит оптимальную схему разделов.</p>
+
+<div class="attention-box attention-tip"><span class="attention-icon">💡</span><p>Перед клонированием отключите гибернацию (<code>powercfg /h off</code> в командной строке) и удалите файл подкачки. Это сэкономит до 20 ГБ места на SSD.</p></div>
+
+<h2 id="пошаговая-инструкция-клонируем-windows-на-ssd-с-macrium-reflect">Пошаговая инструкция: клонируем Windows на SSD с Macrium Reflect</h2>
+
+<p>Рассмотрим процесс на примере <em>Macrium Reflect Free</em> — одного из самых надёжных и простых инструментов. Скачайте программу с <a href="https://www.macrium.com/reflectfree" target="_blank">официального сайта</a> и установите её.</p>
+
+<p><strong>Шаг 1. Подключение SSD</strong></p>
+<p>Если у вас десктоп, подключите <em>SSD</em> к свободному <code>SATA</code>-порту на материнской плате. Для ноутбуков понадобится <code>USB-SATA адаптер</code> (например, <em>ORICO 2599</em>). <strong>Не подключайте SSD в тот же порт, что и HDD</strong> — это может вызвать конфликты при клонировании.</p>
+
+<p><strong>Шаг 2. Выбор источника и цели</strong></p>
+<p>Запустите <em>Macrium Reflect</em> и:</p>
+<ol>
+  <li>В главном окне выберите ваш <em>HDD</em> (диск <code>0</code> или <code>1</code>).</li>
+  <li>Нажмите <code>Clone this disk...</code>.</li>
+  <li>В разделе <code>Select a disk to clone to</code> укажите ваш <em>SSD</em>.</li>
+  <li>Нажмите <code>Next</code>.</li>
+</ol>
+
+<p><strong>Шаг 3. Настройка разделов</strong></p>
+<p>Здесь важно правильно распределить пространство:</p>
+<ul>
+  <li>📌 Если <em>SSD</em> больше или равен <em>HDD</em>, оставьте параметры по умолчанию.</li>
+  <li>📌 Если <em>SSD</em> меньше, вручную уменьшите размер раздела <code>C:</code> так, чтобы он поместился на новый диск (но не менее <em>100 ГБ</em> для Windows).</li>
+  <li>📌 Убедитесь, что галочка <code>Align partitions to 1 MiB boundaries</code> <strong>включена</strong> — это критично для производительности <em>SSD</em>.</li>
+</ul>
+
+<p><strong>Шаг 4. Завершение клонирования</strong></p>
+<p>Нажмите <code>Next</code>, затем <code>Finish</code>. Программа предложит создать план резервного копирования — можно пропустить. После этого начнётся процесс клонирования, который займёт от <em>20 минут</em> до <em>2 часов</em> (в зависимости от объёма данных и скорости дисков).</p>
+
+<blockquote>⚠️ <strong>Внимание</strong>: если в процессе клонирования программа выдаёт ошибку <code>"Error 9: Read failed - 23"</code>, это означает, что на <em>HDD</em> есть битые сектора. Попробуйте повторить операцию с галочкой <code>Ignore bad sectors</code> или воспользуйтесь утилитой <em>Victoria</em> для восстановления диска.</blockquote>
+
+<h2 id="настройка-bios-и-первая-загрузка-с-ssd">Настройка BIOS и первая загрузка с SSD</h2>
+
+<p>После успешного клонирования <strong>не спешите извлекать старый HDD</strong>. Сначала нужно убедиться, что система корректно загружается с <em>SSD</em>:</p>
+
+<ol>
+  <li>Выключите компьютер и <strong>отключите HDD</strong> (физически или через <code>BIOS</code>, отключив его в списке загрузочных устройств).</li>
+  <li>Включите ПК и зайдите в <code>BIOS/UEFI</code> (обычно клавиша <code>Del</code>, <code>F2</code> или <code>F12</code> при загрузке).</li>
+  <li>В разделе <code>Boot</code> (или <code>Boot Priority</code>) поставьте ваш <em>SSD</em> на первое место в списке загрузочных устройств.</li>
+  <li>Убедитесь, что режим <code>SATA</code> установлен в <code>AHCI</code> (не <code>IDE</code> или <code>RAID</code>).</li>
+  <li>Сохраните настройки (<code>F10</code>) и перезагрузитесь.</li>
+</ol>
+
+<p>Если Windows загрузилась успешно, можно подключить обратно <em>HDD</em> (например, для хранения файлов). Если появился синий экран с ошибкой <code>0xc000000e</code>, это означает, что загрузочный раздел не найден. Решается это через <strong>восстановление загрузчика</strong>:</p>
+
+<pre><code>bootrec /fixmbr
+<p>bootrec /fixboot</p>
+<p>bootrec /scanos</p>
+<p>bootrec /rebuildbcd</code></pre></p>
+
+<p>Эти команды нужно выполнить в <code>командной строке</code>, загрузившись с <em>установочной флешки Windows</em> (выберите <code>Восстановление системы → Командная строка</code>).</p>
+
+<div class="attention-box attention-tip"><span class="attention-icon">💡</span><p>Если после переноса Windows начинает "тормозить" при загрузке, проверьте, не осталось ли в системе ссылок на старый HDD. Используйте утилиту <em>Sysinternals Autoruns</em>, чтобы удалить ненужные записи в автозагрузке.</p></div>
+
+<h2 id="оптимизация-ssd-после-переноса-что-нужно-сделать-обязательно">Оптимизация SSD после переноса: что нужно сделать обязательно</h2>
+
+<p>Просто перенести систему на <em>SSD</em> недостаточно — нужно настроить Windows и сам накопитель для максимальной производительности и долговечности. Вот ключевые шаги:</p>
+
+<p><strong>1. Отключите дефрагментацию для SSD</strong></p>
+<p>В отличие от <em>HDD</em>, твердотельным накопителям дефрагментация <strong>вредит</strong>, так как ограничивает количество циклов записи. Отключите её так:</p>
+<ol>
+  <li>Откройте <code>Панель управления → Администрирование → Оптимизация дисков</code>.</li>
+  <li>Выберите ваш <em>SSD</em> и нажмите <code>Изменить параметры</code>.</li>
+  <li>Снимите галочку <code>Выполнять по расписанию</code>.</li>
+</ol>
+
+<p><strong>2. Включите команду TRIM</strong></p>
+<p><code>TRIM</code> — это механизм, который помогает <em>SSD</em> поддерживать скорость записи. Проверьте, включена ли она:</p>
+<ol>
+  <li>Запустите <code>командную строку</code> от имени администратора.</li>
+  <li>Введите <code>fsutil behavior query DisableDeleteNotify</code>.</li>
+  <li>Если результат <code>0</code> — <code>TRIM</code> включён. Если <code>1</code> — включите командой <code>fsutil behavior set DisableDeleteNotify 0</code>.</li>
+</ol>
+
+<p><strong>3. Настройте файл подкачки</strong></p>
+<p>Если у вас <em>16 ГБ ОЗУ</em> или больше, файл подкачки можно отключить совсем:</p>
+<ol>
+  <li>Перейдите в <code>Панель управления → Система → Дополнительные параметры системы → Быстродействие → Параметры → Дополнительно</code>.</li>
+  <li>В разделе <code>Виртуальная память</code> нажмите <code>Изменить</code>.</li>
+  <li>Снимите галочку <code>Автоматически выбирать объём файла подкачки</code> и выберите <code>Без файла подкачки</code>.</li>
+</ol>
+
+<p><strong>4. Обновите прошивку SSD</strong></p>
+<p>Производители регулярно выпускают обновления, улучшающие производительность и исправляющие ошибки. Например, в <em>Samsung Magician</em> или <em>WD Dashboard</em> есть встроенная функция проверки обновлений. Для других моделей скачивайте прошивки только с <strong>официальных сайтов</strong>!</p>
+
+<div class="attention-box attention-tip"><span class="attention-icon">💡</span><p>Чтобы продлить жизнь SSD, перенесите папки пользователя (Документы, Загрузки, Рабочий стол) на HDD. Сделать это можно через свойства каждой папки (вкладка "Расположение").</p></div>
+
+<h2 id="типичные-ошибки-при-переносе-и-как-их-избежать">Типичные ошибки при переносе и как их избежать</h2>
+
+<p>Даже опытные пользователи иногда сталкиваются с проблемами после миграции. Вот самые распространённые ошибки и их решения:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Ошибка</th>
+      <th>Причина</th>
+      <th>Решение</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>Windows не загружается (синий экран)</code></td>
+      <td>Неправильный режим <code>SATA</code> в <code>BIOS</code> или повреждённый загрузочный раздел.</td>
+      <td>Переключите <code>BIOS</code> в <code>AHCI</code> и восстановите загрузчик (см. раздел выше).</td>
+    </tr>
+    <tr>
+      <td><code>SSD работает медленнее, чем ожидалось</code></td>
+      <td>Не выровнены разделы или включена дефрагментация.</td>
+      <td>Проверьте выравнивание через <em>CrystalDiskInfo</em> (параметр <code>Partition Alignment</code> должен быть <code>1 MiB</code>).</td>
+    </tr>
+    <tr>
+      <td><code>Не хватает места на SSD</code></td>
+      <td>Неправильно скопированы разделы или не очищен <em>HDD</em> перед клонированием.</td>
+      <td>Используйте <em>MiniTool Partition Wizard</em> для изменения размера разделов после переноса.</td>
+    </tr>
+    <tr>
+      <td><code>Система "зависает" на логотипе Windows</code></td>
+      <td>Конфликт драйверов <code>AHCI</code>/<code>IDE</code>.</td>
+      <td>Загрузитесь в <code>Безопасном режиме</code> и обновите драйверы через <em>Диспетчер устройств</em>.</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Ещё одна распространённая проблема — <strong>исчезновение раздела восстановления</strong>. Если вы клонировали диск с заводской Windows (например, на ноутбуке <em>Lenovo</em> или <em>HP</em>), раздел восстановления мог не поместиться на <em>SSD</em>. В этом случае создайте <strong>диск восстановления</strong> на флешке заранее:</p>
+<ol>
+  <li>Введите в поиске Windows <code>Создание диска восстановления</code>.</li>
+  <li>Следуйте инструкциям, выбрав резервное копирование системных файлов.</li>
+</ol>
+
+<p>Если после переноса вы заметили, что <em>SSD</em> греется сильнее, чем <em>HDD</em>, это нормально — твердотельные накопители могут нагреваться до <em>70°C</em> под нагрузкой. Однако если температура превышает <em>80°C</em>, проверьте:</p>
+<ul>
+  <li>🔥 Наличие термопрокладки (актуально для <em>M.2 NVMe</em> накопителей).</li>
+  <li>🔥 Работоспособность кулера (если он есть в вашем корпусе).</li>
+  <li>🔥 Загрузку диска в <em>Диспетчере задач</em> — постоянная запись/чтение может указывать на вирус или сбойный процесс.</li>
+</ul>
+
+<h2 id="faq-ответы-на-частые-вопросы">FAQ: ответы на частые вопросы</h2>
+
+<details>
+  <summary>Можно ли перенести только систему, а файлы оставить на HDD?</summary>
+  <p>Да, но для этого придётся вручную разделять данные. Лучше всего:</p>
+  <ol>
+    <li>Склонировать только раздел <code>C:</code> на <em>SSD</em>.</li>
+    <li>Остальные разделы (<code>D:</code>, <code>E:</code>) оставить на <em>HDD</em>.</li>
+    <li>В <code>BIOS</code> выставить приоритет загрузки с <em>SSD</em>.</li>
+  </ol>
+  <p>Учтите, что некоторые программы могут перестать работать, если их файлы остались на <em>HDD</em>, а реестр ссылается на старые пути.</p>
+</details>
+
+<details>
+  <summary>Как перенести систему на SSD меньшего объёма?</summary>
+  <p>Если ваш <em>HDD</em> на <em>1 ТБ</em>, а <em>SSD</em> на <em>500 ГБ</em>, сделайте следующее:</p>
+  <ol>
+    <li>Очистите диск от ненужных файлов (используйте <em>CCleaner</em> или <em>TreeSize</em>).</li>
+    <li>Уменьшите размер раздела <code>C:</code> до <em>300-400 ГБ</em> с помощью <em>MiniTool Partition Wizard</em>.</li>
+    <li>При клонировании в <em>Macrium Reflect</em> выберите опцию <code>Resize partitions proportionally</code>.</li>
+  </ol>
+  <p>Если даже после очистки места не хватает, перенесите папки <code>Users</code> и <code>ProgramData</code> на другой диск с помощью символических ссылок (<code>mklink</code>).</p>
+</details>
+
+<details>
+  <summary>Нужно ли форматировать SSD перед клонированием?</summary>
+  <p>Нет, этого делать <strong>не нужно</strong>. Программы для клонирования (<em>Macrium Reflect</em>, <em>Clonezilla</em>) самостоятельно подготовят диск, удалив все данные и создав новые разделы. Форматирование вручную может, наоборот, вызвать ошибки, если вы выберете неправильную файловую систему (например, <code>FAT32</code> вместо <code>NTFS</code>).</p>
+</details>
+
+<details>
+  <summary>Можно ли использовать SSD как внешний диск после переноса?</summary>
+  <p>Технически да, но это <strong>не рекомендуется</strong>. Если вы подключите <em>SSD</em> с установленной Windows к другому компьютеру, возникнут конфликты драйверов и активации. Лучше:</p>
+  <ul>
+    <li>Стереть данные с <em>SSD</em> через <code>DiskPart</code> (<code>clean</code>).</li>
+    <li>Использовать его как обычный внешний накопитель (но помните, что <em>SSD</em> не любит частых подключений/отключений).</li>
+  </ul>
+</details>
+
+<details>
+  <summary>Что делать, если после переноса Windows просит активацию?</summary>
+  <p>Это происходит из-за изменения конфигурации оборудования. Решения:</p>
+  <ol>
+    <li>Если у вас цифровая лицензия (привязанная к учётной записи <em>Microsoft</em>), просто подключитесь к интернету — активация восстановится автоматически.</li>
+    <li>Если используется ключ, введите его в <code>Параметры → Обновление и безопасность → Активация</code>.</li>
+    <li>Для <em>OEM</em>-версий (например, на ноутбуках) может потребоваться связаться с поддержкой <em>Microsoft</em> и объяснить, что вы поменяли только накопитель.</li>
+  </ol>
+</details></div>
+                    <!--#include virtual="/ssi/article_after.html" -->
+
+                </article>
+                <aside class="article-sidebar"><!--#include virtual="/ssi/sidebar_top.html" --><nav class="sidebar-search"><div class="sidebar-search-box"><input type="text" id="globalSearchInput" placeholder="🔍 Поиск статей..." autocomplete="off"><div class="search-dropdown" id="globalSearchDropdown"></div></div></nav><!--#include virtual="/ssi/sidebar_before_toc.html" --><nav class="sidebar-toc" id="sidebarToc"><h3>Содержание</h3><ul><li><a href="#почему-стоит-перенести-windows-на-ssd-реальные-преимущества">Почему стоит перенести Windows на SSD: реальные преимущества</a></li><li><a href="#подготовка-к-переносу-что-нужно-сделать-до-клонирования">Подготовка к переносу: что нужно сделать до клонирования</a></li><li><a href="#способы-переноса-windows-на-ssd-сравнение-методов">Способы переноса Windows на SSD: сравнение методов</a></li><li><a href="#пошаговая-инструкция-клонируем-windows-на-ssd-с-macrium-reflect">Пошаговая инструкция: клонируем Windows на SSD с Macrium Reflect</a></li><li><a href="#настройка-bios-и-первая-загрузка-с-ssd">Настройка BIOS и первая загрузка с SSD</a></li><li><a href="#оптимизация-ssd-после-переноса-что-нужно-сделать-обязательно">Оптимизация SSD после переноса: что нужно сделать обязательно</a></li><li><a href="#типичные-ошибки-при-переносе-и-как-их-избежать">Типичные ошибки при переносе и как их избежать</a></li><li><a href="#faq-ответы-на-частые-вопросы">FAQ: ответы на частые вопросы</a></li></ul></nav><!--#include virtual="/ssi/sidebar_before_related.html" --><nav class="sidebar-related"><h3>Похожие статьи</h3><ul><li><a href="/articles/k/ka/kak-sdelat-nastojku-khrenovukha.html" class="related-card">Хреновуха в домашних условиях: рецепт, пропорции и секреты приготовления</a></li><li><a href="/articles/k/ka/kak-zamarinovat-krylyshki-kurinye-kak-v-kfs-retsept.html" class="related-card">Рецепт маринованных крылышек как в KFC: секретный состав и техника</a></li><li><a href="/articles/s/sk/skolko-marinovat-shashlyk-v-soevom-souse.html" class="related-card">Сколько мариновать шашлык в соевом соусе: время и секреты</a></li><li><a href="/articles/p/pe/peskostrujnyj-apparat-perenosnoj.html" class="related-card">Пескоструйный аппарат переносной: выбор, эксплуатация и нюансы</a></li><li><a href="/articles/k/ka/kak-zamarinovat-stejk-iz-lososya.html" class="related-card">Как замариновать стейк из лосося: лучшие рецепты и секреты шефа</a></li></ul></nav><!--#include virtual="/ssi/sidebar_after_related.html" --></aside>
+            </div>
+        </div>
+    </main>
+
+    <!--#include virtual="/ssi/before_related_bottom.html" -->
+    <section class="related-bottom">
+        <div class="container">
+            <h2 class="related-bottom-heading">📖 Читайте также</h2>
+            <div class="related-bottom-grid"><a href="/articles/k/ka/kak-sdelat-nastojku-khrenovukha.html" class="related-bottom-card"><span class="related-bottom-title">Хреновуха в домашних условиях: рецепт, пропорции и секреты приготовления</span><span class="related-bottom-desc">Пошаговый рецепт настоящей хреновухи с хреном, мёдом и перцем. Как настаивать, фильтровать и хранить</span></a><a href="/articles/k/ka/kak-zamarinovat-krylyshki-kurinye-kak-v-kfs-retsept.html" class="related-bottom-card"><span class="related-bottom-title">Рецепт маринованных крылышек как в KFC: секретный состав и техника</span><span class="related-bottom-desc">Узнайте, как замариновать куриные крылышки в домашних условиях по фирменному рецепту KFC: ингредиент</span></a><a href="/articles/s/sk/skolko-marinovat-shashlyk-v-soevom-souse.html" class="related-bottom-card"><span class="related-bottom-title">Сколько мариновать шашлык в соевом соусе: время и секреты</span><span class="related-bottom-desc">Полный гид по маринованию мяса в соевом соусе. Узнайте точное время для свинины, курицы и баранины, </span></a><a href="/articles/p/pe/peskostrujnyj-apparat-perenosnoj.html" class="related-bottom-card"><span class="related-bottom-title">Пескоструйный аппарат переносной: выбор, эксплуатация и нюансы</span><span class="related-bottom-desc">Как выбрать переносной пескоструйный аппарат для работы на высоте и в труднодоступных местах. Обзор </span></a><a href="/articles/k/ka/kak-zamarinovat-stejk-iz-lososya.html" class="related-bottom-card"><span class="related-bottom-title">Как замариновать стейк из лосося: лучшие рецепты и секреты шефа</span><span class="related-bottom-desc">Полное руководство по маринованию лосося. Выберите соус, узнайте время выдержки и избегайте ошибок п</span></a><a href="/articles/v/va/varenoe-salo-v-pakete-retsept.html" class="related-bottom-card"><span class="related-bottom-title">Вареное сало в пакете: рецепт, секреты и пошаговая инструкция</span><span class="related-bottom-desc">Узнайте, как приготовить идеальное вареное сало в пакете. Секреты пряностей, выбор шпика и пошаговый</span></a></div>
+        </div>
+    </section>
+    <!--#include virtual="/ssi/after_related_bottom.html" -->
+
+    <footer class="site-footer-premium">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <div class="footer-brand">🚙 Рено Гайд</div>
+                    <p class="footer-about">Рено - идеальный баланс французского комфорта и практичности. Подробные обзоры от Logan до Duster, честные отзывы владельцев и полезные советы по ремонту.
+</p>
+                </div>
+                <div class="footer-col">
+                    <h4>Разделы</h4>
+                    <ul><li><a href="/category/logan/">📁 Logan</a></li>
+<li><a href="/category/duster/">📁 Duster</a></li>
+<li><a href="/category/megane/">📁 Megane</a></li>
+<li><a href="/category/sandero/">📁 Sandero</a></li>
+<li><a href="/category/kaptur/">📁 Kaptur</a></li>
+<li><a href="/category/fluence/">📁 Fluence</a></li></ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Информация</h4>
+                    <ul>
+                        <li><a href="/">Главная</a></li>
+                        <li><a href="/about.html">О проекте</a></li>
+                        <li><a href="/categories.html">Все разделы</a></li>
+                        <li><a href="/contact.html">Контакты</a></li>
+                        <li><a href="/privacy.html">Конфиденциальность</a></li>
+                        <li><a href="/sitemap.xml">Карта сайта</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2026 Рено Гайд. Все права защищены.</p>
+                <!--LiveInternet counter--><div style="margin-top:10px;"><a href="https://www.liveinternet.ru/click"
+                target="_blank"><img id="licnt06C4" width="88" height="15" style="border:0" 
+                title="LiveInternet: показано число посетителей за сегодня"
+                src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAEALAAAAAABAAEAAAIBTAA7"
+                alt=""/></a><script>(function(d,s){d.getElementById("licnt06C4").src=
+                "https://counter.yadro.ru/hit?t26.5;r"+escape(d.referrer)+
+                ((typeof(s)=="undefined")?"":";s"+s.width+"*"+s.height+"*"+
+                (s.colorDepth?s.colorDepth:s.pixelDepth))+";u"+escape(d.URL)+
+                ";h"+escape(d.title.substring(0,150))+";"+Math.random()})(document,screen)</script></div><!--/LiveInternet-->
+            </div>
+        </div>
+    </footer>
+    <div id="cookie-consent" class="cookie-popup">
+        <div class="cookie-inner">
+            <span>🍪 Мы используем файлы cookie для улучшения работы сайта.</span>
+            <button id="cookie-accept" class="cookie-btn">Принять</button>
+        </div>
+    </div>
+    <script src="/static/js/main.js"></script>
+    <script>
+    (function() {
+        const popup = document.getElementById('cookie-consent');
+        const btn = document.getElementById('cookie-accept');
+        if (popup && btn && !localStorage.getItem('cookie-accepted')) {
+            popup.classList.add('visible');
+            btn.onclick = () => {
+                localStorage.setItem('cookie-accepted', 'true');
+                popup.classList.remove('visible');
+            };
+        }
+    })();
+    </script>
+    <!--#include virtual="/ssi/body_bottom.html" -->
+    <script src="/static/js/inject.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 100 100%27><text y=%27.9em%27 font-size=%2790%27>🚙</text></svg>">
+    <title>Как проверить диск загрузки Windows 10 после переноса на SSD — Рено Гайд</title>
+    <meta name="description" content="Пошаговая инструкция: 5 способов определить, с какого диска загружается Windows 10 после миграции на SSD. Проверка через BIOS, командную строку и утилиты.">
+    <link rel="canonical" href="https://renault-guide.vercel.app/articles/k/ka/kak-uznat-s-kakogo-diska-zagruzhaetsya-windows-10-posle-perenosa-na-ssd.html">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Как проверить диск загрузки Windows 10 после переноса на SSD">
+    <meta property="og:description" content="Пошаговая инструкция: 5 способов определить, с какого диска загружается Windows 10 после миграции на SSD. Проверка через BIOS, командную строку и утилиты.">
+    <meta property="og:locale" content="ru_RU">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/style.css?v=1776848103">
+    <style>
+    .site-footer-premium {
+        margin-top: 60px; padding: 40px 0 0; background: #1e293b; color: #94a3b8;
+    }
+    .footer-grid {
+        display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 40px;
+        padding-bottom: 32px; border-bottom: 1px solid #334155;
+    }
+    .footer-brand { font-size: 1.2rem; font-weight: 700; color: #f1f5f9; margin-bottom: 12px; }
+    .footer-about { font-size: 0.9rem; line-height: 1.6; margin-bottom: 8px; }
+    .footer-updated { font-size: 0.8rem; color: #64748b; }
+    .footer-col h4 { color: #f1f5f9; font-size: 0.95rem; margin-bottom: 16px; }
+    .footer-col ul { list-style: none; }
+    .footer-col li { margin-bottom: 8px; }
+    .footer-col a { color: #94a3b8; font-size: 0.9rem; transition: color 0.2s; }
+    .footer-col a:hover { color: #60a5fa; }
+    .footer-bottom { padding: 20px 0; text-align: center; font-size: 0.85rem; }
+    @media (max-width: 640px) {
+        .footer-grid { grid-template-columns: 1fr; gap: 24px; }
+    }
+    .cookie-popup {
+        position: fixed; bottom: 0; left: 0; right: 0; background: #1e293b; color: #fff;
+        padding: 16px; transition: transform 0.5s ease; z-index: 9999; border-top: 2px solid #2563eb;
+        transform: translateY(100%);
+    }
+    .cookie-popup.visible { transform: translateY(0); }
+    .cookie-inner { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; gap: 16px; font-size: 0.9rem; }
+    .cookie-btn { background: #2563eb; color: #fff; border: none; padding: 8px 20px; border-radius: 8px; font-weight: 600; cursor: pointer; white-space: nowrap; }
+    .cookie-btn:hover { background: #1d4ed8; }
+    @media (max-width: 640px) {
+        .cookie-inner { flex-direction: column; text-align: center; }
+    }
+</style>
+    
+    <!--#include virtual="/ssi/head.html" -->
+</head>
+<body>
+        <!--#include virtual="/ssi/body_top.html" -->
+    <style>
+    .nav-dropdown { position: relative; display: inline-block; }
+    .dropdown-toggle {
+        background: none; border: none; cursor: pointer;
+        font: inherit; color: inherit; padding: 8px 12px;
+        border-radius: 8px; transition: background 0.2s;
+    }
+    .dropdown-toggle:hover { background: rgba(0,0,0,0.05); }
+    .dropdown-menu {
+        display: none; position: absolute; right: 0; top: 100%;
+        min-width: 240px; max-height: 70vh; overflow-y: auto;
+        background: var(--card-bg, #fff); border: 1px solid var(--border, #e5e7eb);
+        border-radius: 12px; box-shadow: 0 12px 40px rgba(0,0,0,0.12);
+        padding: 8px 0; z-index: 1000;
+    }
+    .nav-dropdown::after {
+        content: ''; position: absolute; left: 0; right: 0;
+        top: 100%; height: 12px;
+    }
+    .nav-dropdown:hover .dropdown-menu,
+    .nav-dropdown:focus-within .dropdown-menu { display: block; }
+    .dropdown-item {
+        display: block; padding: 10px 20px; color: var(--text, #1f2937);
+        text-decoration: none; font-size: 0.95rem; transition: background 0.15s;
+        white-space: nowrap;
+    }
+    .dropdown-item:hover { background: rgba(37,99,235,0.06); color: var(--primary, #2563eb); }
+    @media (max-width: 768px) {
+        .main-nav > .nav-link { display: none; }
+        .dropdown-toggle { display: none; }
+        .dropdown-menu {
+            display: block !important; position: static;
+            box-shadow: none; border: none; border-radius: 0;
+            min-width: auto; max-height: none; padding: 0;
+            background: transparent;
+        }
+        .dropdown-item {
+            padding: 8px 0; font-size: 1rem;
+        }
+    }
+    </style>
+    <header class="site-header">
+        <div class="container header-inner">
+            <a href="/" class="logo">
+                <span class="logo-icon">🚙</span>
+                <span>Рено Гайд</span>
+            </a>
+            <button class="mobile-menu-btn" aria-label="Меню" id="menuBtn">☰</button>
+            <nav class="main-nav" id="mainNav">
+                <a href="/category/logan/" class="nav-link">📁 Logan</a>
+<a href="/category/duster/" class="nav-link">📁 Duster</a>
+<a href="/category/megane/" class="nav-link">📁 Megane</a>
+<a href="/category/sandero/" class="nav-link">📁 Sandero</a>
+<div class="nav-dropdown">
+            <button class="nav-link dropdown-toggle">📂 Все разделы ▾</button>
+            <div class="dropdown-menu"><a href="/category/logan/" class="dropdown-item">📁 Logan</a>
+<a href="/category/duster/" class="dropdown-item">📁 Duster</a>
+<a href="/category/megane/" class="dropdown-item">📁 Megane</a>
+<a href="/category/sandero/" class="dropdown-item">📁 Sandero</a>
+<a href="/category/kaptur/" class="dropdown-item">📁 Kaptur</a>
+<a href="/category/fluence/" class="dropdown-item">📁 Fluence</a>
+<a href="/category/scenic/" class="dropdown-item">📁 Scenic</a>
+<a href="/category/arkana/" class="dropdown-item">📁 Arkana</a>
+<a href="/category/symbol/" class="dropdown-item">📁 Symbol</a>
+<a href="/category/laguna/" class="dropdown-item">📁 Laguna</a>
+<a href="/category/kangoo/" class="dropdown-item">📁 Kangoo</a>
+<a href="/category/авто/" class="dropdown-item">📁 Авто</a>
+<a href="/category/master/" class="dropdown-item">📁 Master</a>
+<a href="/category/koleos/" class="dropdown-item">📁 Koleos</a>
+<a href="/category/captur/" class="dropdown-item">📁 Captur</a>
+<a href="/category/clio/" class="dropdown-item">📁 Clio</a>
+<a href="/category/trafic/" class="dropdown-item">📁 Trafic</a>
+<a href="/category/espace/" class="dropdown-item">📁 Espace</a>
+<a href="/category/kadjar/" class="dropdown-item">📁 Kadjar</a>
+<a href="/category/twingo/" class="dropdown-item">📁 Twingo</a>
+<a href="/category/drugoe/" class="dropdown-item">📁 Другое</a></div>
+        </div>
+            </nav>
+        </div>
+    </header>
+
+    <nav class="breadcrumbs" aria-label="Навигация">
+        <div class="container"><a href="/">Главная</a><span class="breadcrumb-sep">›</span><a href="/category/drugoe/">Другое</a><span class="breadcrumb-sep">›</span><span class="breadcrumb-current">Как проверить диск загрузки Windows 10 после переноса на SSD</span></div>
+    </nav>
+
+    <main class="site-main">
+        <div class="container">
+            <div class="article-layout">
+                <article class="article-main">
+                    
+                    <h1>С какого диска загружается Windows 10 после переноса на SSD: 5 проверенных методов</h1>
+                    <nav class="mobile-toc"><details><summary>📋 Содержание</summary><ul><li><a href="#почему-важно-знать-с-какого-диска-загружается-windows">Почему важно знать, с какого диска загружается Windows</a></li><li><a href="#способ-1-проверка-через-управление-дисками">Способ 1: Проверка через "Управление дисками"</a></li><li><a href="#способ-2-командная-строка-и-bcdedit">Способ 2: Командная строка и bcdedit</a></li><li><a href="#способ-3-проверка-через-msinfo32">Способ 3: Проверка через MSInfo32</a></li><li><a href="#способ-4-просмотр-приоритета-загрузки-в-biosuefi">Способ 4: Просмотр приоритета загрузки в BIOS/UEFI</a></li><li><a href="#способ-5-сторонние-утилиты-для-глубокой-диагностики">Способ 5: Сторонние утилиты для глубокой диагностики</a></li><li><a href="#частые-ошибки-и-как-их-избежать">Частые ошибки и как их избежать</a></li><li><a href="#faq-ответы-на-частые-вопросы">FAQ: Ответы на частые вопросы</a></li></ul></details></nav>
+                    <!--#include virtual="/ssi/article_before.html" -->
+                    <div class="article-body"><p>Перенос операционной системы на твердотельный накопитель (<em>SSD</em>) — популярный способ ускорить работу компьютера. Однако после миграции многие пользователи сталкиваются с неопределённостью: действительно ли Windows 10 теперь загружается с нового диска, а не со старого <em>HDD</em>? Эта неясность может привести к ошибкам в настройках загрузчика, дублированию файлов или даже потере данных при форматировании неверного диска.</p>
+
+<p>В этой статье мы разберём **5 надёжных способов** проверки источника загрузки, включая инструменты самой системы, сторонние утилиты и настройки <em>BIOS/UEFI</em>. Вы узнаете, как избежать типичных ошибок при переносе ОС, почему иногда Windows "забывает" об SSD, и что делать, если система упорно грузится со старого диска. Особое внимание уделим **скрытым ловушкам**, которые поджидают пользователей при работе с <code>BCD</code> (загрузчиком Windows) и разделами <code>EFI</code>.</p>
+
+<h2 id="почему-важно-знать-с-какого-диска-загружается-windows">Почему важно знать, с какого диска загружается Windows</h2>
+
+<p>После клонирования или чистой установки Windows на <em>SSD</em> система может продолжать загружаться со старого <em>HDD</em> по нескольким причинам:</p>
+
+<ul>
+  <li>🔹 <strong>Остаточные записи в загрузчике</strong>: <code>BCD</code> (Boot Configuration Data) сохраняет пути к старой ОС, игнорируя новый диск.</li>
+  <li>🔹 <strong>Приоритет загрузки в BIOS</strong>: Настройки материнской платы могут отдавать предпочтение <em>HDD</em>, даже если <em>SSD</em> подключён правильно.</li>
+  <li>🔹 <strong>Скрытые разделы</strong>: Системный раздел <code>EFI</code> или <code>MSR</code> мог остаться на старом диске, что блокирует полноценный перенос.</li>
+  <li>🔹 <strong>Ошибки клонирования</strong>: Программы вроде <em>Macrium Reflect</em> или <em>Acronis True Image</em> иногда пропускают критичные файлы загрузчика.</li>
+</ul>
+
+<p>Если не устранить эти проблемы, вы рискуете:</p>
+<ul>
+  <li>🚨 <strong>Потерять данные</strong> при форматировании "ненужного" <em>HDD</em>, который на самом деле содержит загрузчик.</li>
+  <li>🚨 <strong>Недополучить прирост скорости</strong>, так как система частично обращается к медленному диску.</li>
+  <li>🚨 <strong>Столкнуться с ошибками</strong> типа <code>BOOTMGR is missing</code> или <code>Inaccessible Boot Device</code> после отключения старого диска.</li>
+</ul>
+
+<div class="attention-box attention-info"><div><strong>📊 Как вы переносили Windows на SSD?</strong><ul><li>Клонировали с помощью программы</li><li>Устанавливали чистую систему</li><li>Перенесли вручную</li><li>Ещё не переносил</li></ul></div></div>
+
+<h2 id="способ-1-проверка-через-управление-дисками">Способ 1: Проверка через "Управление дисками"</h2>
+
+<p>Самый простой метод — использовать встроенную утилиту <code>diskmgmt.msc</code>. Она показывает все подключённые накопители и их разделы, включая скрытые системные.</p>
+
+<p>Как проверить:</p>
+<ol>
+  <li>Нажмите <code>Win + R</code>, введите <code>diskmgmt.msc</code> и подтвердите <code>Enter</code>.</li>
+  <li>Обратите внимание на диск с пометкой <strong>"Зарезервировано системой"</strong> (обычно 100–500 МБ) или раздел <code>EFI</code> (100–200 МБ, файловая система <em>FAT32</em>).</li>
+  <li>Если эти разделы находятся на <em>SSD</em>, значит, загрузка идёт с него. Если на <em>HDD</em> — система использует старый диск.</li>
+</ol>
+
+<table>
+  <thead>
+    <tr>
+      <th>Признак</th>
+      <th>Загрузка с SSD</th>
+      <th>Загрузка с HDD</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Раздел <code>EFI</code> (FAT32)</td>
+      <td>Находится на SSD</td>
+      <td>Находится на HDD</td>
+    </tr>
+    <tr>
+      <td>Раздел "Зарезервировано системой"</td>
+      <td>На SSD (обычно 100–500 МБ)</td>
+      <td>На HDD</td>
+    </tr>
+    <tr>
+      <td>Активный раздел (отмечен звёздочкой)</td>
+      <td>На SSD</td>
+      <td>На HDD</td>
+    </tr>
+    <tr>
+      <td>Буква диска <code>C:</code></td>
+      <td>Присвоена разделу на SSD</td>
+      <td>Присвоена разделу на HDD</td>
+    </tr>
+  </tbody>
+</table>
+
+<blockquote>⚠️ <strong>Внимание</strong>: Если раздел <code>EFI</code> находится на <em>HDD</em>, а основная ОС — на <em>SSD</em>, при отключении старого диска Windows перестанет загружаться. В этом случае потребуется <strong>восстановление загрузчика</strong> на новом накопителе.</blockquote>
+
+<div class="checklist-block"><h4>☑️ Проверка через "Управление дисками"</h4><label class="check-item"><input type="checkbox"><span>Открыть <code>diskmgmt.msc</code></span></label><label class="check-item"><input type="checkbox"><span>Найти раздел <code>EFI</code> или "Зарезервировано системой"</span></label><label class="check-item"><input type="checkbox"><span>Проверить локацию раздела (SSD или HDD)</span></label><label class="check-item"><input type="checkbox"><span>Сверить букву диска <code>C:</code></span></label><div class="check-progress">Выполнено: <span class="check-count">0</span> / 4</div></div>
+
+<h2 id="способ-2-командная-строка-и-bcdedit">Способ 2: Командная строка и <code>bcdedit</code></h2>
+
+<p>Утилита <code>bcdedit</code> позволяет просмотреть конфигурацию загрузчика Windows, включая путь к текущему системному разделу. Этот метод точнее, чем "Управление дисками", так как показывает именно тот диск, с которого идёт загрузка <strong>прямо сейчас</strong>.</p>
+
+<p>Инструкция:</p>
+<ol>
+  <li>Запустите командную строку от имени администратора (<code>Win + X → Командная строка (администратор)</code>).</li>
+  <li>Введите команду:
+    <pre><code>bcdedit | find "osdevice"</code></pre>
+<p>Результат будет похож на:</p>
+    <pre><code>osdevice                partition=D:</code></pre>
+<p>Здесь <code>D:</code> — буква раздела, с которого загружена система (не обязательно <code>C:</code>!).</li></p>
+  <li>Чтобы узнать, какому физическому диску соответствует этот раздел, выполните:
+    <pre><code>mountvol D: /L</code></pre>
+<p>(замените <code>D:</code> на вашу букву из предыдущего шага).</li></p>
+</ol>
+
+<p>В ответе будет указан <strong>GUID раздела</strong> (например, <code>\\?\Volume{xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx}\</code>). Теперь:</p>
+<ol start="4">
+  <li>Откройте <code>diskmgmt.msc</code> и найдите раздел с таким же GUID в свойствах (правый клик → <code>Свойства → Том</code>).</li>
+  <li>Определите, на каком физическом диске он находится.</li>
+</ol>
+
+<p><mark>Критическая деталь: если в результате <code>bcdedit</code> вы видите путь к разделу на HDD, но основная ОС находится на SSD, это означает, что загрузчик "разделён" между дисками. Такая конфигурация нестабильна и требует исправления.</mark></p>
+
+<div class="attention-box attention-tip"><span class="attention-icon">💡</span><p>Если команда <code>bcdedit</code> выдаёт ошибку "Запрос отказан в доступе", запустите командную строку от имени администратора через <code>Win + X</code>, а не через поиск.</p></div>
+
+<h2 id="способ-3-проверка-через-msinfo32">Способ 3: Проверка через <em>MSInfo32</em></h2>
+
+<p>Утилита <code>MSInfo32</code> предоставляет подробную информацию о системе, включая путь к загрузочному устройству. Этот метод полезен, если вы не хотите работать с командной строкой.</p>
+
+<p>Как пользоваться:</p>
+<ol>
+  <li>Нажмите <code>Win + R</code>, введите <code>msinfo32</code> и нажмите <code>Enter</code>.</li>
+  <li>Перейдите в раздел <code>Сведения о системе → Компоненты → Хранилище → Диски</code>.</li>
+  <li>Найдите строку <strong>"Загрузочное устройство"</strong> — здесь будет указан модель диска, с которого загружена Windows.</li>
+</ol>
+
+<p>Пример отображения:</p>
+<ul>
+  <li>Если загрузка с <em>SSD</em>: <code>Samsung SSD 870 EVO 500GB</code>.</li>
+  <li>Если с <em>HDD</em>: <code>Seagate Barracuda 1TB</code> или <code>WDC WD10EZEX-00BN5A0</code>.</li>
+</ul>
+
+<blockquote>⚠️ <strong>Внимание</strong>: В некоторых случаях <em>MSInfo32</em> может показывать не модель диска, а контроллер (например, <code>Standard SATA AHCI Controller</code>). Это означает, что утилита не смогла определить загрузочное устройство — используйте другие методы.</blockquote>
+
+<h2 id="способ-4-просмотр-приоритета-загрузки-в-biosuefi">Способ 4: Просмотр приоритета загрузки в BIOS/UEFI</h2>
+
+<p>Настройки материнской платы напрямую влияют на то, с какого диска будет загружаться система. Даже если Windows установлена на <em>SSD</em>, но в <em>BIOS</em> приоритет отдан <em>HDD</em>, загрузка пойдёт со старого диска.</p>
+
+<p>Как проверить:</p>
+<ol>
+  <li>Перезагрузите компьютер и войдите в <em>BIOS/UEFI</em> (обычно клавиши <code>Del</code>, <code>F2</code>, <code>F12</code> или <code>Esc</code> при старте).</li>
+  <li>Найдите раздел <code>Boot</code> (или <code>Загрузка</code>, <code>Boot Options</code>).</li>
+  <li>Посмотрите порядок загрузочных устройств (<code>Boot Priority</code> или <code>Boot Order</code>).</li>
+  <li>Если на первом месте стоит <em>HDD</em> (например, <code>Seagate...</code> или <code>WDC...</code>), а <em>SSD</em> (например, <code>Samsung...</code>, <code>Kingston...</code>) ниже — поменяйте их местами.</li>
+</ol>
+
+<p>Типичные названия дисков в <em>BIOS</em>:</p>
+<table>
+  <thead>
+    <tr>
+      <th>Тип диска</th>
+      <th>Пример отображения в BIOS</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>SSD (Samsung)</td>
+      <td><code>Samsung SSD 870 EVO 500GB</code> или <code>UEFI: Samsung...</code></td>
+    </tr>
+    <tr>
+      <td>SSD (Kingston)</td>
+      <td><code>Kingston SA400S37240G</code></td>
+    </tr>
+    <tr>
+      <td>HDD (Seagate)</td>
+      <td><code>ST1000DM003-1CH162</code> или <code>Seagate Barracuda</code></td>
+    </tr>
+    <tr>
+      <td>HDD (Western Digital)</td>
+      <td><code>WDC WD10EZEX-00BN5A0</code></td>
+    </tr>
+  </tbody>
+</table>
+
+<p><strong>Важно</strong>: После изменения приоритета сохраните настройки (<code>F10 → Save & Exit</code>) и перезагрузитесь. Если Windows не загрузится, верните старые настройки и используйте <strong>восстановление загрузчика</strong> (способ 5).</p>
+
+<details class="faq-item"><summary>Что делать, если в BIOS не виден SSD?</summary><div class="faq-answer"><p>Если ваш SSD не отображается в списке загрузочных устройств, проверьте:
+<p>1. Подключение кабелей (SATA и питание).</p>
+<p>2. Режим работы контроллера в BIOS (должен быть <code>AHCI</code>, а не <code>IDE</code> или <code>RAID</code>).</p>
+<p>3. Наличие раздела <code>EFI</code> на SSD (если его нет, диск не может быть загрузочным).</p>
+<p>4. Обновление прошивки материнской платы (старые версии BIOS могут не поддерживать NVMe-накопители).</p></div></details></p>
+
+<h2 id="способ-5-сторонние-утилиты-для-глубокой-диагностики">Способ 5: Сторонние утилиты для глубокой диагностики</h2>
+
+<p>Если встроенные инструменты Windows не дают однозначного ответа, используйте специализированные программы. Они показывают не только текущее загрузочное устройство, но и структуру разделов, состояние загрузчика и возможные ошибки.</p>
+
+<p>Топ-3 утилиты для проверки:</p>
+<ul>
+  <li>🛠️ <strong><em>Bootice</strong></strong> (бесплатная) — анализирует <code>BCD</code> и <code>MBR</code>, показывает текущий загрузочный диск и позволяет исправить ошибки.</li>
+  <li>🛠️ <strong><em>EasyUEFI</strong></em> (условно-бесплатная) — управляет записями <em>UEFI</em>, показывает приоритет загрузки и модели дисков.</li>
+  <li>🛠️ <strong><em>DiskGenius</strong></em> — отображает скрытые разделы и их принадлежность к физическим дискам.</li>
+</ul>
+
+<p>Пример работы с <em>Bootice</em>:</p>
+<ol>
+  <li>Скачайте утилиту с официального сайта и запустите (не требует установки).</li>
+  <li>Перейдите на вкладку <code>BCD Editor</code> → <code>Easy Mode</code>.</li>
+  <li>В поле <code>Current boot entry</code> будет указан текущий загрузочный раздел и его локация.</li>
+  <li>На вкладке <code>Parts Manage</code> можно увидеть, какому физическому диску принадлежит этот раздел.</li>
+</ol>
+
+<p><strong>Преимущество сторонних утилит</strong>: они показывают <strong>реальное состояние загрузчика</strong>, а не только текущую сессию (как <code>bcdedit</code>). Например, если Windows загрузилась с <em>SSD</em>, но запись в <code>BCD</code> ведёт на <em>HDD</em>, утилиты это обнаружат.</p>
+
+<div class="attention-box attention-tip"><span class="attention-icon">💡</span><p>Если все методы показывают, что загрузка идёт с HDD, но вы хотите переключиться на SSD, используйте утилиту <em>Bootice</em> для переноса загрузчика или выполните команду <code>bcdboot C:\Windows /s S: /f UEFI</code> (где <code>S:</code> — буква раздела EFI на SSD).</p></div>
+
+<h2 id="частые-ошибки-и-как-их-избежать">Частые ошибки и как их избежать</h2>
+
+<p>Перенос Windows на <em>SSD</em> кажется простой процедурой, но на практике пользователи сталкиваются с типичными проблемами, которые мешают корректной загрузке с нового диска.</p>
+
+<p>Распространённые ошибки:</p>
+<ul>
+  <li>🔴 <strong>Клонирование без выравнивания разделов</strong>: Если при клонировании не был учтён размер кластера (<em>4K alignment</em>), скорость <em>SSD</em> упадёт на 20–30%.</li>
+  <li>🔴 <strong>Отсутствие раздела <code>EFI</code> на SSD</strong>: Многие программы клонирования пропускают этот раздел, оставляя его на <em>HDD</em>.</li>
+  <li>🔴 <strong>Неправильный режим SATA</strong>: Если в <em>BIOS</em> включён <code>IDE</code> вместо <code>AHCI</code>, <em>SSD</em> будет работать как <em>HDD</em>.</li>
+  <li>🔴 <strong>Дублирующиеся записи в <code>BCD</code></strong>: После клонирования в загрузчике остаются пути к обеим ОС, что приводит к "двойной" загрузке.</li>
+</ul>
+
+<p>Как избежать проблем:</p>
+<ul>
+  <li>✅ Перед клонированием <strong>отключите все диски, кроме исходного и целевого</strong> — это предотвратит путанницу с разделами.</li>
+  <li>✅ Используйте программы, которые <strong>автоматически переносят загрузчик</strong> (например, <em>Macrium Reflect</em> в режиме <code>Clone</code> с опцией <code>Copy MBR</code>).</li>
+  <li>✅ После переноса <strong>физически отключите <em>HDD</strong></em> и проверьте, загружается ли система с <em>SSD</em>. Если нет — проблема в загрузчике.</li>
+</ul>
+
+<blockquote>⚠️ <strong>Внимание</strong>: Если после отключения <em>HDD</em> Windows не загружается, но вы уверены, что ОС на <em>SSD</em> цела, воспользуйтесь <strong>загрузочной флешкой</strong> с Windows и выполните восстановление загрузчика:
+  <pre><code>bootrec /fixmbr
+<p>bootrec /fixboot</p>
+<p>bootrec /scanos</p>
+<p>bootrec /rebuildbcd</code></pre></blockquote></p>
+
+<h2 id="faq-ответы-на-частые-вопросы">FAQ: Ответы на частые вопросы</h2>
+
+<details>
+  <summary>Можно ли просто скопировать папку Windows на SSD и загрузиться с него?</summary>
+  <p>Нет. Для корректной загрузки нужен не только системный раздел (<code>C:</code>), но и:</p>
+  <ul>
+    <li>Раздел <code>EFI</code> (для <em>UEFI</em>-систем) или <code>MBR</code> (для <em>Legacy</em>).</li>
+    <li>Записи в <code>BCD</code> (конфигурация загрузчика).</li>
+    <li>Активный статус загрузочного раздела.</li>
+  </ul>
+  <p>Простое копирование файлов приведёт к ошибке <code>BOOTMGR is missing</code> или <code>Operating System not found</code>.</p>
+</details>
+
+<details>
+  <summary>Почему после клонирования Windows загружается с HDD, а не с SSD?</summary>
+  <p>Это происходит из-за:</p>
+  <ol>
+    <li><strong>Приоритета в BIOS</strong>: Материнская плата "привыкла" грузиться с <em>HDD</em>.</li>
+    <li><strong>Остаточных записей в <code>BCD</code></strong>: Загрузчик ссылается на старый диск.</li>
+    <li><strong>Отсутствия раздела <code>EFI</code> на SSD</strong>: Клонирование пропустило системный раздел.</li>
+  </ol>
+  <p>Решение: измените приоритет в <em>BIOS</em>, перенесите загрузчик на <em>SSD</em> или пересоздайте <code>BCD</code>.</p>
+</details>
+
+<details>
+  <summary>Как перенести загрузчик на SSD, если он остался на HDD?</summary>
+  <p>Способ 1 (через командную строку):</p>
+  <ol>
+    <li>Подключите оба диска.</li>
+    <li>Загрузитесь с <strong>установочной флешки Windows</strong> (выберите "Восстановление системы").</li>
+    <li>В командной строке выполните:
+      <pre><code>diskpart
+<p>list disk</p>
+<p>select disk X  (где X — номер вашего SSD)</p>
+<p>list partition</p>
+<p>select partition Y  (где Y — номер раздела EFI, обычно 100–200 МБ)</p>
+<p>assign letter=S</p>
+<p>exit</p>
+<p>bcdboot C:\Windows /s S: /f UEFI</code></pre></p>
+    </li>
+  </ol>
+  <p>Способ 2: Используйте <em>Bootice</em> (вкладка <code>BCD Editor → Other BCD file</code>, укажите путь к новому разделу <code>EFI</code> на SSD).</p>
+</details>
+
+<details>
+  <summary>Что будет, если отформатировать HDD, с которого грузится Windows?</summary>
+  <p>Если загрузчик или раздел <code>EFI</code> остались на <em>HDD</em>, после его форматирования вы получите:</p>
+  <ul>
+    <li><code>BOOTMGR is missing</code> (если удалён <code>MBR</code>).</li>
+    <li><code>No bootable device</code> (если удалён раздел <code>EFI</code>).</li>
+    <li>Чёрный экран с мигающим курсором (если повреждён <code>BCD</code>).</li>
+  </ul>
+  <p>Решение: восстановите загрузчик с установочной флешки или перенесите его на <em>SSD</em> заранее.</p>
+</details>
+
+<details>
+  <summary>Можно ли использовать SSD как загрузочный, а HDD — для хранения файлов?</summary>
+  <p>Да, но нужно:</p>
+  <ol>
+    <li>Перенести <strong>все системные разделы</strong> (<code>EFI</code>, <code>MSR</code>, <code>Recovery</code>) на <em>SSD</em>.</li>
+    <li>Убедиться, что в <code>BCD</code> нет ссылок на <em>HDD</em>.</li>
+    <li>Отформатировать <em>HDD</em> <strong>только после</strong> успешной загрузки с <em>SSD</em> (минимум 2–3 перезагрузки для проверки).</li>
+  </ol>
+  <p>Рекомендация: физически отключите <em>HDD</em> на время тестов, чтобы избежать конфликтов.</p>
+</details></div>
+                    <!--#include virtual="/ssi/article_after.html" -->
+
+                </article>
+                <aside class="article-sidebar"><!--#include virtual="/ssi/sidebar_top.html" --><nav class="sidebar-search"><div class="sidebar-search-box"><input type="text" id="globalSearchInput" placeholder="🔍 Поиск статей..." autocomplete="off"><div class="search-dropdown" id="globalSearchDropdown"></div></div></nav><!--#include virtual="/ssi/sidebar_before_toc.html" --><nav class="sidebar-toc" id="sidebarToc"><h3>Содержание</h3><ul><li><a href="#почему-важно-знать-с-какого-диска-загружается-windows">Почему важно знать, с какого диска загружается Windows</a></li><li><a href="#способ-1-проверка-через-управление-дисками">Способ 1: Проверка через "Управление дисками"</a></li><li><a href="#способ-2-командная-строка-и-bcdedit">Способ 2: Командная строка и bcdedit</a></li><li><a href="#способ-3-проверка-через-msinfo32">Способ 3: Проверка через MSInfo32</a></li><li><a href="#способ-4-просмотр-приоритета-загрузки-в-biosuefi">Способ 4: Просмотр приоритета загрузки в BIOS/UEFI</a></li><li><a href="#способ-5-сторонние-утилиты-для-глубокой-диагностики">Способ 5: Сторонние утилиты для глубокой диагностики</a></li><li><a href="#частые-ошибки-и-как-их-избежать">Частые ошибки и как их избежать</a></li><li><a href="#faq-ответы-на-частые-вопросы">FAQ: Ответы на частые вопросы</a></li></ul></nav><!--#include virtual="/ssi/sidebar_before_related.html" --><nav class="sidebar-related"><h3>Похожие статьи</h3><ul><li><a href="/articles/k/ka/karter-stsepleniya-maz-zubrenok.html" class="related-card">Картер сцепления МАЗ Зубренок: ремонт, неисправности, замена</a></li><li><a href="/articles/k/ka/kak-zamarinovat-ovoshchi-dlya-elektrogrilya.html" class="related-card">Как замариновать овощи для электрогриля: секреты сочного вкуса</a></li><li><a href="/articles/z/za/zamarinovat-myaso-s-uksusom-i-lukom.html" class="related-card">Как замариновать мясо с уксусом и луком: 5 проверенных рецептов</a></li><li><a href="/articles/k/ka/kak-zamarinovat-konservirovannye-griby.html" class="related-card">Как замариновать консервированные грибы: секреты вкуса и безопасности</a></li><li><a href="/articles/s/sa/salat-s-kurinoj-grudkoj-i-bolgarskim-pertsem-i-ogurtsom.html" class="related-card">Салат с куриной грудкой, болгарским перцем и огурцом: 5 рецептов</a></li></ul></nav><!--#include virtual="/ssi/sidebar_after_related.html" --></aside>
+            </div>
+        </div>
+    </main>
+
+    <!--#include virtual="/ssi/before_related_bottom.html" -->
+    <section class="related-bottom">
+        <div class="container">
+            <h2 class="related-bottom-heading">📖 Читайте также</h2>
+            <div class="related-bottom-grid"><a href="/articles/k/ka/karter-stsepleniya-maz-zubrenok.html" class="related-bottom-card"><span class="related-bottom-title">Картер сцепления МАЗ Зубренок: ремонт, неисправности, замена</span><span class="related-bottom-desc">Подробный гайд по картеру сцепления МАЗ Зубренок: устройство, признаки поломок, инструкция по замене</span></a><a href="/articles/k/ka/kak-zamarinovat-ovoshchi-dlya-elektrogrilya.html" class="related-bottom-card"><span class="related-bottom-title">Как замариновать овощи для электрогриля: секреты сочного вкуса</span><span class="related-bottom-desc">Полное руководство по маринованию овощей для электрогриля. Рецепты, время выдержки, ошибки новичков </span></a><a href="/articles/z/za/zamarinovat-myaso-s-uksusom-i-lukom.html" class="related-bottom-card"><span class="related-bottom-title">Как замариновать мясо с уксусом и луком: 5 проверенных рецептов</span><span class="related-bottom-desc">Пошаговые инструкции, секреты и ошибки при мариновании мяса в уксусе с луком. Рецепты для шашлыка, ж</span></a><a href="/articles/k/ka/kak-zamarinovat-konservirovannye-griby.html" class="related-bottom-card"><span class="related-bottom-title">Как замариновать консервированные грибы: секреты вкуса и безопасности</span><span class="related-bottom-desc">Узнайте, как правильно замариновать консервированные грибы для салатов и закусок. Пошаговая инструкц</span></a><a href="/articles/s/sa/salat-s-kurinoj-grudkoj-i-bolgarskim-pertsem-i-ogurtsom.html" class="related-bottom-card"><span class="related-bottom-title">Салат с куриной грудкой, болгарским перцем и огурцом: 5 рецептов</span><span class="related-bottom-desc">Как приготовить вкусный и полезный салат с куриной грудкой, болгарским перцем и огурцом: пошаговые р</span></a><a href="/articles/k/ka/kak-perevezti-kota-bez-perenoski-v-mashine.html" class="related-bottom-card"><span class="related-bottom-title">Как безопасно перевезти кота без переноски в машине: инструкция</span><span class="related-bottom-desc">Экспертная статья о перевозке кошек без переноски. Методы фиксации, меры предосторожности и советы п</span></a></div>
+        </div>
+    </section>
+    <!--#include virtual="/ssi/after_related_bottom.html" -->
+
+    <footer class="site-footer-premium">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <div class="footer-brand">🚙 Рено Гайд</div>
+                    <p class="footer-about">Рено - идеальный баланс французского комфорта и практичности. Подробные обзоры от Logan до Duster, честные отзывы владельцев и полезные советы по ремонту.
+</p>
+                </div>
+                <div class="footer-col">
+                    <h4>Разделы</h4>
+                    <ul><li><a href="/category/logan/">📁 Logan</a></li>
+<li><a href="/category/duster/">📁 Duster</a></li>
+<li><a href="/category/megane/">📁 Megane</a></li>
+<li><a href="/category/sandero/">📁 Sandero</a></li>
+<li><a href="/category/kaptur/">📁 Kaptur</a></li>
+<li><a href="/category/fluence/">📁 Fluence</a></li></ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Информация</h4>
+                    <ul>
+                        <li><a href="/">Главная</a></li>
+                        <li><a href="/about.html">О проекте</a></li>
+                        <li><a href="/categories.html">Все разделы</a></li>
+                        <li><a href="/contact.html">Контакты</a></li>
+                        <li><a href="/privacy.html">Конфиденциальность</a></li>
+                        <li><a href="/sitemap.xml">Карта сайта</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2026 Рено Гайд. Все права защищены.</p>
+                <!--LiveInternet counter--><div style="margin-top:10px;"><a href="https://www.liveinternet.ru/click"
+                target="_blank"><img id="licnt06C4" width="88" height="15" style="border:0" 
+                title="LiveInternet: показано число посетителей за сегодня"
+                src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAEALAAAAAABAAEAAAIBTAA7"
+                alt=""/></a><script>(function(d,s){d.getElementById("licnt06C4").src=
+                "https://counter.yadro.ru/hit?t26.5;r"+escape(d.referrer)+
+                ((typeof(s)=="undefined")?"":";s"+s.width+"*"+s.height+"*"+
+                (s.colorDepth?s.colorDepth:s.pixelDepth))+";u"+escape(d.URL)+
+                ";h"+escape(d.title.substring(0,150))+";"+Math.random()})(document,screen)</script></div><!--/LiveInternet-->
+            </div>
+        </div>
+    </footer>
+    <div id="cookie-consent" class="cookie-popup">
+        <div class="cookie-inner">
+            <span>🍪 Мы используем файлы cookie для улучшения работы сайта.</span>
+            <button id="cookie-accept" class="cookie-btn">Принять</button>
+        </div>
+    </div>
+    <script src="/static/js/main.js"></script>
+    <script>
+    (function() {
+        const popup = document.getElementById('cookie-consent');
+        const btn = document.getElementById('cookie-accept');
+        if (popup && btn && !localStorage.getItem('cookie-accepted')) {
+            popup.classList.add('visible');
+            btn.onclick = () => {
+                localStorage.setItem('cookie-accepted', 'true');
+                popup.classList.remove('visible');
+            };
+        }
+    })();
+    </script>
+    <!--#include virtual="/ssi/body_bottom.html" -->
+    <script src="/static/js/inject.js" defer></script>
+</body>
+</html>

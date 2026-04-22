@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 100 100%27><text y=%27.9em%27 font-size=%2790%27>🚙</text></svg>">
+    <title>Перенос Windows 7 на другое железо: пошаговая инструкция и нюансы — Рено Гайд</title>
+    <meta name="description" content="Как перенести Windows 7 на новый компьютер без переустановки. Подробное руководство по клонированию диска, смене драйверов и подготовке системы.">
+    <link rel="canonical" href="https://renault-guide.vercel.app/articles/p/pe/perenos-vindovs-7-na-drugoe-zhelezo.html">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Перенос Windows 7 на другое железо: пошаговая инструкция и нюансы">
+    <meta property="og:description" content="Как перенести Windows 7 на новый компьютер без переустановки. Подробное руководство по клонированию диска, смене драйверов и подготовке системы.">
+    <meta property="og:locale" content="ru_RU">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/style.css?v=1776848103">
+    <style>
+    .site-footer-premium {
+        margin-top: 60px; padding: 40px 0 0; background: #1e293b; color: #94a3b8;
+    }
+    .footer-grid {
+        display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 40px;
+        padding-bottom: 32px; border-bottom: 1px solid #334155;
+    }
+    .footer-brand { font-size: 1.2rem; font-weight: 700; color: #f1f5f9; margin-bottom: 12px; }
+    .footer-about { font-size: 0.9rem; line-height: 1.6; margin-bottom: 8px; }
+    .footer-updated { font-size: 0.8rem; color: #64748b; }
+    .footer-col h4 { color: #f1f5f9; font-size: 0.95rem; margin-bottom: 16px; }
+    .footer-col ul { list-style: none; }
+    .footer-col li { margin-bottom: 8px; }
+    .footer-col a { color: #94a3b8; font-size: 0.9rem; transition: color 0.2s; }
+    .footer-col a:hover { color: #60a5fa; }
+    .footer-bottom { padding: 20px 0; text-align: center; font-size: 0.85rem; }
+    @media (max-width: 640px) {
+        .footer-grid { grid-template-columns: 1fr; gap: 24px; }
+    }
+    .cookie-popup {
+        position: fixed; bottom: 0; left: 0; right: 0; background: #1e293b; color: #fff;
+        padding: 16px; transition: transform 0.5s ease; z-index: 9999; border-top: 2px solid #2563eb;
+        transform: translateY(100%);
+    }
+    .cookie-popup.visible { transform: translateY(0); }
+    .cookie-inner { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; gap: 16px; font-size: 0.9rem; }
+    .cookie-btn { background: #2563eb; color: #fff; border: none; padding: 8px 20px; border-radius: 8px; font-weight: 600; cursor: pointer; white-space: nowrap; }
+    .cookie-btn:hover { background: #1d4ed8; }
+    @media (max-width: 640px) {
+        .cookie-inner { flex-direction: column; text-align: center; }
+    }
+</style>
+    
+    <!--#include virtual="/ssi/head.html" -->
+</head>
+<body>
+        <!--#include virtual="/ssi/body_top.html" -->
+    <style>
+    .nav-dropdown { position: relative; display: inline-block; }
+    .dropdown-toggle {
+        background: none; border: none; cursor: pointer;
+        font: inherit; color: inherit; padding: 8px 12px;
+        border-radius: 8px; transition: background 0.2s;
+    }
+    .dropdown-toggle:hover { background: rgba(0,0,0,0.05); }
+    .dropdown-menu {
+        display: none; position: absolute; right: 0; top: 100%;
+        min-width: 240px; max-height: 70vh; overflow-y: auto;
+        background: var(--card-bg, #fff); border: 1px solid var(--border, #e5e7eb);
+        border-radius: 12px; box-shadow: 0 12px 40px rgba(0,0,0,0.12);
+        padding: 8px 0; z-index: 1000;
+    }
+    .nav-dropdown::after {
+        content: ''; position: absolute; left: 0; right: 0;
+        top: 100%; height: 12px;
+    }
+    .nav-dropdown:hover .dropdown-menu,
+    .nav-dropdown:focus-within .dropdown-menu { display: block; }
+    .dropdown-item {
+        display: block; padding: 10px 20px; color: var(--text, #1f2937);
+        text-decoration: none; font-size: 0.95rem; transition: background 0.15s;
+        white-space: nowrap;
+    }
+    .dropdown-item:hover { background: rgba(37,99,235,0.06); color: var(--primary, #2563eb); }
+    @media (max-width: 768px) {
+        .main-nav > .nav-link { display: none; }
+        .dropdown-toggle { display: none; }
+        .dropdown-menu {
+            display: block !important; position: static;
+            box-shadow: none; border: none; border-radius: 0;
+            min-width: auto; max-height: none; padding: 0;
+            background: transparent;
+        }
+        .dropdown-item {
+            padding: 8px 0; font-size: 1rem;
+        }
+    }
+    </style>
+    <header class="site-header">
+        <div class="container header-inner">
+            <a href="/" class="logo">
+                <span class="logo-icon">🚙</span>
+                <span>Рено Гайд</span>
+            </a>
+            <button class="mobile-menu-btn" aria-label="Меню" id="menuBtn">☰</button>
+            <nav class="main-nav" id="mainNav">
+                <a href="/category/logan/" class="nav-link">📁 Logan</a>
+<a href="/category/duster/" class="nav-link">📁 Duster</a>
+<a href="/category/megane/" class="nav-link">📁 Megane</a>
+<a href="/category/sandero/" class="nav-link">📁 Sandero</a>
+<div class="nav-dropdown">
+            <button class="nav-link dropdown-toggle">📂 Все разделы ▾</button>
+            <div class="dropdown-menu"><a href="/category/logan/" class="dropdown-item">📁 Logan</a>
+<a href="/category/duster/" class="dropdown-item">📁 Duster</a>
+<a href="/category/megane/" class="dropdown-item">📁 Megane</a>
+<a href="/category/sandero/" class="dropdown-item">📁 Sandero</a>
+<a href="/category/kaptur/" class="dropdown-item">📁 Kaptur</a>
+<a href="/category/fluence/" class="dropdown-item">📁 Fluence</a>
+<a href="/category/scenic/" class="dropdown-item">📁 Scenic</a>
+<a href="/category/arkana/" class="dropdown-item">📁 Arkana</a>
+<a href="/category/symbol/" class="dropdown-item">📁 Symbol</a>
+<a href="/category/laguna/" class="dropdown-item">📁 Laguna</a>
+<a href="/category/kangoo/" class="dropdown-item">📁 Kangoo</a>
+<a href="/category/авто/" class="dropdown-item">📁 Авто</a>
+<a href="/category/master/" class="dropdown-item">📁 Master</a>
+<a href="/category/koleos/" class="dropdown-item">📁 Koleos</a>
+<a href="/category/captur/" class="dropdown-item">📁 Captur</a>
+<a href="/category/clio/" class="dropdown-item">📁 Clio</a>
+<a href="/category/trafic/" class="dropdown-item">📁 Trafic</a>
+<a href="/category/espace/" class="dropdown-item">📁 Espace</a>
+<a href="/category/kadjar/" class="dropdown-item">📁 Kadjar</a>
+<a href="/category/twingo/" class="dropdown-item">📁 Twingo</a>
+<a href="/category/drugoe/" class="dropdown-item">📁 Другое</a></div>
+        </div>
+            </nav>
+        </div>
+    </header>
+
+    <nav class="breadcrumbs" aria-label="Навигация">
+        <div class="container"><a href="/">Главная</a><span class="breadcrumb-sep">›</span><a href="/category/drugoe/">Другое</a><span class="breadcrumb-sep">›</span><span class="breadcrumb-current">Перенос Windows 7 на другое железо: пошаговая инструкция и нюансы</span></div>
+    </nav>
+
+    <main class="site-main">
+        <div class="container">
+            <div class="article-layout">
+                <article class="article-main">
+                    
+                    <h1>Полный гид по миграции Windows 7 на новую платформу</h1>
+                    <nav class="mobile-toc"><details><summary>📋 Содержание</summary><ul><li><a href="#введение-в-процесс-миграции-операционной-системы">Введение в процесс миграции операционной системы</a></li><li><a href="#подготовка-исходной-системы-к-миграции">Подготовка исходной системы к миграции</a></li><li><a href="#выбор-инструмента-для-клонирования-диска">Выбор инструмента для клонирования диска</a></li><li><a href="#процесс-создания-образа-и-восстановления-на-новом-пк">Процесс создания образа и восстановления на новом ПК</a></li><li><a href="#настройка-драйверов-и-адаптация-системы">Настройка драйверов и адаптация системы</a></li><li><a href="#активация-и-лицензионные-ограничения">Активация и лицензионные ограничения</a></li><li><a href="#сравнение-методов-миграции-и-итоговые-рекомендации">Сравнение методов миграции и итоговые рекомендации</a></li><li><a href="#часто-задаваемые-вопросы">Часто задаваемые вопросы</a></li></ul></details></nav>
+                    <!--#include virtual="/ssi/article_before.html" -->
+                    <div class="article-body"><h2 id="введение-в-процесс-миграции-операционной-системы">Введение в процесс миграции операционной системы</h2>
+<p>Замена аппаратной части компьютера часто встает перед пользователями как непреодолимое препятствие, если на диске установлена старая, но привычная <strong>Windows 7</strong>. Многие ошибочно полагают, что смена материнской платы, процессора или чипсета требует обязательной переустановки системы с нуля, что отнимает часы времени и нервов.</p>
+<p>На самом деле, перенос операционной системы на другое железо — это полностью решаемая задача, требующая лишь аккуратности и понимания принципов работы загрузчика. Современные утилиты позволяют создать точную копию раздела с ОС и восстановить её работоспособность на новой платформе, сохраняя все настройки, программы и личные данные.</p>
+<p>Однако успех операции зависит от корректной подготовки: от выбора режима работы SATA-контроллера до правильной настройки драйверов перед клонированием. Игнорирование этих этапов может привести к тому, что система загрузится в синий экран смерти (BSOD) с ошибкой <code>INACCESSIBLE_BOOT_DEVICE</code>, даже если файлы скопированы идеально.</p>
+
+<h2 id="подготовка-исходной-системы-к-миграции">Подготовка исходной системы к миграции</h2>
+<p>Перед тем как приступать к копированию данных, необходимо привести текущую <em>Windows 7</em> в состояние, максимально совместимое с любым железом. Самый критичный момент — это драйверы контроллера жесткого диска. Если ваша текущая система работает в режиме AHCI, а на новом компьютере BIOS настроен на IDE (или наоборот), загрузка станет невозможной.</p>
+<p>Рекомендуется переключить режим работы SATA-контроллера в универсальный режим, если это возможно, или подготовить драйверы заранее. Также стоит удалить или обновить специфические драйверы, которые могут конфликтовать с новым оборудованием, например, драйверы видеокарты или звукового чипа старой материнской платы.</p>
+<p>Не забудьте проверить целостность файловой системы и отключить ненужные службы. Используйте командную строку для проверки диска, введя команду <pre><code>chkdsk C: /f /r</code></pre>. Это уберет ошибки, которые могут привести к сбоям при клонировании на уровне блоков.</p>
+<p>Важно также освободить место на системном разделе. Лишние файлы, временные папки и мусор увеличивают время копирования и риск повреждения образа. Очистка диска через встроенную утилиту или сторонние менеджеры ускорит процесс и повысит надежность переноса.</p>
+
+<blockquote>⚠️ Внимание: Не пытайтесь переносить систему, если на диске присутствуют битые сектора. Процесс клонирования может зависнуть или создать неработоспособный образ, который невозможно будет запустить на новом железе.</blockquote>
+
+<h2 id="выбор-инструмента-для-клонирования-диска">Выбор инструмента для клонирования диска</h2>
+<p>Для успешного переноса <strong>Windows 7</strong> на другое железо недостаточно просто скопировать файлы через проводник. Вам потребуется специализированное программное обеспечение для создания посекторных образов или прямого клонирования. На рынке представлено множество решений, от бесплатных до коммерческих.</p>
+<p>Наиболее популярными инструментами являются <em>Acronis True Image</em>, <em>Macrium Reflect</em> и <em>Clonezilla</em>. Каждое из этих решений имеет свои особенности: коммерческие продукты предлагают удобный графический интерфейс и поддержку загрузочных носителей, тогда как <em>Clonezilla</em> требует работы в консоли, но обеспечивает максимальную совместимость с разными типами дисков.</p>
+<p>Выбирая софт, обратите внимание на поддержку целевого диска. Если вы переносите систему с HDD на SSD, убедитесь, что программа умеет выравнивать разделы для новых накопителей. Это критически важно для производительности твердотельных дисков.</p>
+<p>Следующий шаг — создание загрузочного носителя. Большинство программ позволяют создать USB-флешку или CD-диск, с которого будет загружаться компьютер для выполнения операции клонирования. Это гарантирует, что файлы системы не будут заблокированы операционной системой в процессе копирования.</p>
+
+<div class="attention-box attention-info"><div><strong>📊 Какой инструмент для клонирования вы используете?</strong><ul><li>Acronis True Image</li><li>Macrium Reflect</li><li>Clonezilla</li><li>AOMEI Backupper</li><li>Другой</li></ul></div></div>
+
+<h2 id="процесс-создания-образа-и-восстановления-на-новом-пк">Процесс создания образа и восстановления на новом ПК</h2>
+<p>После подготовки системы и выбора инструмента наступает фаза непосредственного переноса. Подключите целевой диск к старому компьютеру или используйте внешний бокс, если объем данных невелик. Запустите программу клонирования и выберите режим «Клонировать диск» или «Создать образ системы».</p>
+<p>Если вы создаете образ, сохраните его на внешний носитель с достаточным объемом памяти. Затем установите этот носитель в новый компьютер, подключите целевой диск и загрузитесь с загрузочной флешки. В меню восстановления выберите образ и укажите целевой диск для восстановления.</p>
+<p>Особое внимание уделите размеру разделов. Если новый диск больше старого, программа должна предложить расширить раздел на свободное место. Если диск меньше, процесс может быть заблокирован, если на исходном диске нет свободного места в конце.</p>
+<p>После завершения процесса восстановления обязательно отключите старый диск, чтобы компьютер пытался загрузиться с нового. Если система не видит загрузчик, может потребоваться восстановление загрузочной записи через консоль восстановления, используя утилиту <code>bootrec /fixmbr</code>.</p>
+
+<div class="checklist-block"><h4>☑️ Проверка перед запуском на новом ПК</h4><label class="check-item"><input type="checkbox"><span>Снять старый диск</span></label><label class="check-item"><input type="checkbox"><span>Подключить новый диск</span></label><label class="check-item"><input type="checkbox"><span>Вставить загрузочную флешку</span></label><label class="check-item"><input type="checkbox"><span>Проверить настройки BIOS</span></label><label class="check-item"><input type="checkbox"><span>Включить питание</span></label><div class="check-progress">Выполнено: <span class="check-count">0</span> / 5</div></div>
+
+<h2 id="настройка-драйверов-и-адаптация-системы">Настройка драйверов и адаптация системы</h2>
+<p>Первая загрузка <strong>Windows 7</strong> на новом оборудовании будет отличаться от привычной. Система обнаружит новое железо и начнет поиск подходящих драйверов. Это может занять от нескольких минут до часа, в зависимости от количества периферийных устройств.</p>
+<p>В этот период экран может мигать, а курсор может двигаться с задержкой — это нормальное поведение. Не прерывайте процесс. После загрузки зайдите в «Диспетчер устройств» и проверьте, нет ли желтых значков восклицательных знаков, указывающих на отсутствие драйверов.</p>
+<p>Для <em>Windows 7</em> критически важно обновить драйверы чипсета, так как именно они управляют взаимодействием всех компонентов системы. Без них система может работать нестабильно, перегреваться или выдавать ошибки прерываний.</p>
+<p>Рекомендуется сначала установить драйверы от производителя материнской платы, а затем обновить драйверы видеокарты. Если система загружается в безопасном режиме, значит, проблема в драйверах видеоадаптера, и их нужно переустановить вручную.</p>
+
+<details class="faq-item"><summary>Что делать, если система не загружается после переноса?Если после переноса на новый компьютер вы видите синий экран с кодом ошибки 0x0000007B, это означает проблему с драйверами контроллера дисков. Вам потребуется загрузиться с установочного диска Windows 7, выбрать «Восстановление системы» и запустить командную строку. Введите команду <code>diskpart</code>, затем <code>list volume</code> и <code>select volume X</code> (где X — номер системного тома), после чего выполните <code>exit</code>. Затем введите <code>bcdboot C</summary><div class="faq-answer"><p>\Windows</code> для восстановления загрузчика.</p></div></details>
+
+<h2 id="активация-и-лицензионные-ограничения">Активация и лицензионные ограничения</h2>
+<p>Одним из самых неприятных сюрпризов при переносе системы может стать потеря активации. <strong>Windows 7</strong> привязывает лицензию к оборудованию, и при смене материнской платы система может посчитать это новым компьютером.</p>
+<p>Если у вас была цифровая лицензия, привязанная к учетной записи Microsoft (для новых версий), проблема решится автоматически. Однако для <em>Windows 7</em> чаще всего используются ключи, привязанные к железу. В таком случае потребуется ввод ключа заново или телефонная активация.</p>
+<p>При телефонной активации вас попросят ввести ID установки. Система сгенерирует его автоматически. Если сервер отклонит активацию, попробуйте объяснить оператору, что вы просто обновили оборудование, но сохранили лицензионный ключ.</p>
+<p>В некоторых случаях, если лицензия была OEM (поставлялась с компьютером), её перенос может быть невозможен юридически, хотя технически система будет работать. Корпоративные лицензии (Volume Licensing) обычно не имеют таких ограничений и требуют лишь ввода правильного ключа.</p>
+
+<div class="attention-box attention-tip"><span class="attention-icon">💡</span><p>Сохраните номер активации по телефону в отдельном файле или на бумаге. Иногда серверы Microsoft могут быть недоступны, и вам потребуется подтверждение активации для будущих обновлений или переустановок.</p></div>
+
+<h2 id="сравнение-методов-миграции-и-итоговые-рекомендации">Сравнение методов миграции и итоговые рекомендации</h2>
+<p>Существует два основных подхода к миграции: клонирование «один к одному» и чистая установка с последующим восстановлением данных. Первый метод быстрее и сохраняет все настройки, но может перенести и ошибки старой системы. Второй метод чище, но требует больше времени на настройку программ.</p>
+<p>Если ваша цель — максимальная скорость и сохранение привычной среды, выбирайте клонирование. Если же вы хотите получить «чистую» систему без мусора и конфликтов драйверов, лучше установить <strong>Windows 7</strong> с нуля, а затем перенести пользовательские папки.</p>
+
+<table>
+<thead>
+<tr>
+<th>Метод</th>
+<th>Скорость</th>
+<th>Риск ошибок</th>
+<th>Совместимость</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Клонирование диска</td>
+<td>Высокая</td>
+<td>Средний</td>
+<td>Зависит от драйверов</td>
+</tr>
+<tr>
+<td>Создание образа и восстановление</td>
+<td>Средняя</td>
+<td>Низкий</td>
+<td>Высокая</td>
+</tr>
+<tr>
+<td>Чистая установка + перенос данных</td>
+<td>Низкая</td>
+<td>Минимальный</td>
+<td>Абсолютная</td>
+</tr>
+<tr>
+<td>Использование утилиты Sysprep</td>
+<td>Средняя</td>
+<td>Высокий</td>
+<td>Универсальная</td>
+</tr>
+</tbody>
+</table>
+
+<p>Вне зависимости от выбранного метода, всегда создавайте резервную копию важных данных перед началом любых манипуляций. Ошибки при переносе могут привести к потере информации, которую невозможно будет восстановить без специализированного оборудования.</p>
+
+<blockquote>⚠️ Внимание: Не используйте метод Sysprep для Windows 7 без глубокого понимания процесса, так как это может привести к сбросу всех настроек и удалению установленных программ, превратив систему в «пустую оболочку».</blockquote>
+
+<p>Для большинства пользователей оптимальным решением является использование специализированного ПО для клонирования с предварительной очисткой системы от лишних драйверов. Это баланс между скоростью и стабильностью работы на новом оборудовании.</p>
+
+<p>Помните, что <mark>перенос Windows 7 на новое железо возможен только при условии наличия драйверов для чипсета новой материнской платы</mark>. Без них система не сможет корректно взаимодействовать с компонентами, и работа будет невозможна.</p>
+
+<div class="attention-box attention-tip"><span class="attention-icon">💡</span><p>Главным фактором успеха является подготовка драйверов контроллера дисков перед клонированием и проверка настроек BIOS на новом компьютере на режим работы SATA.</p></div>
+
+<h2 id="часто-задаваемые-вопросы">Часто задаваемые вопросы</h2>
+
+<details>
+<summary>Можно ли перенести Windows 7 с HDD на SSD без потери данных?</summary>
+<p>Да, это возможно и даже рекомендуется. Большинство программ для клонирования автоматически выравнивают разделы для SSD, что значительно повышает их скорость и срок службы. Главное — убедиться, что на SSD достаточно свободного места.</p>
+</details>
+
+<details>
+<summary>Что делать, если после переноса система загружается в безопасном режиме?</summary>
+<p>Это обычно указывает на конфликт драйверов видеокарты. Попробуйте удалить драйверы через диспетчер устройств, перезагрузить компьютер в обычном режиме и установить свежие драйверы для новой видеокарты.</p>
+</details>
+
+<details>
+<summary>Нужно ли менять ключ активации при переносе на новое железо?</summary>
+<p>Часто система потребует повторной активации. Если у вас лицензионный ключ, попробуйте ввести его заново. Если автоматическая активация не работает, используйте телефонную активацию, объяснив ситуацию оператору.</p>
+</details>
+
+<details>
+<summary>Можно ли перенести систему, если размер нового диска меньше старого?</summary>
+<p>Нет, это невозможно. Размер целевого раздела должен быть больше или равен размеру занимаемого места на исходном диске. Вам придется удалить лишние файлы или купить диск большего объема.</p>
+</details>
+
+<details>
+<summary>Как проверить, успешно ли перенесена система перед отключением старого диска?</summary>
+<p>Загрузите компьютер с нового диска. Если система загрузилась, вы видите рабочий стол и все ваши файлы на месте, а в диспетчере устройств нет критических ошибок — перенос прошел успешно. Только после этого можно извлекать старый диск.</p>
+</details></div>
+                    <!--#include virtual="/ssi/article_after.html" -->
+
+                </article>
+                <aside class="article-sidebar"><!--#include virtual="/ssi/sidebar_top.html" --><nav class="sidebar-search"><div class="sidebar-search-box"><input type="text" id="globalSearchInput" placeholder="🔍 Поиск статей..." autocomplete="off"><div class="search-dropdown" id="globalSearchDropdown"></div></div></nav><!--#include virtual="/ssi/sidebar_before_toc.html" --><nav class="sidebar-toc" id="sidebarToc"><h3>Содержание</h3><ul><li><a href="#введение-в-процесс-миграции-операционной-системы">Введение в процесс миграции операционной системы</a></li><li><a href="#подготовка-исходной-системы-к-миграции">Подготовка исходной системы к миграции</a></li><li><a href="#выбор-инструмента-для-клонирования-диска">Выбор инструмента для клонирования диска</a></li><li><a href="#процесс-создания-образа-и-восстановления-на-новом-пк">Процесс создания образа и восстановления на новом ПК</a></li><li><a href="#настройка-драйверов-и-адаптация-системы">Настройка драйверов и адаптация системы</a></li><li><a href="#активация-и-лицензионные-ограничения">Активация и лицензионные ограничения</a></li><li><a href="#сравнение-методов-миграции-и-итоговые-рекомендации">Сравнение методов миграции и итоговые рекомендации</a></li><li><a href="#часто-задаваемые-вопросы">Часто задаваемые вопросы</a></li></ul></nav><!--#include virtual="/ssi/sidebar_before_related.html" --><nav class="sidebar-related"><h3>Похожие статьи</h3><ul><li><a href="/articles/m/ma/marinovanie-luka-s-uksusom.html" class="related-card">Маринование лука с уксусом: секреты хруста и цвета</a></li><li><a href="/articles/k/ka/kak-zamarinovat-myaso-dlya-buzheniny.html" class="related-card">Как замариновать мясо для буженины: секреты сочности и вкуса</a></li><li><a href="/articles/v/v-/v-chem-zamarinovat-griby-shampinony-dlya-mangala.html" class="related-card">Как замариновать шампиньоны для мангала: лучшие рецепты</a></li><li><a href="/articles/v/va/vafelnye-trubochki-retsept-s-margarinom.html" class="related-card">Вафельные трубочки с маргарином: рецепт, секреты и ошибки</a></li><li><a href="/articles/p/pe/perenos-prilozhenij-s-androida-na-android-bez-poteri.html" class="related-card">Как перенести приложения с Android на Android: полная инструкция</a></li></ul></nav><!--#include virtual="/ssi/sidebar_after_related.html" --></aside>
+            </div>
+        </div>
+    </main>
+
+    <!--#include virtual="/ssi/before_related_bottom.html" -->
+    <section class="related-bottom">
+        <div class="container">
+            <h2 class="related-bottom-heading">📖 Читайте также</h2>
+            <div class="related-bottom-grid"><a href="/articles/m/ma/marinovanie-luka-s-uksusom.html" class="related-bottom-card"><span class="related-bottom-title">Маринование лука с уксусом: секреты хруста и цвета</span><span class="related-bottom-desc">Узнайте, как правильно мариновать лук с уксусом. Проверенные рецепты, пропорции, секреты быстрого ма</span></a><a href="/articles/k/ka/kak-zamarinovat-myaso-dlya-buzheniny.html" class="related-bottom-card"><span class="related-bottom-title">Как замариновать мясо для буженины: секреты сочности и вкуса</span><span class="related-bottom-desc">Узнайте, как правильно замариновать свинину, говядину или баранину для идеальной буженины. Рецепты, </span></a><a href="/articles/v/v-/v-chem-zamarinovat-griby-shampinony-dlya-mangala.html" class="related-bottom-card"><span class="related-bottom-title">Как замариновать шампиньоны для мангала: лучшие рецепты</span><span class="related-bottom-desc">Узнайте, в чем замариновать шампиньоны для мангала. Гид по соусам, специям и времени маринования для</span></a><a href="/articles/v/va/vafelnye-trubochki-retsept-s-margarinom.html" class="related-bottom-card"><span class="related-bottom-title">Вафельные трубочки с маргарином: рецепт, секреты и ошибки</span><span class="related-bottom-desc">Пошаговый рецепт хрустящих вафельных трубочек на маргарине с фото, секретами приготовления и типичны</span></a><a href="/articles/p/pe/perenos-prilozhenij-s-androida-na-android-bez-poteri.html" class="related-bottom-card"><span class="related-bottom-title">Как перенести приложения с Android на Android: полная инструкция</span><span class="related-bottom-desc">Пошаговая инструкция по переносу приложений и данных между смартфонами на Android. Сохраните контакт</span></a><a href="/articles/k/ka/kak-marinovat-griby-v-domashnikh-usloviyakh.html" class="related-bottom-card"><span class="related-bottom-title">Как мариновать грибы дома: пошаговая инструкция и секреты</span><span class="related-bottom-desc">Полное руководство по маринованию лесных грибов. Рецепты, пропорции специй, правила стерилизации и х</span></a></div>
+        </div>
+    </section>
+    <!--#include virtual="/ssi/after_related_bottom.html" -->
+
+    <footer class="site-footer-premium">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <div class="footer-brand">🚙 Рено Гайд</div>
+                    <p class="footer-about">Рено - идеальный баланс французского комфорта и практичности. Подробные обзоры от Logan до Duster, честные отзывы владельцев и полезные советы по ремонту.
+</p>
+                </div>
+                <div class="footer-col">
+                    <h4>Разделы</h4>
+                    <ul><li><a href="/category/logan/">📁 Logan</a></li>
+<li><a href="/category/duster/">📁 Duster</a></li>
+<li><a href="/category/megane/">📁 Megane</a></li>
+<li><a href="/category/sandero/">📁 Sandero</a></li>
+<li><a href="/category/kaptur/">📁 Kaptur</a></li>
+<li><a href="/category/fluence/">📁 Fluence</a></li></ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Информация</h4>
+                    <ul>
+                        <li><a href="/">Главная</a></li>
+                        <li><a href="/about.html">О проекте</a></li>
+                        <li><a href="/categories.html">Все разделы</a></li>
+                        <li><a href="/contact.html">Контакты</a></li>
+                        <li><a href="/privacy.html">Конфиденциальность</a></li>
+                        <li><a href="/sitemap.xml">Карта сайта</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2026 Рено Гайд. Все права защищены.</p>
+                <!--LiveInternet counter--><div style="margin-top:10px;"><a href="https://www.liveinternet.ru/click"
+                target="_blank"><img id="licnt06C4" width="88" height="15" style="border:0" 
+                title="LiveInternet: показано число посетителей за сегодня"
+                src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAEALAAAAAABAAEAAAIBTAA7"
+                alt=""/></a><script>(function(d,s){d.getElementById("licnt06C4").src=
+                "https://counter.yadro.ru/hit?t26.5;r"+escape(d.referrer)+
+                ((typeof(s)=="undefined")?"":";s"+s.width+"*"+s.height+"*"+
+                (s.colorDepth?s.colorDepth:s.pixelDepth))+";u"+escape(d.URL)+
+                ";h"+escape(d.title.substring(0,150))+";"+Math.random()})(document,screen)</script></div><!--/LiveInternet-->
+            </div>
+        </div>
+    </footer>
+    <div id="cookie-consent" class="cookie-popup">
+        <div class="cookie-inner">
+            <span>🍪 Мы используем файлы cookie для улучшения работы сайта.</span>
+            <button id="cookie-accept" class="cookie-btn">Принять</button>
+        </div>
+    </div>
+    <script src="/static/js/main.js"></script>
+    <script>
+    (function() {
+        const popup = document.getElementById('cookie-consent');
+        const btn = document.getElementById('cookie-accept');
+        if (popup && btn && !localStorage.getItem('cookie-accepted')) {
+            popup.classList.add('visible');
+            btn.onclick = () => {
+                localStorage.setItem('cookie-accepted', 'true');
+                popup.classList.remove('visible');
+            };
+        }
+    })();
+    </script>
+    <!--#include virtual="/ssi/body_bottom.html" -->
+    <script src="/static/js/inject.js" defer></script>
+</body>
+</html>

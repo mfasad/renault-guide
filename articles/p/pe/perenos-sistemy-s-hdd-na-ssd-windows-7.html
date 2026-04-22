@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 100 100%27><text y=%27.9em%27 font-size=%2790%27>🚙</text></svg>">
+    <title>Перенос Windows 7 с HDD на SSD: пошаговая инструкция клонирования — Рено Гайд</title>
+    <meta name="description" content="Полное руководство по переносу системы Windows 7 на SSD без потери данных. Обзор программ, настройка BIOS, проверка производительности и решение частых ошибок.">
+    <link rel="canonical" href="https://renault-guide.vercel.app/articles/p/pe/perenos-sistemy-s-hdd-na-ssd-windows-7.html">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Перенос Windows 7 с HDD на SSD: пошаговая инструкция клонирования">
+    <meta property="og:description" content="Полное руководство по переносу системы Windows 7 на SSD без потери данных. Обзор программ, настройка BIOS, проверка производительности и решение частых ошибок.">
+    <meta property="og:locale" content="ru_RU">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/style.css?v=1776848103">
+    <style>
+    .site-footer-premium {
+        margin-top: 60px; padding: 40px 0 0; background: #1e293b; color: #94a3b8;
+    }
+    .footer-grid {
+        display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 40px;
+        padding-bottom: 32px; border-bottom: 1px solid #334155;
+    }
+    .footer-brand { font-size: 1.2rem; font-weight: 700; color: #f1f5f9; margin-bottom: 12px; }
+    .footer-about { font-size: 0.9rem; line-height: 1.6; margin-bottom: 8px; }
+    .footer-updated { font-size: 0.8rem; color: #64748b; }
+    .footer-col h4 { color: #f1f5f9; font-size: 0.95rem; margin-bottom: 16px; }
+    .footer-col ul { list-style: none; }
+    .footer-col li { margin-bottom: 8px; }
+    .footer-col a { color: #94a3b8; font-size: 0.9rem; transition: color 0.2s; }
+    .footer-col a:hover { color: #60a5fa; }
+    .footer-bottom { padding: 20px 0; text-align: center; font-size: 0.85rem; }
+    @media (max-width: 640px) {
+        .footer-grid { grid-template-columns: 1fr; gap: 24px; }
+    }
+    .cookie-popup {
+        position: fixed; bottom: 0; left: 0; right: 0; background: #1e293b; color: #fff;
+        padding: 16px; transition: transform 0.5s ease; z-index: 9999; border-top: 2px solid #2563eb;
+        transform: translateY(100%);
+    }
+    .cookie-popup.visible { transform: translateY(0); }
+    .cookie-inner { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; gap: 16px; font-size: 0.9rem; }
+    .cookie-btn { background: #2563eb; color: #fff; border: none; padding: 8px 20px; border-radius: 8px; font-weight: 600; cursor: pointer; white-space: nowrap; }
+    .cookie-btn:hover { background: #1d4ed8; }
+    @media (max-width: 640px) {
+        .cookie-inner { flex-direction: column; text-align: center; }
+    }
+</style>
+    
+    <!--#include virtual="/ssi/head.html" -->
+</head>
+<body>
+        <!--#include virtual="/ssi/body_top.html" -->
+    <style>
+    .nav-dropdown { position: relative; display: inline-block; }
+    .dropdown-toggle {
+        background: none; border: none; cursor: pointer;
+        font: inherit; color: inherit; padding: 8px 12px;
+        border-radius: 8px; transition: background 0.2s;
+    }
+    .dropdown-toggle:hover { background: rgba(0,0,0,0.05); }
+    .dropdown-menu {
+        display: none; position: absolute; right: 0; top: 100%;
+        min-width: 240px; max-height: 70vh; overflow-y: auto;
+        background: var(--card-bg, #fff); border: 1px solid var(--border, #e5e7eb);
+        border-radius: 12px; box-shadow: 0 12px 40px rgba(0,0,0,0.12);
+        padding: 8px 0; z-index: 1000;
+    }
+    .nav-dropdown::after {
+        content: ''; position: absolute; left: 0; right: 0;
+        top: 100%; height: 12px;
+    }
+    .nav-dropdown:hover .dropdown-menu,
+    .nav-dropdown:focus-within .dropdown-menu { display: block; }
+    .dropdown-item {
+        display: block; padding: 10px 20px; color: var(--text, #1f2937);
+        text-decoration: none; font-size: 0.95rem; transition: background 0.15s;
+        white-space: nowrap;
+    }
+    .dropdown-item:hover { background: rgba(37,99,235,0.06); color: var(--primary, #2563eb); }
+    @media (max-width: 768px) {
+        .main-nav > .nav-link { display: none; }
+        .dropdown-toggle { display: none; }
+        .dropdown-menu {
+            display: block !important; position: static;
+            box-shadow: none; border: none; border-radius: 0;
+            min-width: auto; max-height: none; padding: 0;
+            background: transparent;
+        }
+        .dropdown-item {
+            padding: 8px 0; font-size: 1rem;
+        }
+    }
+    </style>
+    <header class="site-header">
+        <div class="container header-inner">
+            <a href="/" class="logo">
+                <span class="logo-icon">🚙</span>
+                <span>Рено Гайд</span>
+            </a>
+            <button class="mobile-menu-btn" aria-label="Меню" id="menuBtn">☰</button>
+            <nav class="main-nav" id="mainNav">
+                <a href="/category/logan/" class="nav-link">📁 Logan</a>
+<a href="/category/duster/" class="nav-link">📁 Duster</a>
+<a href="/category/megane/" class="nav-link">📁 Megane</a>
+<a href="/category/sandero/" class="nav-link">📁 Sandero</a>
+<div class="nav-dropdown">
+            <button class="nav-link dropdown-toggle">📂 Все разделы ▾</button>
+            <div class="dropdown-menu"><a href="/category/logan/" class="dropdown-item">📁 Logan</a>
+<a href="/category/duster/" class="dropdown-item">📁 Duster</a>
+<a href="/category/megane/" class="dropdown-item">📁 Megane</a>
+<a href="/category/sandero/" class="dropdown-item">📁 Sandero</a>
+<a href="/category/kaptur/" class="dropdown-item">📁 Kaptur</a>
+<a href="/category/fluence/" class="dropdown-item">📁 Fluence</a>
+<a href="/category/scenic/" class="dropdown-item">📁 Scenic</a>
+<a href="/category/arkana/" class="dropdown-item">📁 Arkana</a>
+<a href="/category/symbol/" class="dropdown-item">📁 Symbol</a>
+<a href="/category/laguna/" class="dropdown-item">📁 Laguna</a>
+<a href="/category/kangoo/" class="dropdown-item">📁 Kangoo</a>
+<a href="/category/авто/" class="dropdown-item">📁 Авто</a>
+<a href="/category/master/" class="dropdown-item">📁 Master</a>
+<a href="/category/koleos/" class="dropdown-item">📁 Koleos</a>
+<a href="/category/captur/" class="dropdown-item">📁 Captur</a>
+<a href="/category/clio/" class="dropdown-item">📁 Clio</a>
+<a href="/category/trafic/" class="dropdown-item">📁 Trafic</a>
+<a href="/category/espace/" class="dropdown-item">📁 Espace</a>
+<a href="/category/kadjar/" class="dropdown-item">📁 Kadjar</a>
+<a href="/category/twingo/" class="dropdown-item">📁 Twingo</a>
+<a href="/category/drugoe/" class="dropdown-item">📁 Другое</a></div>
+        </div>
+            </nav>
+        </div>
+    </header>
+
+    <nav class="breadcrumbs" aria-label="Навигация">
+        <div class="container"><a href="/">Главная</a><span class="breadcrumb-sep">›</span><a href="/category/drugoe/">Другое</a><span class="breadcrumb-sep">›</span><span class="breadcrumb-current">Перенос Windows 7 с HDD на SSD: пошаговая инструкция клонирования</span></div>
+    </nav>
+
+    <main class="site-main">
+        <div class="container">
+            <div class="article-layout">
+                <article class="article-main">
+                    
+                    <h1>Миграция операционной системы Windows 7 с HDD на SSD: полное руководство</h1>
+                    <nav class="mobile-toc"><details><summary>📋 Содержание</summary><ul><li><a href="#подготовка-оборудования-и-выбор-программного-обеспечения">Подготовка оборудования и выбор программного обеспечения</a></li><li><a href="#физическая-установка-нового-накопителя-в-системный-блок">Физическая установка нового накопителя в системный блок</a></li><li><a href="#процесс-клонирования-системного-диска">Процесс клонирования системного диска</a></li><li><a href="#настройка-bios-и-приоритета-загрузки">Настройка BIOS и приоритета загрузки</a></li><li><a href="#проверка-работоспособности-и-удаление-старого-диска">Проверка работоспособности и удаление старого диска</a></li><li><a href="#оптимизация-windows-7-для-твердотельных-накопителей">Оптимизация Windows 7 для твердотельных накопителей</a></li><li><a href="#частые-ошибки-и-их-решение">Частые ошибки и их решение</a></li><li><a href="#итоги-миграции">Итоги миграции</a></li></ul></details></nav>
+                    <!--#include virtual="/ssi/article_before.html" -->
+                    <div class="article-body">
+
+<p>Обновление жесткого диска на современный твердотельный накопитель — это самый эффективный способ оживить старый компьютер под управлением Windows 7. Процесс замены механического диска на <strong>SSD</strong> кардинально меняет скорость работы операционной системы, сокращая время загрузки с минут до секунд.</p>
+
+<p>Многие пользователи ошибочно полагают, что для установки ОС необходимо форматировать диск и заново настраивать все программы. На самом деле, процедура <strong>клонирования</strong> позволяет перенести всю файловую структуру, настройки и установленное ПО на новый носитель без лишних манипуляций. Это особенно актуально для корпоративных машин, где переустановка занимает часы.</p>
+
+<p>В данной инструкции мы разберем детальные шаги миграции, начиная от физической установки накопителя и заканчивая тонкой настройкой <em>Windows 7</em> для корректной работы с твердотельной памятью. Соблюдение последовательности действий гарантирует сохранность ваших данных и стабильную работу системы.</p>
+
+<h2 id="подготовка-оборудования-и-выбор-программного-обеспечения">Подготовка оборудования и выбор программного обеспечения</h2>
+<p>Прежде чем приступать к физическому подключению нового накопителя, необходимо убедиться в совместимости вашего материнского платы и выбранного SSD. Большинство современных плат поддерживают интерфейс SATA, но если у вас очень старый ПК, проверьте версию стандарта SATA (2.0 или 3.0) в документации.</p>
+
+<p>Выбор утилиты для клонирования — критически важный этап. Бесплатные версии популярных программ, таких как <em>Acronis True Image</em> или <em>Macrium Reflect</em>, часто имеют ограничения на размер диска или количество операций. Для Windows 7 отлично подходят специализированные инструменты от производителей накопителей.</p>
+
+<ul>
+<li>🔹 <em>Acronis True Image for Western Digital</em> — бесплатная версия для дисков WD и Samsung.</li>
+<li>🔹 <em>Macrium Reflect Free Trial</em> — мощный инструмент с гибкими настройками разделов.</li>
+<li>🔹 <em>MiniTool Partition Wizard</em> — удобен для работы с разметкой диска перед переносом.</li>
+</ul>
+
+<p>Важно заранее скачать дистрибутив программы и записать его на флешку или диск, так как после начала процесса загрузки с основного диска может быть невозможной. Убедитесь, что новый SSD имеет объем, равный или превышающий объем занятых данных на старом диске.</p>
+
+<blockquote>
+<p>⚠️ Внимание: Если на старом диске используется система разделов GPT, а материнская плата поддерживает только Legacy BIOS, процесс загрузки может не завершиться успешно. Проверьте текущий стиль разделов через управление дисками перед началом работы.</p>
+</blockquote>
+
+<h2 id="физическая-установка-нового-накопителя-в-системный-блок">Физическая установка нового накопителя в системный блок</h2>
+<p>Для переноса системы вам понадобится подключить оба диска одновременно. Отключите компьютер от сети и откройте боковую крышку корпуса. Найдите свободный слот для 2.5-дюймового накопителя или используйте переходник с 2.5 на 3.5 дюйма, если в корпусе нет соответствующего крепления.</p>
+
+<p>Подключите SATA-кабель данных и кабель питания к новому SSD. Если у вас ноутбук, возможно, потребуется замена DVD-привода на специальный карман (caddy) для второго диска, либо использование внешнего USB-переходника для временного подключения.</p>
+
+<ul>
+<li>🔹 Аккуратно вставьте диск в слот, убедившись, что разъемы плотно прилегают.</li>
+<li>🔹 Проверьте надежность фиксации винтов, чтобы избежать вибраций при работе.</li>
+<li>🔹 Закройте корпус, но не закручивайте все винты наглухо до первого успешного запуска.</li>
+</ul>
+
+<p>Если вы используете внешний USB-адаптер, убедитесь, что он поддерживает режим UASP для максимальной скорости передачи данных. В BIOS необходимо настроить приоритет загрузки так, чтобы система могла загрузиться с текущего HDD, пока идет процесс клонирования.</p>
+
+<blockquote>
+<p>⚠️ Внимание: Никогда не подключайте или не отключайте SATA-кабели при включенном питании, это может привести к короткому замыканию и выходу из строя контроллера материнской платы.</p>
+</blockquote>
+
+<div class="attention-box attention-info"><div><strong>📊 Какой интерфейс подключения вы используете для SSD?</strong><ul><li>SATA II</li><li>SATA III</li><li>NVMe (через переходник)</li><li>Внешний USB</li></ul></div></div>
+
+<h2 id="процесс-клонирования-системного-диска">Процесс клонирования системного диска</h2>
+<p>Запустите утилиту для клонирования. В интерфейсе программы выберите исходный диск (ваш текущий HDD) и целевой диск (новый SSD). Процесс называется "Clone Disk" или "Клонирование диска". Будьте предельно внимательны, чтобы не перепутать местами источник и приемник, иначе данные будут перезаписаны безвозвратно.</p>
+
+<p>Современные утилиты предлагают опцию автоматического выравнивания разделов (Alignment). Для SSD это критически важно, так как неправильное выравнивание может сократить срок службы чипов памяти и снизить производительность в разы. Убедитесь, что галочка "Align partitions to SSD" активна.</p>
+
+<div class="checklist-block"><h4>☑️ Контроль процесса клонирования</h4><label class="check-item"><input type="checkbox"><span>Запуск программы</span></label><label class="check-item"><input type="checkbox"><span>Выбор источника (HDD)</span></label><label class="check-item"><input type="checkbox"><span>Выбор цели (SSD)</span></label><label class="check-item"><input type="checkbox"><span>Настройка выравнивания</span></label><label class="check-item"><input type="checkbox"><span>Запуск процесса</span></label><div class="check-progress">Выполнено: <span class="check-count">0</span> / 5</div></div>
+
+<p>Начните процесс копирования. В зависимости от объема данных и скорости интерфейса, это может занять от 30 минут до нескольких часов. Не прерывайте процесс и не закрывайте программу до полного завершения. После окончания программа предложит перезагрузить компьютер.</p>
+
+<p>Если вы используете <em>Acronis</em> или аналогичные инструменты, они часто создают загрузочный образ среды восстановления. Это полезно, если после перезагрузки система не увидит новый диск. В таком случае потребуется загрузиться с этой флешки для восстановления загрузчика.</p>
+
+<details class="faq-item"><summary>Что делать, если программа не видит целевой диск?</summary><div class="faq-answer"><p>Убедитесь, что диск инициализирован в управлении дисками Windows. Если диск не отображается, попробуйте отформатировать его в FAT32 или NTFS, но помните, что это удалит данные на целевом диске.</p></div></details>
+
+<h2 id="настройка-bios-и-приоритета-загрузки">Настройка BIOS и приоритета загрузки</h2>
+<p>После завершения клонирования необходимо изменить порядок загрузки в BIOS. При включении компьютера нажмите клавишу <code>Del</code>, <code>F2</code> или <code>F10</code> (в зависимости от производителя платы), чтобы войти в настройки.</p>
+
+<p>Найдите раздел <code>Boot</code> или <code>Boot Priority</code>. Переместите ваш новый SSD на первую позицию в списке загрузочных устройств. Сохраните изменения, обычно это делается клавишей <code>F10</code>, и подтвердите выход из меню.</p>
+
+<p>Проверьте режим работы SATA-контроллера. Для Windows 7 и SSD часто рекомендуется режим <code>AHCI</code> вместо <code>IDE</code> или <code>RAID</code>. Если система загружается, но работает медленно, или выдает синий экран, возможно, драйверы AHCI не были установлены до смены режима.</p>
+
+<div class="attention-box attention-tip"><span class="attention-icon">💡</span><p>Если после смены режима работы контроллера на AHCI система не загружается (BSOD), зайдите в безопасный режим, установите драйверы и перезагрузитесь.</p></div>
+
+<table>
+<thead>
+<tr>
+<th>Параметр</th>
+<th>Рекомендуемое значение для SSD</th>
+<th>Старое значение (HDD)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Режим SATA</td>
+<td>AHCI</td>
+<td>IDE / Compatibility</td>
+</tr>
+<tr>
+<td>Приоритет загрузки</td>
+<td>Название вашего SSD</td>
+<td>Название старого HDD</td>
+</tr>
+<tr>
+<td>Поддержка TRIM</td>
+<td>Включено (по умолчанию в Win 7 SP1)</td>
+<td>Не требуется</td>
+</tr>
+<tr>
+<td>Кэш записи</td>
+<td>Включен</td>
+<td>Включен</td>
+</tr>
+</tbody>
+</table>
+
+<h2 id="проверка-работоспособности-и-удаление-старого-диска">Проверка работоспособности и удаление старого диска</h2>
+<p>После загрузки Windows проверьте, что система видит новый диск. Откройте <code>Мой компьютер</code> и убедитесь, что диск имеет правильный объем и файловую систему. Проверьте скорость запуска программ и общую отзывчивость интерфейса.</p>
+
+<p>Для полной уверенности запустите проверку диска через командную строку. Введите команду <code>chkdsk C: /f</code> и нажмите Enter. Это поможет исправить возможные логические ошибки, возникшие при клонировании.</p>
+
+<p>Только после того, как вы убедитесь, что новый диск работает стабильно в течение нескольких дней, можно физически отключать старый HDD. Не удаляйте разделы на старом диске сразу, оставьте их как резервную копию на случай сбоев.</p>
+
+<div class="attention-box attention-tip"><span class="attention-icon">💡</span><p>Окончательное удаление старого диска должно происходить только после полной проверки работоспособности системы на новом носителе в течение минимум 24 часов.</p></div>
+
+<p>Если вы используете старый диск как хранилище данных, убедитесь, что в <code>Управлении дисками</code> он не имеет буквы <code>C:</code> и не содержит загрузочных разделов. В противном случае система может пытаться загрузиться с него при сбоях.</p>
+
+<ul>
+<li>🔹 Запустите <code>diskmgmt.msc</code> для управления разделами.</li>
+<li>🔹 Удалите системный раздел со старого диска, если он больше не нужен.</li>
+<li>🔹 Форматируйте старый диск в NTFS для использования как хранилища.</li>
+</ul>
+
+<h2 id="оптимизация-windows-7-для-твердотельных-накопителей">Оптимизация Windows 7 для твердотельных накопителей</h2>
+<p>Windows 7 SP1 уже имеет базовую поддержку TRIM, но для максимальной производительности необходимо отключить лишние фоновые процессы, которые не нужны для SSD. Откройте <code>Службы</code> (services.msc) и отключите дефрагментацию диска, так как для SSD она не только бесполезна, но и вредна.</p>
+
+<p>Также рекомендуется отключить файл подкачки или перенести его на другой механический диск, если объем оперативной памяти позволяет. Файл подкачки создает постоянную нагрузку на ячейки памяти SSD, сокращая его ресурс.</p>
+
+<p>Проверьте настройки электропитания. В схеме управления питанием отключите отключение жесткого диска через определенное время. Для SSD это не актуально, но некоторые устаревшие настройки могут вызывать задержки при входе в спящий режим.</p>
+
+<p>Используйте утилиту <code>Optimize Drives</code> (Оптимизация дисков) в Windows, чтобы убедиться, что команда TRIM отправляется регулярно. В свойствах диска на вкладке <code>Оборудование</code> можно проверить модель контроллера и его поддержку современных функций.</p>
+
+<blockquote>
+<p>⚠️ Внимание: Отключение файла подкачки на системах с 4 ГБ ОЗУ и менее может привести к нестабильной работе и вылетам приложений. Оставьте файл подкачки минимальным (1-2 ГБ) или на отдельном HDD.</p>
+</blockquote>
+
+<h2 id="частые-ошибки-и-их-решение">Частые ошибки и их решение</h2>
+<p>Самой распространенной проблемой является ошибка загрузки (Boot Device Not Found). Это случается, если загрузочный сектор (MBR или PBR) не был корректно перенесен. Используйте загрузочную флешку с Windows 7 или утилитой восстановления для исправления загрузчика.</p>
+
+<p>Вторая частая проблема — отсутствие драйверов контроллера SATA после смены режима работы в BIOS. Если система загружается, но тормозит, установите драйверы Intel Rapid Storage Technology (RST) или аналогичные для вашей платформы.</p>
+
+<p>Если после клонирования диск виден, но не загружается, возможно, был нарушен порядок разделов. В таких случаях помогает ручное восстановление загрузчика через консоль восстановления, введя команды <code>bootrec /fixmbr</code> и <code>bootrec /fixboot</code>.</p>
+
+<details class="faq-item"><summary>Как восстановить загрузчик через консоль?</summary><div class="faq-answer"><p>Загрузитесь с установочного диска Windows 7. Выберите "Восстановление системы". Откройте командную строку и введите команды восстановления загрузчика по очереди.</p></div></details>
+
+<h2 id="итоги-миграции">Итоги миграции</h2>
+<p>Перенос системы на SSD — это гарантия продления жизни старого компьютера. Даже бюджетные модели <em>Samsung 850 EVO</em> или <em>Kingston A400</em> обеспечивают прирост производительности, сравнимый с заменой процессора.</p>
+
+<p>Соблюдение правил подготовки, выбор правильной утилиты и аккуратная настройка BIOS позволят вам избежать потери данных и минимизировать время простоя. Регулярное обслуживание и отключение лишних служб сохранят скорость работы системы на долгие годы.</p>
+
+<p>Не забывайте, что SSD имеет ограниченный ресурс записей. Избегайте постоянной записи временных файлов и лог-файлов на системный диск, чтобы продлить срок его службы. Используйте облачные хранилища для архивов и больших медиафайлов.</p>
+
+<details>
+<summary>Нужно ли форматировать SSD перед клонированием?</summary>
+<p>Нет, процесс клонирования автоматически перезапишет все данные на целевом диске. Однако, если на SSD уже есть важные данные, их необходимо заранее скопировать на другой носитель, так как они будут удалены.</p>
+</details>
+
+<details>
+<summary>Что делать, если новый диск больше старого?</summary>
+<p>Можно использовать функцию "растянуть раздел" в утилите клонирования или в управлении дисками Windows после завершения процесса, чтобы занять все свободное место на новом накопителе.</p>
+</details>
+
+<details>
+<summary>Можно ли клонировать диск, если система установлена в режиме Legacy, а новый диск требует UEFI?</summary>
+<p>Нет, режим загрузки должен совпадать. Если ваша старая система работает в режиме Legacy BIOS, новый диск также должен быть настроен под этот режим, иначе загрузка не состоится. Для смены режима требуется переустановка системы.</p>
+</details>
+
+<details>
+<summary>Как проверить, работает ли TRIM на Windows 7?</summary>
+<p>Откройте командную строку от имени администратора и введите команду <code>fsutil behavior query DisableDeleteNotify</code>. Если результат равен 0, функция TRIM включена. Если 1 — отключена.</p>
+</details>
+
+<details>
+<summary>Нужно ли менять драйверы после переноса на SSD?</summary>
+<p>Обычно Windows 7 сама подхватывает стандартные драйверы SATA. Однако для максимальной производительности рекомендуется установить специфические драйверы контроллера SATA/AHCI от производителя материнской платы или процессора.</p>
+</details></div>
+                    <!--#include virtual="/ssi/article_after.html" -->
+
+                </article>
+                <aside class="article-sidebar"><!--#include virtual="/ssi/sidebar_top.html" --><nav class="sidebar-search"><div class="sidebar-search-box"><input type="text" id="globalSearchInput" placeholder="🔍 Поиск статей..." autocomplete="off"><div class="search-dropdown" id="globalSearchDropdown"></div></div></nav><!--#include virtual="/ssi/sidebar_before_toc.html" --><nav class="sidebar-toc" id="sidebarToc"><h3>Содержание</h3><ul><li><a href="#подготовка-оборудования-и-выбор-программного-обеспечения">Подготовка оборудования и выбор программного обеспечения</a></li><li><a href="#физическая-установка-нового-накопителя-в-системный-блок">Физическая установка нового накопителя в системный блок</a></li><li><a href="#процесс-клонирования-системного-диска">Процесс клонирования системного диска</a></li><li><a href="#настройка-bios-и-приоритета-загрузки">Настройка BIOS и приоритета загрузки</a></li><li><a href="#проверка-работоспособности-и-удаление-старого-диска">Проверка работоспособности и удаление старого диска</a></li><li><a href="#оптимизация-windows-7-для-твердотельных-накопителей">Оптимизация Windows 7 для твердотельных накопителей</a></li><li><a href="#частые-ошибки-и-их-решение">Частые ошибки и их решение</a></li><li><a href="#итоги-миграции">Итоги миграции</a></li></ul></nav><!--#include virtual="/ssi/sidebar_before_related.html" --><nav class="sidebar-related"><h3>Похожие статьи</h3><ul><li><a href="/articles/k/ka/kak-zamarinovat-langustiny-dlya-grilya.html" class="related-card">Как замариновать лангустины для гриля: лучшие рецепты и секреты</a></li><li><a href="/articles/c/ch/cherenok-ot-lopaty-eto.html" class="related-card">Черенок от лопаты: что это, как выбрать и для чего нужен</a></li><li><a href="/articles/r/re/reno-stepvej-raskhod-topliva.html" class="related-card">Расход топлива Renault Stepway: реальные цифры и советы по экономии</a></li><li><a href="/articles/k/kr/krylo-kurinoe-kopchenoe.html" class="related-card">Копчёное куриное крыло: рецепты, выбор и хранение</a></li><li><a href="/articles/p/pe/pechenochnyj-pashtet-iz-kurinoj-pecheni-s-maslom-v-domashnikh-usloviyakh-retsepty.html" class="related-card">Печеночный паштет из куриной печени с маслом: 5 домашних рецептов 2026</a></li></ul></nav><!--#include virtual="/ssi/sidebar_after_related.html" --></aside>
+            </div>
+        </div>
+    </main>
+
+    <!--#include virtual="/ssi/before_related_bottom.html" -->
+    <section class="related-bottom">
+        <div class="container">
+            <h2 class="related-bottom-heading">📖 Читайте также</h2>
+            <div class="related-bottom-grid"><a href="/articles/k/ka/kak-zamarinovat-langustiny-dlya-grilya.html" class="related-bottom-card"><span class="related-bottom-title">Как замариновать лангустины для гриля: лучшие рецепты и секреты</span><span class="related-bottom-desc">Узнайте, как правильно замариновать лангустины перед жаркой на гриле. Рецепты с чесноком, травами и </span></a><a href="/articles/c/ch/cherenok-ot-lopaty-eto.html" class="related-bottom-card"><span class="related-bottom-title">Черенок от лопаты: что это, как выбрать и для чего нужен</span><span class="related-bottom-desc">Разбираемся, что такое черенок от лопаты: виды, материалы, размеры и как правильно подобрать для сад</span></a><a href="/articles/r/re/reno-stepvej-raskhod-topliva.html" class="related-bottom-card"><span class="related-bottom-title">Расход топлива Renault Stepway: реальные цифры и советы по экономии</span><span class="related-bottom-desc">Полный обзор расхода топлива Renault Stepway на 100 км. Анализ двигателей, влияние стиля вождения и </span></a><a href="/articles/k/kr/krylo-kurinoe-kopchenoe.html" class="related-bottom-card"><span class="related-bottom-title">Копчёное куриное крыло: рецепты, выбор и хранение</span><span class="related-bottom-desc">Как выбрать, приготовить и хранить копчёное куриное крыло: секреты идеального вкуса, полезные советы</span></a><a href="/articles/p/pe/pechenochnyj-pashtet-iz-kurinoj-pecheni-s-maslom-v-domashnikh-usloviyakh-retsepty.html" class="related-bottom-card"><span class="related-bottom-title">Печеночный паштет из куриной печени с маслом: 5 домашних рецептов 2026</span><span class="related-bottom-desc">Как приготовить нежный паштет из куриной печени с маслом в домашних условиях: пошаговые рецепты, сек</span></a><a href="/articles/k/ka/kak-zamarinovat-kuritsu-pered-goryachim-kopcheniem.html" class="related-bottom-card"><span class="related-bottom-title">Как замариновать курицу перед горячим копчением: 7 проверенных рецептов</span><span class="related-bottom-desc">Пошаговые инструкции по маринованию курицы для горячего копчения: классические и авторские рецепты, </span></a></div>
+        </div>
+    </section>
+    <!--#include virtual="/ssi/after_related_bottom.html" -->
+
+    <footer class="site-footer-premium">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <div class="footer-brand">🚙 Рено Гайд</div>
+                    <p class="footer-about">Рено - идеальный баланс французского комфорта и практичности. Подробные обзоры от Logan до Duster, честные отзывы владельцев и полезные советы по ремонту.
+</p>
+                </div>
+                <div class="footer-col">
+                    <h4>Разделы</h4>
+                    <ul><li><a href="/category/logan/">📁 Logan</a></li>
+<li><a href="/category/duster/">📁 Duster</a></li>
+<li><a href="/category/megane/">📁 Megane</a></li>
+<li><a href="/category/sandero/">📁 Sandero</a></li>
+<li><a href="/category/kaptur/">📁 Kaptur</a></li>
+<li><a href="/category/fluence/">📁 Fluence</a></li></ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Информация</h4>
+                    <ul>
+                        <li><a href="/">Главная</a></li>
+                        <li><a href="/about.html">О проекте</a></li>
+                        <li><a href="/categories.html">Все разделы</a></li>
+                        <li><a href="/contact.html">Контакты</a></li>
+                        <li><a href="/privacy.html">Конфиденциальность</a></li>
+                        <li><a href="/sitemap.xml">Карта сайта</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2026 Рено Гайд. Все права защищены.</p>
+                <!--LiveInternet counter--><div style="margin-top:10px;"><a href="https://www.liveinternet.ru/click"
+                target="_blank"><img id="licnt06C4" width="88" height="15" style="border:0" 
+                title="LiveInternet: показано число посетителей за сегодня"
+                src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAEALAAAAAABAAEAAAIBTAA7"
+                alt=""/></a><script>(function(d,s){d.getElementById("licnt06C4").src=
+                "https://counter.yadro.ru/hit?t26.5;r"+escape(d.referrer)+
+                ((typeof(s)=="undefined")?"":";s"+s.width+"*"+s.height+"*"+
+                (s.colorDepth?s.colorDepth:s.pixelDepth))+";u"+escape(d.URL)+
+                ";h"+escape(d.title.substring(0,150))+";"+Math.random()})(document,screen)</script></div><!--/LiveInternet-->
+            </div>
+        </div>
+    </footer>
+    <div id="cookie-consent" class="cookie-popup">
+        <div class="cookie-inner">
+            <span>🍪 Мы используем файлы cookie для улучшения работы сайта.</span>
+            <button id="cookie-accept" class="cookie-btn">Принять</button>
+        </div>
+    </div>
+    <script src="/static/js/main.js"></script>
+    <script>
+    (function() {
+        const popup = document.getElementById('cookie-consent');
+        const btn = document.getElementById('cookie-accept');
+        if (popup && btn && !localStorage.getItem('cookie-accepted')) {
+            popup.classList.add('visible');
+            btn.onclick = () => {
+                localStorage.setItem('cookie-accepted', 'true');
+                popup.classList.remove('visible');
+            };
+        }
+    })();
+    </script>
+    <!--#include virtual="/ssi/body_bottom.html" -->
+    <script src="/static/js/inject.js" defer></script>
+</body>
+</html>

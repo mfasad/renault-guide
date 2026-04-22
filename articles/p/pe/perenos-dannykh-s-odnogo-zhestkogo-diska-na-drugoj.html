@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 100 100%27><text y=%27.9em%27 font-size=%2790%27>🚙</text></svg>">
+    <title>Полный гид: как перенести данные с HDD на SSD или новый диск — Рено Гайд</title>
+    <meta name="description" content="Инструкция по клонированию и переносу данных с одного жесткого диска на другой. Методы, инструменты, проверка целостности файлов и сохранение системы.">
+    <link rel="canonical" href="https://renault-guide.vercel.app/articles/p/pe/perenos-dannykh-s-odnogo-zhestkogo-diska-na-drugoj.html">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Полный гид: как перенести данные с HDD на SSD или новый диск">
+    <meta property="og:description" content="Инструкция по клонированию и переносу данных с одного жесткого диска на другой. Методы, инструменты, проверка целостности файлов и сохранение системы.">
+    <meta property="og:locale" content="ru_RU">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/style.css?v=1776848103">
+    <style>
+    .site-footer-premium {
+        margin-top: 60px; padding: 40px 0 0; background: #1e293b; color: #94a3b8;
+    }
+    .footer-grid {
+        display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 40px;
+        padding-bottom: 32px; border-bottom: 1px solid #334155;
+    }
+    .footer-brand { font-size: 1.2rem; font-weight: 700; color: #f1f5f9; margin-bottom: 12px; }
+    .footer-about { font-size: 0.9rem; line-height: 1.6; margin-bottom: 8px; }
+    .footer-updated { font-size: 0.8rem; color: #64748b; }
+    .footer-col h4 { color: #f1f5f9; font-size: 0.95rem; margin-bottom: 16px; }
+    .footer-col ul { list-style: none; }
+    .footer-col li { margin-bottom: 8px; }
+    .footer-col a { color: #94a3b8; font-size: 0.9rem; transition: color 0.2s; }
+    .footer-col a:hover { color: #60a5fa; }
+    .footer-bottom { padding: 20px 0; text-align: center; font-size: 0.85rem; }
+    @media (max-width: 640px) {
+        .footer-grid { grid-template-columns: 1fr; gap: 24px; }
+    }
+    .cookie-popup {
+        position: fixed; bottom: 0; left: 0; right: 0; background: #1e293b; color: #fff;
+        padding: 16px; transition: transform 0.5s ease; z-index: 9999; border-top: 2px solid #2563eb;
+        transform: translateY(100%);
+    }
+    .cookie-popup.visible { transform: translateY(0); }
+    .cookie-inner { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; gap: 16px; font-size: 0.9rem; }
+    .cookie-btn { background: #2563eb; color: #fff; border: none; padding: 8px 20px; border-radius: 8px; font-weight: 600; cursor: pointer; white-space: nowrap; }
+    .cookie-btn:hover { background: #1d4ed8; }
+    @media (max-width: 640px) {
+        .cookie-inner { flex-direction: column; text-align: center; }
+    }
+</style>
+    
+    <!--#include virtual="/ssi/head.html" -->
+</head>
+<body>
+        <!--#include virtual="/ssi/body_top.html" -->
+    <style>
+    .nav-dropdown { position: relative; display: inline-block; }
+    .dropdown-toggle {
+        background: none; border: none; cursor: pointer;
+        font: inherit; color: inherit; padding: 8px 12px;
+        border-radius: 8px; transition: background 0.2s;
+    }
+    .dropdown-toggle:hover { background: rgba(0,0,0,0.05); }
+    .dropdown-menu {
+        display: none; position: absolute; right: 0; top: 100%;
+        min-width: 240px; max-height: 70vh; overflow-y: auto;
+        background: var(--card-bg, #fff); border: 1px solid var(--border, #e5e7eb);
+        border-radius: 12px; box-shadow: 0 12px 40px rgba(0,0,0,0.12);
+        padding: 8px 0; z-index: 1000;
+    }
+    .nav-dropdown::after {
+        content: ''; position: absolute; left: 0; right: 0;
+        top: 100%; height: 12px;
+    }
+    .nav-dropdown:hover .dropdown-menu,
+    .nav-dropdown:focus-within .dropdown-menu { display: block; }
+    .dropdown-item {
+        display: block; padding: 10px 20px; color: var(--text, #1f2937);
+        text-decoration: none; font-size: 0.95rem; transition: background 0.15s;
+        white-space: nowrap;
+    }
+    .dropdown-item:hover { background: rgba(37,99,235,0.06); color: var(--primary, #2563eb); }
+    @media (max-width: 768px) {
+        .main-nav > .nav-link { display: none; }
+        .dropdown-toggle { display: none; }
+        .dropdown-menu {
+            display: block !important; position: static;
+            box-shadow: none; border: none; border-radius: 0;
+            min-width: auto; max-height: none; padding: 0;
+            background: transparent;
+        }
+        .dropdown-item {
+            padding: 8px 0; font-size: 1rem;
+        }
+    }
+    </style>
+    <header class="site-header">
+        <div class="container header-inner">
+            <a href="/" class="logo">
+                <span class="logo-icon">🚙</span>
+                <span>Рено Гайд</span>
+            </a>
+            <button class="mobile-menu-btn" aria-label="Меню" id="menuBtn">☰</button>
+            <nav class="main-nav" id="mainNav">
+                <a href="/category/logan/" class="nav-link">📁 Logan</a>
+<a href="/category/duster/" class="nav-link">📁 Duster</a>
+<a href="/category/megane/" class="nav-link">📁 Megane</a>
+<a href="/category/sandero/" class="nav-link">📁 Sandero</a>
+<div class="nav-dropdown">
+            <button class="nav-link dropdown-toggle">📂 Все разделы ▾</button>
+            <div class="dropdown-menu"><a href="/category/logan/" class="dropdown-item">📁 Logan</a>
+<a href="/category/duster/" class="dropdown-item">📁 Duster</a>
+<a href="/category/megane/" class="dropdown-item">📁 Megane</a>
+<a href="/category/sandero/" class="dropdown-item">📁 Sandero</a>
+<a href="/category/kaptur/" class="dropdown-item">📁 Kaptur</a>
+<a href="/category/fluence/" class="dropdown-item">📁 Fluence</a>
+<a href="/category/scenic/" class="dropdown-item">📁 Scenic</a>
+<a href="/category/arkana/" class="dropdown-item">📁 Arkana</a>
+<a href="/category/symbol/" class="dropdown-item">📁 Symbol</a>
+<a href="/category/laguna/" class="dropdown-item">📁 Laguna</a>
+<a href="/category/kangoo/" class="dropdown-item">📁 Kangoo</a>
+<a href="/category/авто/" class="dropdown-item">📁 Авто</a>
+<a href="/category/master/" class="dropdown-item">📁 Master</a>
+<a href="/category/koleos/" class="dropdown-item">📁 Koleos</a>
+<a href="/category/captur/" class="dropdown-item">📁 Captur</a>
+<a href="/category/clio/" class="dropdown-item">📁 Clio</a>
+<a href="/category/trafic/" class="dropdown-item">📁 Trafic</a>
+<a href="/category/espace/" class="dropdown-item">📁 Espace</a>
+<a href="/category/kadjar/" class="dropdown-item">📁 Kadjar</a>
+<a href="/category/twingo/" class="dropdown-item">📁 Twingo</a>
+<a href="/category/drugoe/" class="dropdown-item">📁 Другое</a></div>
+        </div>
+            </nav>
+        </div>
+    </header>
+
+    <nav class="breadcrumbs" aria-label="Навигация">
+        <div class="container"><a href="/">Главная</a><span class="breadcrumb-sep">›</span><a href="/category/drugoe/">Другое</a><span class="breadcrumb-sep">›</span><span class="breadcrumb-current">Полный гид: как перенести данные с HDD на SSD или новый диск</span></div>
+    </nav>
+
+    <main class="site-main">
+        <div class="container">
+            <div class="article-layout">
+                <article class="article-main">
+                    
+                    <h1>Полный гид: как перенести данные с одного жесткого диска на другой</h1>
+                    <nav class="mobile-toc"><details><summary>📋 Содержание</summary><ul><li><a href="#подготовка-оборудования-и-выбор-интерфейса-подключения">Подготовка оборудования и выбор интерфейса подключения</a></li><li><a href="#методы-переноса-данных-клонирование-против-ручного-копирования">Методы переноса данных: клонирование против ручного копирования</a></li><li><a href="#использование-специализированного-по-для-клонирования">Использование специализированного ПО для клонирования</a></li><li><a href="#ручное-копирование-и-синхронизация-файлов">Ручное копирование и синхронизация файлов</a></li><li><a href="#настройка-bios-и-приоритет-загрузки">Настройка BIOS и приоритет загрузки</a></li><li><a href="#проверка-целостности-и-отключение-старого-носителя">Проверка целостности и отключение старого носителя</a></li><li><a href="#частые-вопросы-при-переносе-данных">Частые вопросы при переносе данных</a></li></ul></details></nav>
+                    <!--#include virtual="/ssi/article_before.html" -->
+                    <div class="article-body">
+
+<p>Перенос информации с одного накопителя на другой — это стандартная процедура, необходимая при апгрейде компьютера или замене вышедшего из строя оборудования. Часто пользователи сталкиваются с необходимостью миграции на более быстрые <em>Solid State Drive</em> (SSD), чтобы ускорить работу системы, но боятся потерять важные файлы. Процесс看似 сложный на первый взгляд, но при правильном подходе становится рутинной задачей, доступной даже новичку.</p>
+
+<p>Существует два основных сценария такой операции: простое копирование пользовательских файлов и полное клонирование системы с сохранением операционной среды. Выбор метода зависит от конечной цели: хотите ли вы просто освободить место или перенести Windows со всеми установленными программами. Понимание различий между этими подходами поможет избежать ошибок и потери данных в процессе миграции.</p>
+
+<h2 id="подготовка-оборудования-и-выбор-интерфейса-подключения">Подготовка оборудования и выбор интерфейса подключения</h2>
+
+<p>Прежде чем приступать к манипуляциям с данными, необходимо физически обеспечить возможность одновременного подключения обоих накопителей к компьютеру. Если вы работаете с ноутбуком, часто требуется использовать внешний USB-адаптер или док-станцию, так как внутренний отсек может быть занят. Для настольных ПК ситуация проще: можно подключить оба диска через SATA-кабели или M.2 слоты, если материнская плата поддерживает это.</p>
+
+<p>Важно убедиться, что новый диск имеет достаточный объем памяти для размещения всех данных со старого носителя. Если вы планируете перенос системы, объем нового накопителя должен быть не меньше объема занятых разделов на старом, даже если физическая емкость больше. Игнорирование этого требования приведет к ошибке при клонировании.</p>
+
+<ul>
+<li>🔌 Проверьте совместимость интерфейсов: SATA III для классических HDD и M.2 NVMe для современных SSD.</li>
+<li>🔧 Приобретите качественный USB-переходник с поддержкой UASP для ускорения передачи данных через внешний порт.</li>
+<li>💾 Убедитесь в исправности старого диска: перед началом проверьте его на наличие битых секторов через утилиту <code>CHKDSK</code>.</li>
+</ul>
+
+<p>Если вы не уверены в том, какой тип подключения выбрать для вашего устройства, воспользуйтесь следующей таблицей, чтобы сопоставить характеристики:</p>
+
+<table>
+<thead>
+<tr>
+<th>Тип накопителя</th>
+<th>Интерфейс подключения</th>
+<th>Скорость (макс.)</th>
+<th>Рекомендуемый адаптер</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>3.5" HDD</td>
+<td>SATA</td>
+<td>150 МБ/с</td>
+<td>USB 3.0 + блок питания</td>
+</tr>
+<tr>
+<td>2.5" SSD/HDD</td>
+<td>SATA</td>
+<td>550 МБ/с</td>
+<td>USB 3.0 Type-C</td>
+</tr>
+<tr>
+<td>M.2 NVMe SSD</td>
+<td>PCIe</td>
+<td>3500 МБ/с</td>
+<td>USB 3.2 Gen 2 NVMe</td>
+</tr>
+<tr>
+<td>M.2 SATA SSD</td>
+<td>SATA</td>
+<td>550 МБ/с</td>
+<td>USB 3.0 Type-C</td>
+</tr>
+</tbody>
+</table>
+
+<blockquote>⚠️ Внимание: Никогда не подключайте внешние диски к портам USB 2.0 при работе с большими объемами данных, так как это критически замедлит процесс переноса и может вызвать тайм-ауты подключения.</blockquote>
+
+<h2 id="методы-переноса-данных-клонирование-против-ручного-копирования">Методы переноса данных: клонирование против ручного копирования</h2>
+
+<p>Выбор стратегии зависит от того, что именно вы хотите получить на новом носителе. Простое копирование файлов подходит, если вам нужно сохранить документы, фото и видео, но вы готовы переустановить операционную систему заново. Этот метод наиболее надежен, так как исключает перенос системных ошибок и "мусора" от старого оборудования. Однако он требует времени на повторную настройку программ.</p>
+
+<p>Полное клонирование (cloning) создает точную копию структуры диска, включая загрузочные записи, скрытые разделы и саму ОС. Это идеальный вариант для апгрейда без переустановки Windows. Современные утилиты позволяют выполнять эту операцию в один клик, автоматически подстраивая размер разделов под новый диск. Важно понимать разницу между бинарным копированием и файловым копированием.</p>
+
+<ul>
+<li>🔄 Клонирование копирует каждый бит данных, создавая идентичную среду для работы.</li>
+<li>📁 Ручное копирование переносит только видимые пользователю файлы и папки.</li>
+<li>⚡ Клонирование требует, чтобы целевой диск был чистым или содержал данные, которые не жалко удалить.</li>
+</ul>
+
+<div class="attention-box attention-info"><div><strong>📊 Какой метод переноса данных вы предпочитаете?</strong><ul><li>Полное клонирование системы</li><li>Простое копирование файлов</li><li>Использую облачные сервисы</li><li>Не знаю, что выбрать</li></ul></div></div>
+
+<h2 id="использование-специализированного-по-для-клонирования">Использование специализированного ПО для клонирования</h2>
+
+<p>Для выполнения задачи профессионального уровня лучше всего использовать специализированный софт, который умеет работать с разметкой диска на низком уровне. Популярные решения включают <em>Acronis True Image</em>, <em>Macrium Reflect</em> или утилиты, поставляемые производителями дисков, такие как <em>Samsung Data Migration</em>. Эти программы обладают интуитивными интерфейсами и подсказками, которые минимизируют риск человеческой ошибки.</p>
+
+<p>Процесс обычно начинается с выбора источника (старый диск) и цели (новый диск). Программа автоматически анализирует структуру разделов и предлагает схему их размещения на новом носителе. Если новый диск меньше по объему, но больше по занятому пространству, потребуется ручная настройка размеров разделов, чтобы они поместились на целевой носитель.</p>
+
+<div class="checklist-block"><h4>☑️ Проверка перед запуском клонирования</h4><label class="check-item"><input type="checkbox"><span>Отключить антивирус</span></label><label class="check-item"><input type="checkbox"><span>Закрыть все открытые приложения</span></label><label class="check-item"><input type="checkbox"><span>Очистить временные файлы</span></label><label class="check-item"><input type="checkbox"><span>Проверить кабель подключения</span></label><div class="check-progress">Выполнено: <span class="check-count">0</span> / 4</div></div>
+
+<p>Важно отметить, что некоторые утилиты требуют перезагрузки компьютера для выполнения операции в среде, отличной от рабочей ОС. Это необходимо, так как системные файлы заблокированы для записи во время работы Windows. Программа загрузится в собственное минимальное окружение, выполнит копирование и вернет управление пользователю.</p>
+
+<blockquote>⚠️ Внимание: Если вы используете ноутбук с аккумулятором, обязательно подключите его к сети питания, так как потеря энергии во время клонирования сделает оба диска нечитаемыми.</blockquote>
+
+<h2 id="ручное-копирование-и-синхронизация-файлов">Ручное копирование и синхронизация файлов</h2>
+
+<p>Если цель переноса — только пользовательские данные, использование встроенных средств Windows может быть самым быстрым и безопасным решением. Вы можете просто выделить нужные папки в <code>Проводнике</code> и перетащить их на новый диск, удерживая клавишу <code>Ctrl</code> для копирования (не перемещения). Однако этот метод не сохраняет права доступа и атрибуты файлов так точно, как специализированный софт.</p>
+
+<p>Для более продвинутой синхронизации, особенно при регулярном резервном копировании, стоит использовать командную строку с параметрами <code>robocopy</code>. Эта утилита позволяет копировать файлы с сохранением структуры каталогов, временных меток и прав доступа. Она также умеет перезапускать процесс при обрыве связи, что критично для больших объемов данных.</p>
+
+<pre><code>robocopy D:\Source E:\Destination /E /COPYALL /R:3 /W:5 /MT:8</code></pre>
+
+<p>В приведенной команде <code>/E</code> означает копирование всех подкаталогов, включая пустые, а <code>/COPYALL</code> сохраняет все атрибуты файлов. Параметры <code>/R</code> и <code>/W</code> задают количество попыток и время ожидания при ошибке, что полезно при работе с медленными дисками.</p>
+
+<details class="faq-item"><summary>Как проверить целостность скопированных данных?</summary><div class="faq-answer"><p>Для проверки используйте утилиту WinHash или встроенную функцию сравнения файлов в Total Commander. Просто выберите папку на старом и новом диске и нажмите "Сравнить", чтобы увидеть различия.</p></div></details>
+
+<h2 id="настройка-bios-и-приоритет-загрузки">Настройка BIOS и приоритет загрузки</h2>
+
+<p>После успешного переноса системы на новый диск компьютер может не загрузиться с него автоматически. Это происходит потому, что в настройках <em>BIOS/UEFI</em> по-прежнему установлен приоритет загрузки со старого накопителя. Чтобы исправить это, необходимо перезагрузить ПК и войти в меню настройки (обычно клавиши <code>F2</code>, <code>Del</code> или <code>F12</code> при старте).</p>
+
+<p>В разделе <code>Boot</code> или <code>Startup</code> найдите список устройств загрузки и переместите новый диск на первое место. Если вы клонировали диск с Windows 10 или 11, система может автоматически определить новый загрузчик, но ручная проверка не помешает. Убедитесь, что режим загрузки (Legacy или UEFI) соответствует тому, что использовался на старом диске.</p>
+
+<ul>
+<li>🔍 Найдите вкладку <code>Boot Priority</code> в меню BIOS.</li>
+<li>🔄 Переместите новый SSD/HDD на позицию #1 в списке.</li>
+<li>💾 Сохраните изменения и выйдите, нажав клавишу <code>F10</code>.</li>
+</ul>
+
+<p>Если система не видит новый диск в списке загрузки, проверьте, отключен ли старый диск физически или программно. Иногда наличие двух дисков с одинаковыми идентификаторами загрузки (UUID) вызывает конфликт. В таком случае может потребоваться изменение порядка загрузки через меню восстановления Windows.</p>
+
+<div class="attention-box attention-tip"><span class="attention-icon">💡</span><p>Правильная настройка приоритета загрузки в BIOS критична для успешного старта системы с нового накопителя после клонирования.</p></div>
+
+<h2 id="проверка-целостности-и-отключение-старого-носителя">Проверка целостности и отключение старого носителя</h2>
+
+<p>После первой загрузки с нового диска необходимо убедиться, что все файлы доступны и система работает стабильно. Откройте несколько программ, проверьте доступ к документам и медиафайлам. Запустите проверку диска через <code>свойства → инструменты → проверить</code>, чтобы исключить ошибки файловой системы, возникшие при переносе.</p>
+
+<p>Только после полной уверенности в работоспособности нового диска можно отключать старый. Не удаляйте его сразу, а просто извлеките из системы или отключите в диспетчере устройств. Оставьте его в качестве резервной копии на случай, если что-то пойдет не так в первые дни эксплуатации.</p>
+
+<div class="attention-box attention-tip"><span class="attention-icon">💡</span><p>Сохраните старый диск в антистатическом пакете на случай, если вам потребуется восстановить случайно удаленный файл, который не попал при копировании.</p></div>
+
+<h2 id="частые-вопросы-при-переносе-данных">Частые вопросы при переносе данных</h2>
+
+<details>
+<summary>Что делать, если новый диск виден, но не загружается?</summary>
+<p>Скорее всего, нарушена структура загрузочного раздела. Попробуйте использовать загрузочную флешку с Windows, зайти в восстановление и выполнить команду <code>bootrec /fixmbr</code> и <code>bootrec /fixboot</code>.</p>
+</details>
+
+<details>
+<summary>Можно ли перенести систему на диск меньшего размера?</summary>
+<p>Нет, объем нового диска должен быть не меньше объема занятых данных на старом. Физический размер не важен, важно свободное пространство на старом диске.</p>
+</details>
+
+<details>
+<summary>Как ускорить процесс копирования больших файлов?</summary>
+<p>Используйте SSD для временного хранения данных или подключайте диски через USB 3.0/3.1. Отключите фоновые процессы и антивирус на время операции.</p>
+</details>
+
+<details>
+<summary>Нужно ли форматировать новый диск перед клонированием?</summary>
+<p>Большинство программ для клонирования автоматически форматируют целевой диск. Однако, если вы делаете это вручную, убедитесь, что выбрана правильная файловая система (NTFS для Windows).</p>
+</details>
+
+<details>
+<summary>Сколько времени занимает перенос системы?</summary>
+<p>Время зависит от объема данных и скорости интерфейса. Для 500 ГБ данных через USB 3.0 это может занять от 1 до 3 часов. Через SATA-SATA — значительно быстрее.</p>
+</details></div>
+                    <!--#include virtual="/ssi/article_after.html" -->
+
+                </article>
+                <aside class="article-sidebar"><!--#include virtual="/ssi/sidebar_top.html" --><nav class="sidebar-search"><div class="sidebar-search-box"><input type="text" id="globalSearchInput" placeholder="🔍 Поиск статей..." autocomplete="off"><div class="search-dropdown" id="globalSearchDropdown"></div></div></nav><!--#include virtual="/ssi/sidebar_before_toc.html" --><nav class="sidebar-toc" id="sidebarToc"><h3>Содержание</h3><ul><li><a href="#подготовка-оборудования-и-выбор-интерфейса-подключения">Подготовка оборудования и выбор интерфейса подключения</a></li><li><a href="#методы-переноса-данных-клонирование-против-ручного-копирования">Методы переноса данных: клонирование против ручного копирования</a></li><li><a href="#использование-специализированного-по-для-клонирования">Использование специализированного ПО для клонирования</a></li><li><a href="#ручное-копирование-и-синхронизация-файлов">Ручное копирование и синхронизация файлов</a></li><li><a href="#настройка-bios-и-приоритет-загрузки">Настройка BIOS и приоритет загрузки</a></li><li><a href="#проверка-целостности-и-отключение-старого-носителя">Проверка целостности и отключение старого носителя</a></li><li><a href="#частые-вопросы-при-переносе-данных">Частые вопросы при переносе данных</a></li></ul></nav><!--#include virtual="/ssi/sidebar_before_related.html" --><nav class="sidebar-related"><h3>Похожие статьи</h3><ul><li><a href="/articles/k/ka/kak-zamarinovat-shashlyk-iz-svininy-s-lukom-i-uksusom-prostoj-retsept-na-2-kg.html" class="related-card">Как замариновать шашлык из свинины с луком и уксусом: простой рецепт на 2 кг</a></li><li><a href="/articles/k/ka/kak-zamarinovat-grudku-indejki-dlya-grilya.html" class="related-card">Маринад для индейки на гриле: 5 рецептов с фото и секретами</a></li><li><a href="/articles/z/za/zamarinovat-svininu-na-shashlyk-retsept.html" class="related-card">Замариновать свинину на шашлык: 7 проверенных рецептов 2026</a></li><li><a href="/articles/k/ka/kak-vkusno-zamarinovat-file-indejki.html" class="related-card">Как замариновать филе индейки: 7 рецептов для сочного мяса</a></li><li><a href="/articles/r/re/renovator-kakoj-luchshe-vybrat-dlya-doma.html" class="related-card">Реноватор для дома: как выбрать лучший инструмент в 2026 году</a></li></ul></nav><!--#include virtual="/ssi/sidebar_after_related.html" --></aside>
+            </div>
+        </div>
+    </main>
+
+    <!--#include virtual="/ssi/before_related_bottom.html" -->
+    <section class="related-bottom">
+        <div class="container">
+            <h2 class="related-bottom-heading">📖 Читайте также</h2>
+            <div class="related-bottom-grid"><a href="/articles/k/ka/kak-zamarinovat-shashlyk-iz-svininy-s-lukom-i-uksusom-prostoj-retsept-na-2-kg.html" class="related-bottom-card"><span class="related-bottom-title">Как замариновать шашлык из свинины с луком и уксусом: простой рецепт на 2 кг</span><span class="related-bottom-desc">Пошаговая инструкция приготовления сочного шашлыка из свинины на углях. Простой рецепт маринования с</span></a><a href="/articles/k/ka/kak-zamarinovat-grudku-indejki-dlya-grilya.html" class="related-bottom-card"><span class="related-bottom-title">Маринад для индейки на гриле: 5 рецептов с фото и секретами</span><span class="related-bottom-desc">Как правильно замариновать грудку индейки для гриля: пошаговые рецепты, время маринования, ошибки и </span></a><a href="/articles/z/za/zamarinovat-svininu-na-shashlyk-retsept.html" class="related-bottom-card"><span class="related-bottom-title">Замариновать свинину на шашлык: 7 проверенных рецептов 2026</span><span class="related-bottom-desc">Как правильно замариновать свинину для шашлыка: пошаговые рецепты с луком, майонезом, кефиром и спец</span></a><a href="/articles/k/ka/kak-vkusno-zamarinovat-file-indejki.html" class="related-bottom-card"><span class="related-bottom-title">Как замариновать филе индейки: 7 рецептов для сочного мяса</span><span class="related-bottom-desc">Пошаговые рецепты маринадов для филе индейки: от классического лимонно-чесночного до медово-горчично</span></a><a href="/articles/r/re/renovator-kakoj-luchshe-vybrat-dlya-doma.html" class="related-bottom-card"><span class="related-bottom-title">Реноватор для дома: как выбрать лучший инструмент в 2026 году</span><span class="related-bottom-desc">Полный гид по выбору мультитула: сравнение брендов, мощности и насадок. Узнайте, какой реноватор луч</span></a><a href="/articles/k/ka/kak-marinovat-leshcha-dlya-goryachego-kopcheniya.html" class="related-bottom-card"><span class="related-bottom-title">Маринад для леща горячего копчения: 5 проверенных рецептов</span><span class="related-bottom-desc">Как правильно замариновать леща перед горячим копчением: секреты приготовления, пропорции специй и в</span></a></div>
+        </div>
+    </section>
+    <!--#include virtual="/ssi/after_related_bottom.html" -->
+
+    <footer class="site-footer-premium">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <div class="footer-brand">🚙 Рено Гайд</div>
+                    <p class="footer-about">Рено - идеальный баланс французского комфорта и практичности. Подробные обзоры от Logan до Duster, честные отзывы владельцев и полезные советы по ремонту.
+</p>
+                </div>
+                <div class="footer-col">
+                    <h4>Разделы</h4>
+                    <ul><li><a href="/category/logan/">📁 Logan</a></li>
+<li><a href="/category/duster/">📁 Duster</a></li>
+<li><a href="/category/megane/">📁 Megane</a></li>
+<li><a href="/category/sandero/">📁 Sandero</a></li>
+<li><a href="/category/kaptur/">📁 Kaptur</a></li>
+<li><a href="/category/fluence/">📁 Fluence</a></li></ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Информация</h4>
+                    <ul>
+                        <li><a href="/">Главная</a></li>
+                        <li><a href="/about.html">О проекте</a></li>
+                        <li><a href="/categories.html">Все разделы</a></li>
+                        <li><a href="/contact.html">Контакты</a></li>
+                        <li><a href="/privacy.html">Конфиденциальность</a></li>
+                        <li><a href="/sitemap.xml">Карта сайта</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2026 Рено Гайд. Все права защищены.</p>
+                <!--LiveInternet counter--><div style="margin-top:10px;"><a href="https://www.liveinternet.ru/click"
+                target="_blank"><img id="licnt06C4" width="88" height="15" style="border:0" 
+                title="LiveInternet: показано число посетителей за сегодня"
+                src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAEALAAAAAABAAEAAAIBTAA7"
+                alt=""/></a><script>(function(d,s){d.getElementById("licnt06C4").src=
+                "https://counter.yadro.ru/hit?t26.5;r"+escape(d.referrer)+
+                ((typeof(s)=="undefined")?"":";s"+s.width+"*"+s.height+"*"+
+                (s.colorDepth?s.colorDepth:s.pixelDepth))+";u"+escape(d.URL)+
+                ";h"+escape(d.title.substring(0,150))+";"+Math.random()})(document,screen)</script></div><!--/LiveInternet-->
+            </div>
+        </div>
+    </footer>
+    <div id="cookie-consent" class="cookie-popup">
+        <div class="cookie-inner">
+            <span>🍪 Мы используем файлы cookie для улучшения работы сайта.</span>
+            <button id="cookie-accept" class="cookie-btn">Принять</button>
+        </div>
+    </div>
+    <script src="/static/js/main.js"></script>
+    <script>
+    (function() {
+        const popup = document.getElementById('cookie-consent');
+        const btn = document.getElementById('cookie-accept');
+        if (popup && btn && !localStorage.getItem('cookie-accepted')) {
+            popup.classList.add('visible');
+            btn.onclick = () => {
+                localStorage.setItem('cookie-accepted', 'true');
+                popup.classList.remove('visible');
+            };
+        }
+    })();
+    </script>
+    <!--#include virtual="/ssi/body_bottom.html" -->
+    <script src="/static/js/inject.js" defer></script>
+</body>
+</html>

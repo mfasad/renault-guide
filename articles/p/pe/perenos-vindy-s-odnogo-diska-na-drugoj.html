@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 100 100%27><text y=%27.9em%27 font-size=%2790%27>🚙</text></svg>">
+    <title>Как перенести Windows с HDD на SSD или другой диск без потери данных — Рено Гайд</title>
+    <meta name="description" content="Пошаговая инструкция по переносу Windows 10/11 на новый диск с сохранением программ и настроек. Сравнение способов, советы по выбору инструментов и типичные ошибки.">
+    <link rel="canonical" href="https://renault-guide.vercel.app/articles/p/pe/perenos-vindy-s-odnogo-diska-na-drugoj.html">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Как перенести Windows с HDD на SSD или другой диск без потери данных">
+    <meta property="og:description" content="Пошаговая инструкция по переносу Windows 10/11 на новый диск с сохранением программ и настроек. Сравнение способов, советы по выбору инструментов и типичные ошибки.">
+    <meta property="og:locale" content="ru_RU">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/style.css?v=1776848103">
+    <style>
+    .site-footer-premium {
+        margin-top: 60px; padding: 40px 0 0; background: #1e293b; color: #94a3b8;
+    }
+    .footer-grid {
+        display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 40px;
+        padding-bottom: 32px; border-bottom: 1px solid #334155;
+    }
+    .footer-brand { font-size: 1.2rem; font-weight: 700; color: #f1f5f9; margin-bottom: 12px; }
+    .footer-about { font-size: 0.9rem; line-height: 1.6; margin-bottom: 8px; }
+    .footer-updated { font-size: 0.8rem; color: #64748b; }
+    .footer-col h4 { color: #f1f5f9; font-size: 0.95rem; margin-bottom: 16px; }
+    .footer-col ul { list-style: none; }
+    .footer-col li { margin-bottom: 8px; }
+    .footer-col a { color: #94a3b8; font-size: 0.9rem; transition: color 0.2s; }
+    .footer-col a:hover { color: #60a5fa; }
+    .footer-bottom { padding: 20px 0; text-align: center; font-size: 0.85rem; }
+    @media (max-width: 640px) {
+        .footer-grid { grid-template-columns: 1fr; gap: 24px; }
+    }
+    .cookie-popup {
+        position: fixed; bottom: 0; left: 0; right: 0; background: #1e293b; color: #fff;
+        padding: 16px; transition: transform 0.5s ease; z-index: 9999; border-top: 2px solid #2563eb;
+        transform: translateY(100%);
+    }
+    .cookie-popup.visible { transform: translateY(0); }
+    .cookie-inner { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; gap: 16px; font-size: 0.9rem; }
+    .cookie-btn { background: #2563eb; color: #fff; border: none; padding: 8px 20px; border-radius: 8px; font-weight: 600; cursor: pointer; white-space: nowrap; }
+    .cookie-btn:hover { background: #1d4ed8; }
+    @media (max-width: 640px) {
+        .cookie-inner { flex-direction: column; text-align: center; }
+    }
+</style>
+    
+    <!--#include virtual="/ssi/head.html" -->
+</head>
+<body>
+        <!--#include virtual="/ssi/body_top.html" -->
+    <style>
+    .nav-dropdown { position: relative; display: inline-block; }
+    .dropdown-toggle {
+        background: none; border: none; cursor: pointer;
+        font: inherit; color: inherit; padding: 8px 12px;
+        border-radius: 8px; transition: background 0.2s;
+    }
+    .dropdown-toggle:hover { background: rgba(0,0,0,0.05); }
+    .dropdown-menu {
+        display: none; position: absolute; right: 0; top: 100%;
+        min-width: 240px; max-height: 70vh; overflow-y: auto;
+        background: var(--card-bg, #fff); border: 1px solid var(--border, #e5e7eb);
+        border-radius: 12px; box-shadow: 0 12px 40px rgba(0,0,0,0.12);
+        padding: 8px 0; z-index: 1000;
+    }
+    .nav-dropdown::after {
+        content: ''; position: absolute; left: 0; right: 0;
+        top: 100%; height: 12px;
+    }
+    .nav-dropdown:hover .dropdown-menu,
+    .nav-dropdown:focus-within .dropdown-menu { display: block; }
+    .dropdown-item {
+        display: block; padding: 10px 20px; color: var(--text, #1f2937);
+        text-decoration: none; font-size: 0.95rem; transition: background 0.15s;
+        white-space: nowrap;
+    }
+    .dropdown-item:hover { background: rgba(37,99,235,0.06); color: var(--primary, #2563eb); }
+    @media (max-width: 768px) {
+        .main-nav > .nav-link { display: none; }
+        .dropdown-toggle { display: none; }
+        .dropdown-menu {
+            display: block !important; position: static;
+            box-shadow: none; border: none; border-radius: 0;
+            min-width: auto; max-height: none; padding: 0;
+            background: transparent;
+        }
+        .dropdown-item {
+            padding: 8px 0; font-size: 1rem;
+        }
+    }
+    </style>
+    <header class="site-header">
+        <div class="container header-inner">
+            <a href="/" class="logo">
+                <span class="logo-icon">🚙</span>
+                <span>Рено Гайд</span>
+            </a>
+            <button class="mobile-menu-btn" aria-label="Меню" id="menuBtn">☰</button>
+            <nav class="main-nav" id="mainNav">
+                <a href="/category/logan/" class="nav-link">📁 Logan</a>
+<a href="/category/duster/" class="nav-link">📁 Duster</a>
+<a href="/category/megane/" class="nav-link">📁 Megane</a>
+<a href="/category/sandero/" class="nav-link">📁 Sandero</a>
+<div class="nav-dropdown">
+            <button class="nav-link dropdown-toggle">📂 Все разделы ▾</button>
+            <div class="dropdown-menu"><a href="/category/logan/" class="dropdown-item">📁 Logan</a>
+<a href="/category/duster/" class="dropdown-item">📁 Duster</a>
+<a href="/category/megane/" class="dropdown-item">📁 Megane</a>
+<a href="/category/sandero/" class="dropdown-item">📁 Sandero</a>
+<a href="/category/kaptur/" class="dropdown-item">📁 Kaptur</a>
+<a href="/category/fluence/" class="dropdown-item">📁 Fluence</a>
+<a href="/category/scenic/" class="dropdown-item">📁 Scenic</a>
+<a href="/category/arkana/" class="dropdown-item">📁 Arkana</a>
+<a href="/category/symbol/" class="dropdown-item">📁 Symbol</a>
+<a href="/category/laguna/" class="dropdown-item">📁 Laguna</a>
+<a href="/category/kangoo/" class="dropdown-item">📁 Kangoo</a>
+<a href="/category/авто/" class="dropdown-item">📁 Авто</a>
+<a href="/category/master/" class="dropdown-item">📁 Master</a>
+<a href="/category/koleos/" class="dropdown-item">📁 Koleos</a>
+<a href="/category/captur/" class="dropdown-item">📁 Captur</a>
+<a href="/category/clio/" class="dropdown-item">📁 Clio</a>
+<a href="/category/trafic/" class="dropdown-item">📁 Trafic</a>
+<a href="/category/espace/" class="dropdown-item">📁 Espace</a>
+<a href="/category/kadjar/" class="dropdown-item">📁 Kadjar</a>
+<a href="/category/twingo/" class="dropdown-item">📁 Twingo</a>
+<a href="/category/drugoe/" class="dropdown-item">📁 Другое</a></div>
+        </div>
+            </nav>
+        </div>
+    </header>
+
+    <nav class="breadcrumbs" aria-label="Навигация">
+        <div class="container"><a href="/">Главная</a><span class="breadcrumb-sep">›</span><a href="/category/drugoe/">Другое</a><span class="breadcrumb-sep">›</span><span class="breadcrumb-current">Как перенести Windows с HDD на SSD или другой диск без потери данных</span></div>
+    </nav>
+
+    <main class="site-main">
+        <div class="container">
+            <div class="article-layout">
+                <article class="article-main">
+                    
+                    <h1>Перенос Windows с одного диска на другой: полное руководство 2026</h1>
+                    <nav class="mobile-toc"><details><summary>📋 Содержание</summary><ul><li><a href="#почему-нельзя-просто-скопировать-файлы-windows-на-новый-диск">Почему нельзя просто скопировать файлы Windows на новый диск</a></li><li><a href="#способы-переноса-windows-сравнение-методов">Способы переноса Windows: сравнение методов</a></li><li><a href="#подготовка-к-переносу-чек-лист-перед-началом">Подготовка к переносу: чек-лист перед началом</a></li><li><a href="#пошаговая-инструкция-перенос-windows-с-помощью-macrium-reflect">Пошаговая инструкция: перенос Windows с помощью Macrium Reflect</a></li><li><a href="#перенос-windows-без-программ-используем-dism">Перенос Windows без программ: используем DISM</a></li><li><a href="#типичные-ошибки-после-переноса-и-как-их-исправить">Типичные ошибки после переноса и как их исправить</a></li><li><a href="#перенос-windows-на-nvme-особенности-и-подводные-камни">Перенос Windows на NVMe: особенности и подводные камни</a></li><li><a href="#faq-ответы-на-частые-вопросы">FAQ: ответы на частые вопросы</a></li></ul></details></nav>
+                    <!--#include virtual="/ssi/article_before.html" -->
+                    <div class="article-body"><p>Переезд операционной системы на новый накопитель — задача, с которой рано или поздно сталкивается каждый пользователь ПК. Причины могут быть разными: от желания ускорить работу системы за счёт <strong>SSD</strong> до необходимости заменить вышедший из строя <em>HDD</em>. Однако простой копированием файлов здесь не обойтись — требуется перенос всей структуры Windows, включая скрытые разделы, загрузочные записи и реестр.</p>
+
+<p>В этой статье мы разберём все актуальные способы миграции системы — от встроенных инструментов <em>Microsoft</em> до сторонних утилит вроде <em>Macrium Reflect</em> или <em>AOMEI Backupper</em>. Особое внимание уделим <strong>типичным ошибкам</strong>, которые приводят к невозможности загрузки после переноса, и расскажем, как их избежать. А для тех, кто боится потерять данные, приведём чек-лист по подготовке к процедуре.</p>
+
+<h2 id="почему-нельзя-просто-скопировать-файлы-windows-на-новый-диск">Почему нельзя просто скопировать файлы Windows на новый диск</h2>
+
+<p>Многие пользователи ошибочно полагают, что достаточно скопировать папку <code>Windows</code> и программные файлы на новый диск — и система заработает. На практике это приводит к <strong>незагружаемому ПК</strong> по нескольким причинам:</p>
+
+<ul>
+  <li>🔹 <strong>Отсутствие загрузочного сектора</strong>: Windows использует скрытый раздел <code>EFI</code> (для <em>UEFI</em>) или <code>MBR</code> (для <em>Legacy BIOS</em>), который не копируется стандартными средствами.</li>
+  <li>🔹 <strong>Привязка к оборудованию</strong>: Система сохраняет данные о железе в реестре. При резкой смене диска могут возникнуть конфликты драйверов.</li>
+  <li>🔹 <strong>Активный раздел</strong>: Новый диск должен быть помечен как загрузочный, иначе <em>BIOS/UEFI</em> его просто не увидит.</li>
+  <li>🔹 <strong>Файлы в использовании</strong>: Даже в безопасном режиме часть системных файлов заблокирована для копирования.</li>
+</ul>
+
+<p>Кроме того, при ручном копировании теряются <strong>точки восстановления</strong>, настройки <em>BitLocker</em> (если использовалось шифрование) и данные о лицензии. Поэтому для переноса требуются специализированные инструменты, которые создают <mark>посекторную копию диска с учётом всех служебных областей</mark>.</p>
+
+<blockquote>⚠️ <strong>Внимание</strong>: Если вы переносите систему с <em>HDD</em> на <em>SSD</em> меньшего объёма, предварительно уменьшите размер раздела Windows до значения, не превышающего ёмкость нового диска. В противном случае программы клонирования откажутся работать.</blockquote>
+
+<h2 id="способы-переноса-windows-сравнение-методов">Способы переноса Windows: сравнение методов</h2>
+
+<p>Существует три основных подхода к миграции системы. Каждый имеет свои плюсы, минусы и ограничения:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Метод</th>
+      <th>Плюсы</th>
+      <th>Минусы</th>
+      <th>Когда использовать</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Встроенные средства Windows</strong> (<code>DISM</code>, <code>ImageX</code>)</td>
+      <td>✅ Не требует стороннего ПО<br>✅ Сохраняет лицензию</td>
+      <td>❌ Сложно для новичков<br>❌ Нет поддержки <em>UEFI→Legacy</em><br>❌ Риск ошибок при восстановлении</td>
+      <td>Для опытных пользователей при переносе на диск того же типа</td>
+    </tr>
+    <tr>
+      <td><strong>Сторонние программы</strong> (<em>Macrium Reflect</em>, <em>AOMEI Backupper</em>)</td>
+      <td>✅ Автоматизация процесса<br>✅ Поддержка всех типов дисков<br>✅ Возможность изменения разметки</td>
+      <td>❌ Платные версии для расширенных функций<br>❌ Возможны конфликты с антивирусами</td>
+      <td>Для большинства пользователей (рекомендуемый способ)</td>
+    </tr>
+    <tr>
+      <td><strong>Чистая установка + восстановление данных</strong></td>
+      <td>✅ Минимальный риск ошибок<br>✅ "Чистая" система без мусора</td>
+      <td>❌ Требует переустановки программ<br>❌ Потеря некоторых настроек</td>
+      <td>Если новый диск сильно отличается по объёму или типу</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Для 90% случаев оптимальным решением станут сторонние утилиты. Они позволяют перенести систему за 30–60 минут с минимальным риском, сохраняя все программы, драйверы и настройки. Однако если вы переносите Windows на диск с другой разметкой (например, с <em>MBR</em> на <em>GPT</em>), может потребоваться дополнительная настройка <em>BIOS/UEFI</em>.</p>
+
+<div class="attention-box attention-info"><div><strong>📊 Какой тип диска вы используете в качестве системного?</strong><ul><li>HDD</li><li>SATA SSD</li><li>NVMe SSD</li><li>Не знаю</li></ul></div></div>
+
+<h2 id="подготовка-к-переносу-чек-лист-перед-началом">Подготовка к переносу: чек-лист перед началом</h2>
+
+<p>Перед тем как приступать к миграции, выполните обязательные подготовительные шаги. Это снизит риск потери данных и упростит процесс:</p>
+
+
+<p>Очистить диск от мусора (<code>Очистка диска</code> или <em>CCleaner</em>)|</p>
+<p>Дефрагментировать HDD (если источник — жёсткий диск)|</p>
+<p>Отключить <em>BitLocker</em> (если включено шифрование)|</p>
+<p>Проверить новый диск на ошибки (<code>chkdsk X: /f</code>)|</p>
+<p>Создать резервную копию важных данных на внешнем носителе|</p>
+<p>Подключить новый диск к ПК (через <em>SATA</em> или <em>USB-адаптер</em>)|</p>
+<p>Зарядить ноутбук или подключить ИБП (процесс не должен прерываться)--></p>
+
+<p>Особое внимание уделите <strong>размеру нового диска</strong>. Если он меньше исходного, предварительно уменьшите системный раздел с помощью встроенной утилиты <code>Управление дисками</code> или <em>MiniTool Partition Wizard</em>. Например, для переноса Windows с <em>HDD</em> на 500 ГБ на <em>SSD</em> на 256 ГБ размер раздела <code>C:</code> должен быть не более 230–240 ГБ (с учётом служебных файлов).</p>
+
+<blockquote>⚠️ <strong>Внимание</strong>: Если ваш ПК использует <em>UEFI</em>, новый диск должен быть отформатирован в <code>GPT</code>. Для проверки текущей разметки откройте <code>Управление дисками</code> и посмотрите, есть ли на диске метка <code>GPT</code> рядом с его номером. Если её нет — это <code>MBR</code>, и после переноса потребуется изменить настройки <em>BIOS</em>.</blockquote>
+
+<h2 id="пошаговая-инструкция-перенос-windows-с-помощью-macrium-reflect">Пошаговая инструкция: перенос Windows с помощью Macrium Reflect</h2>
+
+<p><em>Macrium Reflect Free</em> — одна из самых надёжных утилит для клонирования дисков. Она поддерживает все версии Windows (включая <em>Windows 11</em>), работает с <em>UEFI</em> и <em>Legacy BIOS</em>, а также позволяет изменять размер разделов при переносе. Рассмотрим процесс по шагам:</p>
+
+<p><strong>Шаг 1. Установка и подготовка</strong></p>
+<p>Скачайте программу с <a href="https://www.macrium.com/reflectfree" target="_blank">официального сайта</a> и установите. При первом запуске выберите <code>Home</code> (для домашнего использования). Подключите новый диск к ПК — он должен определиться в системе.</p>
+
+<p><strong>Шаг 2. Выбор источника и цели</strong></p>
+<p>В главном окне программы:</p>
+<ol>
+  <li>Нажмите <code>Clone this disk...</code> под исходным диском (с которого копируем Windows).</li>
+  <li>В открывшемся окне выберите <strong>все разделы</strong>, включая скрытые (обычно это <code>EFI</code>, <code>MSR</code> и основной раздел с Windows).</li>
+  <li>Перетащите их на новый диск в нижней части окна.</li>
+  <li>Нажмите <code>Next</code>.</li>
+</ol>
+
+<p><strong>Шаг 3. Настройка разметки</strong></p>
+<p>Если новый диск больше исходного, программа предложит расширить раздел. Оставьте галочку <code>Resize partitions proportionally</code> для автоматического распределения пространства. Если диск меньше — вручную уменьшите размер раздела, перетаскивая ползунок.</p>
+
+<p><strong>Шаг 4. Завершение и загрузка с нового диска</strong></p>
+<p>Нажмите <code>Finish</code> и подтвердите начало процесса. После завершения:</p>
+<ol>
+  <li>Выключите ПК.</li>
+  <li>Отключите старый диск (или поменяйте приоритет загрузки в <em>BIOS</em>).</li>
+  <li>Загрузитесь с нового диска.</li>
+</ol>
+
+<div class="attention-box attention-tip"><span class="attention-icon">💡</span><p>Если после переноса Windows не загружается с ошибкой <code>0xc000000e</code>, проверьте настройки <em>BIOS</em>: для <em>UEFI</em>-систем должен быть включён <code>Secure Boot</code> и отключён <code>Legacy Support</code> (или наоборот, если диск в <code>MBR</code>).</p></div>
+
+<h2 id="перенос-windows-без-программ-используем-dism">Перенос Windows без программ: используем DISM</h2>
+
+<p>Если вы предпочитаете обходиться без стороннего ПО, можно воспользоваться встроенной утилитой <code>DISM</code> (Deployment Image Servicing and Management). Этот метод требует больше времени и знаний, но не зависит от внешних инструментов. Инструкция актуальна для <em>Windows 10/11</em>:</p>
+
+<p><strong>Шаг 1. Создание образа системы</strong></p>
+<p>Откройте <code>Командную строку от имени администратора</code> и выполните:</p>
+<pre><code>dism /capture-image /imagefile:D:\win_backup.wim /capturedir:C:\ /name:"Windows_Backup"</code></pre>
+<p>Где:
+<ul>
+  <li><code>D:\win_backup.wim</code> — путь к файлу образа (диск должен иметь достаточно места).</li>
+  <li><code>C:\</code> — системный раздел (у вас может быть другая буква).</li>
+</ul>
+</p>
+
+<p><strong>Шаг 2. Подготовка нового диска</strong></p>
+<p>Подключите новый диск и инициализируйте его через <code>Управление дисками</code>. Создайте на нём раздел размером не менее 100 МБ (для <code>EFI</code>) и основной раздел под систему. Отформатируйте их в <code>NTFS</code>.</p>
+
+<p><strong>Шаг 3. Восстановление образа</strong></p>
+<p>Подключите оба диска к другому ПК (или используйте <em>WinPE</em>) и выполните:</p>
+<pre><code>dism /apply-image /imagefile:D:\win_backup.wim /index:1 /applydir:E:\
+<p>bcdboot E:\Windows /s S: /f UEFI</code></pre></p>
+<p>Где:
+<ul>
+  <li><code>E:\</code> — буква нового системного раздела.</li>
+  <li><code>S:\</code> — буква раздела <code>EFI</code> (обычно скрыт).</li>
+</ul>
+</p>
+
+<blockquote>⚠️ <strong>Внимание</strong>: Метод с <code>DISM</code> не переносит данные пользователя в папках <code>Documents</code>, <code>Desktop</code> и т.д. Их придётся копировать отдельно. Также может потребоваться повторная активация Windows.</blockquote>
+
+<h2 id="типичные-ошибки-после-переноса-и-как-их-исправить">Типичные ошибки после переноса и как их исправить</h2>
+
+<p>Даже при правильном клонировании после первой загрузки с нового диска могут возникать проблемы. Вот наиболее распространённые из них и способы их решения:</p>
+
+<ul>
+  <li>🔴 <strong>Ошибка <code>INACCESSIBLE_BOOT_DEVICE</code></strong><br>
+  <em>Причина</em>: Конфликт драйверов <em>AHCI</em>/<em>NVMe</em>.<br>
+  <em>Решение</em>: Загрузитесь в <strong>Безопасном режиме</strong> (удерживайте <code>F8</code> при старте) и обновите драйверы через <code>Диспетчер устройств</code>.</li>
+
+  <li>🔴 <strong>Синий экран <code>CRITICAL_PROCESS_DIED</code></strong><br>
+  <em>Причина</em>: Повреждение системных файлов при переносе.<br>
+  <em>Решение</em>: Запустите проверку <code>sfc /scannow</code> и <code>chkdsk C: /f</code> из командной строки.</li>
+
+  <li>🔴 <strong>Windows просит активацию</strong><br>
+  <em>Причина</em>: Изменение аппаратной конфигурации.<br>
+  <em>Решение</em>: Привяжите лицензию к учётной записи <em>Microsoft</em> в <code>Параметры → Обновление и безопасность → Активация</code>.</li>
+
+  <li>🔴 <strong>Новый диск не отображается в <em>BIOS</strong></em><br>
+  <em>Причина</em>: Неправильная разметка (<code>MBR</code> вместо <code>GPT</code> для <em>UEFI</em>).<br>
+  <em>Решение</em>: Конвертируйте диск через <code>diskpart</code> или повторите клонирование с правильными настройками.</li>
+</ul>
+
+<p>Если после переноса система работает медленнее, чем ожидалось (особенно при переходе на <em>SSD</em>), проверьте:</p>
+<ul>
+  <li>🔹 Включён ли режим <code>AHCI</code> в <em>BIOS</em> (для <em>SATA SSD</em>).</li>
+  <li>🔹 Отключена ли дефрагментация для <em>SSD</em> в <code>Оптимизация дисков</code>.</li>
+  <li>🔹 Обновлены ли драйверы чипсета и накопителя.</li>
+</ul>
+
+<details class="faq-item"><summary>Что делать, если после переноса Windows загружается со старого диска?</summary><div class="faq-answer"><p>
+<p>Это означает, что <em>BIOS/UEFI</em> по-прежнему видит старый диск как приоритетный. Решения:</p>
+<p>1. Физически отключите старый диск на время первой загрузки.</p>
+<p>2. Зайдите в <em>BIOS</em> (обычно <code>Del</code> или <code>F2</code> при старте) и в разделе <code>Boot</code> поменяйте порядок загрузки, поставив новый диск на первое место.</p>
+<p>3. Если используете <em>UEFI</em>, удалите старую загрузочную запись через <code>bcdedit</code>:</p>
+   <pre><code>bcdedit /delete {идентификатор_старой_записи}</code></pre>
+<p>(узнать идентификатор можно командой <code>bcdedit /enum all</code>).</p></div></details></p>
+
+<h2 id="перенос-windows-на-nvme-особенности-и-подводные-камни">Перенос Windows на NVMe: особенности и подводные камни</h2>
+
+<p><em>NVMe-накопители</em> отличаются от традиционных <em>SATA SSD</em> не только скоростью, но и способом подключения (через шину <code>PCIe</code>). Это накладывает дополнительные требования при переносе системы:</p>
+
+<ul>
+  <li>🔹 <strong>Драйвер <em>NVMe</strong></em>: Старые версии Windows (до <em>10 1709</em>) не имеют встроенной поддержки <em>NVMe</em>. При переносе на такой диск система не загрузится. Решение — интегрировать драйвер в образ до клонирования (например, через <em>DISM</em>).</li>
+  <li>🔹 <strong>Разметка <code>GPT</code></strong>: Большинство <em>NVMe</em> работают только с <em>UEFI</em>, поэтому диск должен быть в <code>GPT</code>.</li>
+  <li>🔹 <strong>Слот <code>M.2</code></strong>: Убедитесь, что ваша материнская плата поддерживает <em>NVMe</em> (некоторые слоты <code>M.2</code> работают только с <em>SATA SSD</em>).</li>
+</ul>
+
+<p>Для проверки поддержки <em>NVMe</em> в текущей системе:</p>
+<ol>
+  <li>Откройте <code>Диспетчер устройств</code>.</li>
+  <li>Разверните ветку <code>Дисковые устройства</code>.</li>
+  <li>Если среди устройств есть контроллер с названием <code>NVMe</code> (например, <em>Samsung NVMe Controller</em>), ваша система готова к переносу.</li>
+</ol>
+
+<p>Если поддержки нет, но вы всё равно хотите использовать <em>NVMe</em>, придётся:</p>
+<ol>
+  <li>Скачать драйвер для вашей модели накопителя с сайта производителя.</li>
+  <li>Интегрировать его в загрузочный образ Windows с помощью <em>DISM</em> или <em>NTLite</em>.</li>
+  <li>Только после этого выполнять клонирование.</li>
+</ol>
+
+<div class="attention-box attention-tip"><span class="attention-icon">💡</span><p>Перенос Windows на <em>NVMe</em> без предварительной проверки драйверов — самая частая причина "чёрного экрана" после миграции. Всегда уточняйте совместимость вашей материнской платы и версии Windows с новым накопителем.</p></div>
+
+<h2 id="faq-ответы-на-частые-вопросы">FAQ: ответы на частые вопросы</h2>
+
+<details>
+  <summary>Можно ли перенести Windows с <em>HDD</em> на <em>SSD</em> без потери данных?</summary>
+  <p>Да, но с оговорками. Все программы, настройки и файлы в системном разделе (<code>C:</code>) будут перенесены без изменений. Однако:</p>
+  <ul>
+    <li>🔹 Данные на <strong>других разделах</strong> (например, <code>D:</code>) не копируются автоматически — их нужно переносить отдельно.</li>
+    <li>🔹 Если <em>SSD</em> меньше по объёму, придётся предварительно очистить <code>C:</code> от ненужных файлов.</li>
+    <li>🔹 Некоторые программы (например, игры с защитой <em>Denuvo</em>) могут потребовать повторной активации.</li>
+  </ul>
+  <p>Для гарантированного сохранения данных рекомендуем создать резервную копию на внешнем носителе перед переносом.</p>
+</details>
+
+<details>
+  <summary>Сколько времени занимает перенос Windows на другой диск?</summary>
+  <p>Время зависит от:</p>
+  <ul>
+    <li>🔹 <strong>Объёма данных</strong>: Клонирование 100 ГБ занимает ~20–30 минут, 500 ГБ — до 2 часов.</li>
+    <li>🔹 <strong>Типа дисков</strong>: Перенос с <em>HDD</em> на <em>HDD</em> медленнее, чем с <em>SSD</em> на <em>SSD</em>.</li>
+    <li>🔹 <strong>Метода</strong>: Программы вроде <em>Macrium Reflect</em> работают быстрее, чем ручное клонирование через <code>DISM</code>.</li>
+    <li>🔹 <strong>Загрузки процессора</strong>: Закройте все программы перед началом.</li>
+  </ul>
+  <p>Совет: Начните процесс вечером, чтобы избежать простоев. Не прерывайте клонирование — это может привести к повреждению данных.</p>
+</details>
+
+<details>
+  <summary>Нужно ли форматировать новый диск перед переносом?</summary>
+  <p>Нет, <strong>не нужно</strong>. Программы для клонирования (например, <em>Macrium Reflect</em> или <em>AOMEI Backupper</em>) автоматически переразметят диск и создадут необходимые разделы. Форматирование вручную может, наоборот, помешать процессу.</p>
+  <p>Исключение: если вы используете метод с <code>DISM</code>, новый диск должен быть инициализирован и иметь как минимум один раздел в <code>NTFS</code>.</p>
+</details>
+
+<details>
+  <summary>Что делать, если после переноса Windows не видит второй диск?</summary>
+  <p>Это нормальная ситуация, если вы:</p>
+  <ul>
+    <li>🔹 Отключили старый диск физически (например, извлекли из ноутбука).</li>
+    <li>🔹 Перенесли систему на диск с другой файловой системой (например, с <code>NTFS</code> на <code>exFAT</code>).</li>
+  </ul>
+  <p>Чтобы вернуть доступ к старому диску:</p>
+  <ol>
+    <li>Подключите его к ПК через <em>USB-адаптер</em> или второй <em>SATA</em>-порт.</li>
+    <li>Откройте <code>Управление дисками</code> (<code>Win + X → Управление дисками</code>).</li>
+    <li>Если диск отображается как "Не распределён", создайте на нём новый том.</li>
+    <li>Если диск не виден совсем, проверьте подключение или обновите драйверы контроллера.</li>
+  </ol>
+</details>
+
+<details>
+  <summary>Можно ли перенести Windows с <em>Legacy BIOS</em> на <em>UEFI</em>?</summary>
+  <p>Технически <strong>да</strong>, но это требует дополнительных действий. Обычное клонирование здесь не сработает, так как загрузочные записи <code>MBR</code> и <code>GPT</code> несовместимы. Вам потребуется:</p>
+  <ol>
+    <li>Конвертировать диск в <code>GPT</code> (например, через <em>MiniTool Partition Wizard</em>).</li>
+    <li>Создать загрузочный раздел <code>EFI</code> (размером ~100–200 МБ, формат <code>FAT32</code>).</li>
+    <li>Перенести систему с помощью <em>Macrium Reflect</em> или <em>AOMEI Backupper</em> в режиме <code>UEFI</code>.</li>
+    <li>В <em>BIOS</em> включить <code>UEFI Mode</code> и отключить <code>Legacy Support</code>.</li>
+  </ol>
+  <p>Важно: После такого переноса может потребоваться переустановка драйверов чипсета и видеокарты.</p>
+</details></div>
+                    <!--#include virtual="/ssi/article_after.html" -->
+
+                </article>
+                <aside class="article-sidebar"><!--#include virtual="/ssi/sidebar_top.html" --><nav class="sidebar-search"><div class="sidebar-search-box"><input type="text" id="globalSearchInput" placeholder="🔍 Поиск статей..." autocomplete="off"><div class="search-dropdown" id="globalSearchDropdown"></div></div></nav><!--#include virtual="/ssi/sidebar_before_toc.html" --><nav class="sidebar-toc" id="sidebarToc"><h3>Содержание</h3><ul><li><a href="#почему-нельзя-просто-скопировать-файлы-windows-на-новый-диск">Почему нельзя просто скопировать файлы Windows на новый диск</a></li><li><a href="#способы-переноса-windows-сравнение-методов">Способы переноса Windows: сравнение методов</a></li><li><a href="#подготовка-к-переносу-чек-лист-перед-началом">Подготовка к переносу: чек-лист перед началом</a></li><li><a href="#пошаговая-инструкция-перенос-windows-с-помощью-macrium-reflect">Пошаговая инструкция: перенос Windows с помощью Macrium Reflect</a></li><li><a href="#перенос-windows-без-программ-используем-dism">Перенос Windows без программ: используем DISM</a></li><li><a href="#типичные-ошибки-после-переноса-и-как-их-исправить">Типичные ошибки после переноса и как их исправить</a></li><li><a href="#перенос-windows-на-nvme-особенности-и-подводные-камни">Перенос Windows на NVMe: особенности и подводные камни</a></li><li><a href="#faq-ответы-на-частые-вопросы">FAQ: ответы на частые вопросы</a></li></ul></nav><!--#include virtual="/ssi/sidebar_before_related.html" --><nav class="sidebar-related"><h3>Похожие статьи</h3><ul><li><a href="/articles/k/ka/kak-bystro-zamarinovat-svinye-rebra.html" class="related-card">Быстрое маринование свиных ребер: ТОП-3 экспресс-рецепта</a></li><li><a href="/articles/s/sa/sabelnaya-pila-ili-renovator.html" class="related-card">Сабельная пила vs реноватор: что выбрать для ремонта и строительства?</a></li><li><a href="/articles/k/ku/kurinoe-file-na-skovorode-so-slivkami-i-chesnokom.html" class="related-card">Куриное филе на сковороде со сливками и чесноком: рецепт и секреты</a></li><li><a href="/articles/t/to/tort-pchelka-s-varenoj-sgushchenkoj.html" class="related-card">Торт «Пчелка» с вареной сгущенкой: 5 рецептов для идеального десерта</a></li><li><a href="/articles/r/re/renault-samsung-qm-6.html" class="related-card">Renault Samsung QM6: обзор, характеристики и отзывы владельцев</a></li></ul></nav><!--#include virtual="/ssi/sidebar_after_related.html" --></aside>
+            </div>
+        </div>
+    </main>
+
+    <!--#include virtual="/ssi/before_related_bottom.html" -->
+    <section class="related-bottom">
+        <div class="container">
+            <h2 class="related-bottom-heading">📖 Читайте также</h2>
+            <div class="related-bottom-grid"><a href="/articles/k/ka/kak-bystro-zamarinovat-svinye-rebra.html" class="related-bottom-card"><span class="related-bottom-title">Быстрое маринование свиных ребер: ТОП-3 экспресс-рецепта</span><span class="related-bottom-desc">Узнайте, как замариновать свиные ребра за 30 минут без потери вкуса. Проверенные рецепты, секреты мя</span></a><a href="/articles/s/sa/sabelnaya-pila-ili-renovator.html" class="related-bottom-card"><span class="related-bottom-title">Сабельная пила vs реноватор: что выбрать для ремонта и строительства?</span><span class="related-bottom-desc">Сравнение сабельной пилы и мультитула (реноватора): ключевые отличия, сферы применения, плюсы и мину</span></a><a href="/articles/k/ku/kurinoe-file-na-skovorode-so-slivkami-i-chesnokom.html" class="related-bottom-card"><span class="related-bottom-title">Куриное филе на сковороде со сливками и чесноком: рецепт и секреты</span><span class="related-bottom-desc">Пошаговый рецепт нежного куриного филе со сливками и чесноком на сковороде. Секреты приготовления, к</span></a><a href="/articles/t/to/tort-pchelka-s-varenoj-sgushchenkoj.html" class="related-bottom-card"><span class="related-bottom-title">Торт «Пчелка» с вареной сгущенкой: 5 рецептов для идеального десерта</span><span class="related-bottom-desc">Пошаговые рецепты торта «Пчелка» с вареной сгущенкой: классический, без выпечки, с медом и орехами. </span></a><a href="/articles/r/re/renault-samsung-qm-6.html" class="related-bottom-card"><span class="related-bottom-title">Renault Samsung QM6: обзор, характеристики и отзывы владельцев</span><span class="related-bottom-desc">Подробный разбор Renault Samsung QM6 2023: технические параметры, преимущества, недостатки и советы </span></a><a href="/articles/m/mo/moskvich-s-reno-motorom.html" class="related-bottom-card"><span class="related-bottom-title">Москвич с мотором Renault: обзор, характеристики и нюансы эксплуатации</span><span class="related-bottom-desc">Всё о возрожденном Москвиче с двигателем Renault. Технические характеристики, надежность агрегатов, </span></a></div>
+        </div>
+    </section>
+    <!--#include virtual="/ssi/after_related_bottom.html" -->
+
+    <footer class="site-footer-premium">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <div class="footer-brand">🚙 Рено Гайд</div>
+                    <p class="footer-about">Рено - идеальный баланс французского комфорта и практичности. Подробные обзоры от Logan до Duster, честные отзывы владельцев и полезные советы по ремонту.
+</p>
+                </div>
+                <div class="footer-col">
+                    <h4>Разделы</h4>
+                    <ul><li><a href="/category/logan/">📁 Logan</a></li>
+<li><a href="/category/duster/">📁 Duster</a></li>
+<li><a href="/category/megane/">📁 Megane</a></li>
+<li><a href="/category/sandero/">📁 Sandero</a></li>
+<li><a href="/category/kaptur/">📁 Kaptur</a></li>
+<li><a href="/category/fluence/">📁 Fluence</a></li></ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Информация</h4>
+                    <ul>
+                        <li><a href="/">Главная</a></li>
+                        <li><a href="/about.html">О проекте</a></li>
+                        <li><a href="/categories.html">Все разделы</a></li>
+                        <li><a href="/contact.html">Контакты</a></li>
+                        <li><a href="/privacy.html">Конфиденциальность</a></li>
+                        <li><a href="/sitemap.xml">Карта сайта</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2026 Рено Гайд. Все права защищены.</p>
+                <!--LiveInternet counter--><div style="margin-top:10px;"><a href="https://www.liveinternet.ru/click"
+                target="_blank"><img id="licnt06C4" width="88" height="15" style="border:0" 
+                title="LiveInternet: показано число посетителей за сегодня"
+                src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAEALAAAAAABAAEAAAIBTAA7"
+                alt=""/></a><script>(function(d,s){d.getElementById("licnt06C4").src=
+                "https://counter.yadro.ru/hit?t26.5;r"+escape(d.referrer)+
+                ((typeof(s)=="undefined")?"":";s"+s.width+"*"+s.height+"*"+
+                (s.colorDepth?s.colorDepth:s.pixelDepth))+";u"+escape(d.URL)+
+                ";h"+escape(d.title.substring(0,150))+";"+Math.random()})(document,screen)</script></div><!--/LiveInternet-->
+            </div>
+        </div>
+    </footer>
+    <div id="cookie-consent" class="cookie-popup">
+        <div class="cookie-inner">
+            <span>🍪 Мы используем файлы cookie для улучшения работы сайта.</span>
+            <button id="cookie-accept" class="cookie-btn">Принять</button>
+        </div>
+    </div>
+    <script src="/static/js/main.js"></script>
+    <script>
+    (function() {
+        const popup = document.getElementById('cookie-consent');
+        const btn = document.getElementById('cookie-accept');
+        if (popup && btn && !localStorage.getItem('cookie-accepted')) {
+            popup.classList.add('visible');
+            btn.onclick = () => {
+                localStorage.setItem('cookie-accepted', 'true');
+                popup.classList.remove('visible');
+            };
+        }
+    })();
+    </script>
+    <!--#include virtual="/ssi/body_bottom.html" -->
+    <script src="/static/js/inject.js" defer></script>
+</body>
+</html>

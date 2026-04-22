@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 100 100%27><text y=%27.9em%27 font-size=%2790%27>🚙</text></svg>">
+    <title>Перенос Windows с SSD на SSD: пошаговая инструкция и советы — Рено Гайд</title>
+    <meta name="description" content="Как без ошибок перенести Windows 10/11 с одного SSD на другой: программы, настройки BIOS, оптимизация после клонирования. Подробный гайд для новичков и опытных пользователей.">
+    <link rel="canonical" href="https://renault-guide.vercel.app/articles/p/pe/perenos-vindovs-s-ssd-na-ssd.html">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Перенос Windows с SSD на SSD: пошаговая инструкция и советы">
+    <meta property="og:description" content="Как без ошибок перенести Windows 10/11 с одного SSD на другой: программы, настройки BIOS, оптимизация после клонирования. Подробный гайд для новичков и опытных пользователей.">
+    <meta property="og:locale" content="ru_RU">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/style.css?v=1776848103">
+    <style>
+    .site-footer-premium {
+        margin-top: 60px; padding: 40px 0 0; background: #1e293b; color: #94a3b8;
+    }
+    .footer-grid {
+        display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 40px;
+        padding-bottom: 32px; border-bottom: 1px solid #334155;
+    }
+    .footer-brand { font-size: 1.2rem; font-weight: 700; color: #f1f5f9; margin-bottom: 12px; }
+    .footer-about { font-size: 0.9rem; line-height: 1.6; margin-bottom: 8px; }
+    .footer-updated { font-size: 0.8rem; color: #64748b; }
+    .footer-col h4 { color: #f1f5f9; font-size: 0.95rem; margin-bottom: 16px; }
+    .footer-col ul { list-style: none; }
+    .footer-col li { margin-bottom: 8px; }
+    .footer-col a { color: #94a3b8; font-size: 0.9rem; transition: color 0.2s; }
+    .footer-col a:hover { color: #60a5fa; }
+    .footer-bottom { padding: 20px 0; text-align: center; font-size: 0.85rem; }
+    @media (max-width: 640px) {
+        .footer-grid { grid-template-columns: 1fr; gap: 24px; }
+    }
+    .cookie-popup {
+        position: fixed; bottom: 0; left: 0; right: 0; background: #1e293b; color: #fff;
+        padding: 16px; transition: transform 0.5s ease; z-index: 9999; border-top: 2px solid #2563eb;
+        transform: translateY(100%);
+    }
+    .cookie-popup.visible { transform: translateY(0); }
+    .cookie-inner { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; gap: 16px; font-size: 0.9rem; }
+    .cookie-btn { background: #2563eb; color: #fff; border: none; padding: 8px 20px; border-radius: 8px; font-weight: 600; cursor: pointer; white-space: nowrap; }
+    .cookie-btn:hover { background: #1d4ed8; }
+    @media (max-width: 640px) {
+        .cookie-inner { flex-direction: column; text-align: center; }
+    }
+</style>
+    
+    <!--#include virtual="/ssi/head.html" -->
+</head>
+<body>
+        <!--#include virtual="/ssi/body_top.html" -->
+    <style>
+    .nav-dropdown { position: relative; display: inline-block; }
+    .dropdown-toggle {
+        background: none; border: none; cursor: pointer;
+        font: inherit; color: inherit; padding: 8px 12px;
+        border-radius: 8px; transition: background 0.2s;
+    }
+    .dropdown-toggle:hover { background: rgba(0,0,0,0.05); }
+    .dropdown-menu {
+        display: none; position: absolute; right: 0; top: 100%;
+        min-width: 240px; max-height: 70vh; overflow-y: auto;
+        background: var(--card-bg, #fff); border: 1px solid var(--border, #e5e7eb);
+        border-radius: 12px; box-shadow: 0 12px 40px rgba(0,0,0,0.12);
+        padding: 8px 0; z-index: 1000;
+    }
+    .nav-dropdown::after {
+        content: ''; position: absolute; left: 0; right: 0;
+        top: 100%; height: 12px;
+    }
+    .nav-dropdown:hover .dropdown-menu,
+    .nav-dropdown:focus-within .dropdown-menu { display: block; }
+    .dropdown-item {
+        display: block; padding: 10px 20px; color: var(--text, #1f2937);
+        text-decoration: none; font-size: 0.95rem; transition: background 0.15s;
+        white-space: nowrap;
+    }
+    .dropdown-item:hover { background: rgba(37,99,235,0.06); color: var(--primary, #2563eb); }
+    @media (max-width: 768px) {
+        .main-nav > .nav-link { display: none; }
+        .dropdown-toggle { display: none; }
+        .dropdown-menu {
+            display: block !important; position: static;
+            box-shadow: none; border: none; border-radius: 0;
+            min-width: auto; max-height: none; padding: 0;
+            background: transparent;
+        }
+        .dropdown-item {
+            padding: 8px 0; font-size: 1rem;
+        }
+    }
+    </style>
+    <header class="site-header">
+        <div class="container header-inner">
+            <a href="/" class="logo">
+                <span class="logo-icon">🚙</span>
+                <span>Рено Гайд</span>
+            </a>
+            <button class="mobile-menu-btn" aria-label="Меню" id="menuBtn">☰</button>
+            <nav class="main-nav" id="mainNav">
+                <a href="/category/logan/" class="nav-link">📁 Logan</a>
+<a href="/category/duster/" class="nav-link">📁 Duster</a>
+<a href="/category/megane/" class="nav-link">📁 Megane</a>
+<a href="/category/sandero/" class="nav-link">📁 Sandero</a>
+<div class="nav-dropdown">
+            <button class="nav-link dropdown-toggle">📂 Все разделы ▾</button>
+            <div class="dropdown-menu"><a href="/category/logan/" class="dropdown-item">📁 Logan</a>
+<a href="/category/duster/" class="dropdown-item">📁 Duster</a>
+<a href="/category/megane/" class="dropdown-item">📁 Megane</a>
+<a href="/category/sandero/" class="dropdown-item">📁 Sandero</a>
+<a href="/category/kaptur/" class="dropdown-item">📁 Kaptur</a>
+<a href="/category/fluence/" class="dropdown-item">📁 Fluence</a>
+<a href="/category/scenic/" class="dropdown-item">📁 Scenic</a>
+<a href="/category/arkana/" class="dropdown-item">📁 Arkana</a>
+<a href="/category/symbol/" class="dropdown-item">📁 Symbol</a>
+<a href="/category/laguna/" class="dropdown-item">📁 Laguna</a>
+<a href="/category/kangoo/" class="dropdown-item">📁 Kangoo</a>
+<a href="/category/авто/" class="dropdown-item">📁 Авто</a>
+<a href="/category/master/" class="dropdown-item">📁 Master</a>
+<a href="/category/koleos/" class="dropdown-item">📁 Koleos</a>
+<a href="/category/captur/" class="dropdown-item">📁 Captur</a>
+<a href="/category/clio/" class="dropdown-item">📁 Clio</a>
+<a href="/category/trafic/" class="dropdown-item">📁 Trafic</a>
+<a href="/category/espace/" class="dropdown-item">📁 Espace</a>
+<a href="/category/kadjar/" class="dropdown-item">📁 Kadjar</a>
+<a href="/category/twingo/" class="dropdown-item">📁 Twingo</a>
+<a href="/category/drugoe/" class="dropdown-item">📁 Другое</a></div>
+        </div>
+            </nav>
+        </div>
+    </header>
+
+    <nav class="breadcrumbs" aria-label="Навигация">
+        <div class="container"><a href="/">Главная</a><span class="breadcrumb-sep">›</span><a href="/category/drugoe/">Другое</a><span class="breadcrumb-sep">›</span><span class="breadcrumb-current">Перенос Windows с SSD на SSD: пошаговая инструкция и советы</span></div>
+    </nav>
+
+    <main class="site-main">
+        <div class="container">
+            <div class="article-layout">
+                <article class="article-main">
+                    
+                    <h1>Перенос Windows с SSD на SSD: полное руководство с нюансами и лайфхаками</h1>
+                    <nav class="mobile-toc"><details><summary>📋 Содержание</summary><ul><li><a href="#подготовка-к-переносу-что-нужно-сделать-до-клонирования">Подготовка к переносу: что нужно сделать до клонирования</a></li><li><a href="#выбор-программы-для-клонирования-сравнение-популярных-решений">Выбор программы для клонирования: сравнение популярных решений</a></li><li><a href="#пошаговая-инструкция-клонируем-windows-на-новый-ssd">Пошаговая инструкция: клонируем Windows на новый SSD</a></li><li><a href="#проблемы-после-переноса-и-их-решения">Проблемы после переноса и их решения</a></li><li><a href="#оптимизация-windows-после-переноса-на-новый-ssd">Оптимизация Windows после переноса на новый SSD</a></li><li><a href="#перенос-windows-с-mbr-на-gpt-и-наоборот-особенности">Перенос Windows с MBR на GPT (и наоборот): особенности</a></li><li><a href="#альтернативные-методы-переноса-когда-клонирование-не-подходит">Альтернативные методы переноса: когда клонирование не подходит</a></li><li><a href="#faq-ответы-на-частые-вопросы">FAQ: ответы на частые вопросы</a></li></ul></details></nav>
+                    <!--#include virtual="/ssi/article_before.html" -->
+                    <div class="article-body"><p>Перенос операционной системы с одного твердотельного накопителя на другой — задача, с которой сталкиваются как начинающие пользователи, так и опытные системные администраторы. Причины могут быть разные: замена старого SSD на более ёмкий, переход с <em>SATA</em> на <em>NVMe</em>, апгрейд системы или банальная необходимость дублировать рабочую среду. Однако даже такая, казалось бы, простая операция таит в себе подводные камни: от потери данных до проблем с загрузкой после клонирования.</p>
+
+<p>В этой статье мы разберём <strong>все этапы переноса Windows</strong> — от подготовки оборудования до финальной настройки новой системы. Вы узнаете, какие программы лучше использовать для клонирования, как избежать типичных ошибок при работе с разделами, и что делать, если после переноса система отказывается загружаться. Особое внимание уделим нюансам работы с <em>UEFI</em> и <em>Legacy BIOS</em>, а также оптимизации SSD после миграции.</p>
+
+<h2 id="подготовка-к-переносу-что-нужно-сделать-до-клонирования">Подготовка к переносу: что нужно сделать до клонирования</h2>
+
+<p>Прежде чем приступать к переносу данных, необходимо выполнить несколько критически важных шагов. Пренебрежение ими может привести к <strong>потере данных</strong>, некорректной работе системы или даже выходу из строя нового накопителя.</p>
+
+<p>Во-первых, проверьте <strong>здоровье обоих SSD</strong>. Для этого подойдут утилиты вроде <em>CrystalDiskInfo</em> или <em>SSD-Z</em>. Обратите внимание на параметры <code>Reallocated Sectors Count</code>, <code>Uncorrectable Error Count</code> и <code>Wear Leveling Count</code>. Если любой из них показывает критическое значение (жёлтый или красный индикатор), накопитель лучше заменить <em>до</em> переноса.</p>
+
+<ul>
+  <li>🔍 <strong>Проверьте свободное место</strong> на целевом SSD: оно должно быть не меньше, чем занимает система на исходном диске (учтите скрытые разделы!).</li>
+  <li>🔌 <strong>Подготовьте переходники</strong>, если новый SSD имеет другой интерфейс (например, <em>M.2 NVMe</em> вместо <em>SATA</em>).</li>
+  <li>📋 <strong>Создайте резервную копию</strong> важных данных на внешнем носителе — даже если вы используете надёжное ПО для клонирования.</li>
+  <li>🔧 <strong>Обновите прошивку</strong> нового SSD (если доступно) через утилиту производителя (<em>Samsung Magician</em>, <em>Intel SSD Toolbox</em> и т.д.).</li>
+</ul>
+
+<blockquote>⚠️ <strong>Внимание:</strong> Если вы переносите систему с <em>MBR</em>-диска на <em>GPT</em> (или наоборот), стандартное клонирование не сработает. Потребуется конвертация таблицы разделов <strong>до</strong> переноса или использование специализированных инструментов вроде <em>AOMEI Partition Assistant</em>.</blockquote>
+
+<p>Также стоит <strong>отключить быстрый запуск</strong> в Windows, так как он может помешать корректному клонированию. Для этого перейдите в <code>Панель управления → Электропитание → Действие кнопок питания → Изменение параметров, которые сейчас недоступны</code> и снимите галочку с пункта <code>Включить быстрый запуск</code>.</p>
+
+<div class="attention-box attention-info"><div><strong>📊 Какой инструмент вы планируете использовать для клонирования?</strong><ul><li>Macrium Reflect</li><li>Acronis True Image</li><li>EaseUS Todo Backup</li><li>Clonezilla</li><li>Другой</li></ul></div></div>
+
+<h2 id="выбор-программы-для-клонирования-сравнение-популярных-решений">Выбор программы для клонирования: сравнение популярных решений</h2>
+
+<p>Рынок программ для клонирования дисков насчитывает десятки решений, но далеко не все из них одинаково хорошо справляются с переносом Windows на SSD. Мы проанализировали <strong>5 самых популярных инструментов</strong> и выделили их ключевые особенности:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Программа</th>
+      <th>Бесплатная версия</th>
+      <th>Поддержка NVMe</th>
+      <th>Клонирование по секторам</th>
+      <th>Перенос на диск меньшего размера</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><em>Macrium Reflect</em></td>
+      <td>Да (30 дней)</td>
+      <td>Да</td>
+      <td>Да</td>
+      <td>Да (с ручной настройкой)</td>
+    </tr>
+    <tr>
+      <td><em>Acronis True Image</em></td>
+      <td>Нет (тrial 30 дней)</td>
+      <td>Да</td>
+      <td>Да</td>
+      <td>Да (автоматически)</td>
+    </tr>
+    <tr>
+      <td><em>EaseUS Todo Backup</em></td>
+      <td>Да (с ограничениями)</td>
+      <td>Да</td>
+      <td>Нет</td>
+      <td>Да</td>
+    </tr>
+    <tr>
+      <td><em>Clonezilla</em></td>
+      <td>Да (полностью)</td>
+      <td>Да</td>
+      <td>Да</td>
+      <td>Нет (требует ручной настройки)</td>
+    </tr>
+    <tr>
+      <td><em>AOMEI Backupper</em></td>
+      <td>Да (с ограничениями)</td>
+      <td>Да</td>
+      <td>Да</td>
+      <td>Да (с функцией "Edit Partitions")</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Для большинства пользователей оптимальным выбором станет <em>Macrium Reflect</em> или <em>AOMEI Backupper</em>. Первая предлагает более гибкие настройки и надёжность, вторая — простой интерфейс и хорошую поддержку русского языка. <em>Clonezilla</em> подойдёт опытным пользователям, готовым разбираться с консольным интерфейсом, а <em>Acronis</em> — тем, кто ищет комплексное решение с облачным бэкапом.</p>
+
+<p><mark>Критический нюанс: если вы переносите систему на SSD меньшего размера, чем исходный диск, выбирайте программу с функцией автоматического изменения размера разделов (например, <em>AOMEI Backupper</em> или <em>Acronis</em>). В противном случае придётся вручную редактировать разделы после клонирования, что чревато ошибками.</mark></p>
+
+<div class="attention-box attention-tip"><span class="attention-icon">💡</span><p>Если вы используете <em>Clonezilla</em>, выберите режим <code>device-device</code> для клонирования "диск-диск" вместо <code>part-part</code> ("раздел-раздел"). Это гарантирует перенос всех служебных разделов Windows, включая <code>EFI</code> и <code>Recovery</code>.</p></div>
+
+<h2 id="пошаговая-инструкция-клонируем-windows-на-новый-ssd">Пошаговая инструкция: клонируем Windows на новый SSD</h2>
+
+<p>Рассмотрим процесс на примере <em>Macrium Reflect</em> — одного из самых надёжных инструментов. Перед началом убедитесь, что новый SSD подключён к компьютеру (через <em>USB-адаптер</em> или второй слот <em>M.2</em>/<em>SATA</em>).</p>
+
+<ol>
+  <li><strong>Запустите <em>Macrium Reflect</strong> и выберите исходный диск</strong> (обычно <code>Диск 0</code>). Нажмите <code>Clone this disk...</code>.</li>
+  <li><strong>Выберите целевой SSD</strong> в следующем окне. Если диск новый, программа предложит инициализировать его — соглашайтесь.</li>
+  <li><strong>Настройте разделы</strong>:
+    <ul>
+      <li>📌 Оставьте галочку <code>Copy the layout of the source disk</code> для сохранения структуры.</li>
+      <li>📌 Если целевой SSD больше, расширьте системный раздел (<code>C:</code>) на всё свободное место.</li>
+      <li>📌 Для SSD меньшего размера используйте опцию <code>Select partitions to clone</code> и вручную уменьшите размер <code>C:</code> до доступного.</li>
+    </ol>
+  </li>
+  <li><strong>Запустите процесс</strong> кнопкой <code>Next → Finish</code>. Клонирование займёт от 10 минут до часа (зависит от объёма данных и скорости дисков).</li>
+</ol>
+
+<p>После завершения <strong>не спешите перезагружаться</strong>. Сначала:</p>
+
+<p>Отключите старый SSD (физически или через BIOS)</p>
+<p>Проверьте приоритет загрузки в BIOS (новый SSD должен быть первым)</p>
+<p>Убедитесь, что режим загрузки (UEFI/Legacy) совпадает с исходным</p>
+<p>Подключите новый SSD на место старого (если это возможно)--></p>
+
+<blockquote>⚠️ <strong>Внимание:</strong> Если после переноса Windows загружается со старого диска, несмотря на отключение в BIOS, проверьте <strong>Boot Order</em> в разделе <code>Boot Manager</code>. Иногда система сохраняет запись о старом SSD в <em>NVRAM</em> — её нужно удалить вручную или сбросить настройки BIOS.</blockquote>
+
+<h2 id="проблемы-после-переноса-и-их-решения">Проблемы после переноса и их решения</h2>
+
+<p>Даже при идеальном клонировании могут возникнуть неполадки. Рассмотрим <strong>самые распространённые</strong> и способы их устранения:</p>
+
+<ul>
+  <li>🔄 <strong>Система не загружается (чёрный экран или ошибка <code>0xc000000e</code>)</strong>:
+    <p>Причина: повреждение загрузочного сектора или несовпадение режимов <em>UEFI/Legacy</em>. Решение:</p>
+    <ol>
+      <li>Загрузитесь с <em>установочной флешки Windows</em>.</li>
+      <li>Выберите <code>Восстановление системы → Поиск и устранение неисправностей → Восстановление при загрузке</code>.</li>
+      <li>Если не поможет, в командной строке выполните:
+        <pre><code>bootrec /fixmbr
+<p>bootrec /fixboot</p>
+<p>bootrec /scanos</p>
+<p>bootrec /rebuildbcd</code></pre></p>
+      </li>
+    </ul>
+  </li>
+  <li>🖥️ <strong>Windows загружается, но работает медленно</strong>:
+    <p>Причина: не активирована функция <em>TRIM</em> или включён <em>дефрагментатор</em> для SSD. Решение:</p>
+    <ul>
+      <li>Откройте командную строку от имени администратора и выполните <code>fsutil behavior set disabledeletenotify 0</code>.</li>
+      <li>Отключите дефрагментацию: перейдите в <code>Свойства диска C: → Сервис → Оптимизировать</code> и нажмите <code>Изменить параметры → Отключить</code>.</li>
+    </ul>
+  </li>
+  <li>📁 <strong>Не хватает места на новом SSD</strong> (хотя он больше старого):
+    <p>Причина: не расширен системный раздел после клонирования. Решение: используйте <em>Disk Management</em> (<code>Win + X → Управление дисками</code>) или <em>MiniTool Partition Wizard</em> для расширения тома <code>C:</code> на всё свободное пространство.</p>
+  </li>
+</ol>
+
+<p>Если проблема не решена, проверьте <strong>режим работы контроллера SATA</strong> в BIOS. Для <em>NVMe</em>-дисков он должен быть установлен в <code>AHCI</code> (не <code>IDE</code> или <code>RAID</code>), иначе система может не увидеть накопитель.</p>
+
+<details class="faq-item"><summary>Что делать, если BIOS не видит новый SSD?</summary><div class="faq-answer"><p>
+<p>1. Обновите BIOS до последней версии (скачайте с сайта производителя материнской платы).</p>
+<p>2. Проверьте, активирован ли <em>NVMe-режим</em> в настройках BIOS (раздел <code>Advanced → Storage Configuration</code>).</p>
+<p>3. Для <em>M.2 SSD</em> убедитесь, что он вставлен в правильный слот (некоторые материнские платы деактивируют часть <em>SATA-портов</em> при использовании <em>M.2</em>).</p>
+<p>4. Попробуйте подключить SSD через <em>USB-адаптер</em> и проверить его видимость в <em>Disk Management</em> (возможно, проблема в слоте).</p></div></details></p>
+
+<h2 id="оптимизация-windows-после-переноса-на-новый-ssd">Оптимизация Windows после переноса на новый SSD</h2>
+
+<p>Перенос системы — только половина дела. Чтобы новый SSD работал с максимальной отдачей, необходимо выполнить несколько оптимизаций:</p>
+
+<ol>
+  <li><strong>Активируйте TRIM</strong> (если не сделали это раньше):
+    <p>Откройте командную строку от администратора и введите:</p>
+    <pre><code>fsutil behavior query disabledeletenotify</code></pre>
+    <p>Если результат <code>0</code> — TRIM включён. Если <code>1</code>, активируйте командой:</p>
+    <pre><code>fsutil behavior set disabledeletenotify 0</code></pre>
+  </li>
+  <li><strong>Отключите индексирование файлов</strong>:
+    <p>Перейдите в <code>Свойства диска C: → Общие → Разрешить индексировать содержимое файлов</code> и снимите галочку. Это уменьшит количество записей на диск.</p>
+  </li>
+  <li><strong>Настройте файл подкачки</strong>:
+    <p>Для SSD объёмом <strong>256 ГБ и более</strong> можно отключить файл подкачки или ограничить его размером <code>2–4 ГБ</code>. Для этого перейдите в <code>Параметры системы → Дополнительно → Быстродействие → Параметры → Дополнительно → Виртуальная память</code>.</p>
+  </li>
+  <li><strong>Обновите драйверы контроллера хранилища</strong>:
+    <p>Скачайте последние драйверы для <em>Intel RST</em>, <em>AMD RAID</em> или <em>NVMe</em>-контроллера с сайта производителя материнской платы. Устаревшие драйверы могут ограничивать скорость SSD.</p>
+  </li>
+</ol>
+
+<p>Для <em>NVMe</em>-дисков дополнительно рекомендуется проверить, включён ли режим <code>PCIe Gen 3/4</code> в BIOS. На некоторых материнских платах он по умолчанию стоит в <code>Gen 2</code>, что ограничивает скорость чтения/записи.</p>
+
+<div class="attention-box attention-tip"><span class="attention-icon">💡</span><p>После переноса Windows на SSD <strong>обязательно</strong> проверьте выравнивание разделов (alignment). Оно должно быть кратно 4К (2048 секторов). Проверить это можно в <em>CrystalDiskInfo</em> (параметр <code>Partition Alignment</code>). Если выравнивание неправильное, скорость диска упадёт на 20–30%.</p></div>
+
+<h2 id="перенос-windows-с-mbr-на-gpt-и-наоборот-особенности">Перенос Windows с MBR на GPT (и наоборот): особенности</h2>
+
+<p>Если ваш старый диск использует <em>MBR</em>, а новый — <em>GPT</em> (или наоборот), стандартное клонирование не сработает. Вот как решить эту проблему:</p>
+
+<p><strong>Сценарий 1: MBR → GPT (например, при переходе с <em>SATA</em> на <em>NVMe</strong>)</em></p>
+<ol>
+  <li>Сконвертируйте целевой SSD в <em>GPT</em> через <em>Disk Management</em> (<code>Win + X → Управление дисками</code>, правой кнопкой по диску → <code>Преобразовать в GPT</code>).</li>
+  <li>Используйте <em>AOMEI Backupper</em> или <em>Macrium Reflect</em> с опцией <code>Convert MBR to GPT during clone</code>.</li>
+  <li>После клонирования загрузитесь с <em>установочной флешки Windows</em> и выполните команды:
+    <pre><code>diskpart
+<p>list disk</p>
+<p>select disk X (где X — номер нового SSD)</p>
+<p>convert gpt</p>
+<p>exit</code></pre></p>
+  </li>
+  <li>Восстановите загрузчик командой <code>bcdboot C:\Windows /s S: /f UEFI</code> (где <code>S:</code> — раздел <em>EFI</em>).</li>
+</ol>
+
+<p><strong>Сценарий 2: GPT → MBR (редко, но бывает при даунгрейде)</strong></p>
+<ul>
+  <li>Используйте <em>MiniTool Partition Wizard</em> для конвертации целевого диска в <em>MBR</em> <strong>до</strong> клонирования.</li>
+  <li>Убедитесь, что объём диска не превышает <code>2 ТБ</code> (ограничение <em>MBR</em>).</li>
+  <li>После переноса восстановите загрузчик в режиме <em>Legacy BIOS</em>:
+    <pre><code>bootrec /fixmbr
+<p>bootrec /fixboot</p>
+<p>bootrec /rebuildbcd</code></pre></p>
+  </li>
+</ul>
+
+<blockquote>⚠️ <strong>Внимание:</strong> При конвертации <em>GPT → MBR</em> все данные на целевом диске будут удалены. Также учтите, что <em>Windows 11</em> официально не поддерживает установку на <em>MBR</em>-диски в режиме <em>UEFI</em>.</blockquote>
+
+<h2 id="альтернативные-методы-переноса-когда-клонирование-не-подходит">Альтернативные методы переноса: когда клонирование не подходит</h2>
+
+<p>В некоторых случаях клонирование невозможно или нецелесообразно. Например:</p>
+<ul>
+  <li>🔧 Старый SSD физически повреждён (bad-сектора, ошибки чтения).</li>
+  <li>📉 Новый SSD значительно меньше старого (например, перенос с <code>1 ТБ</code> на <code>256 ГБ</code>).</li>
+  <li>🔄 Требуется "чистая" система без лишних программ.</li>
+</ul>
+
+<p>В таких ситуациях поможет <strong>ручная миграция</strong>:</p>
+
+<ol>
+  <li><strong>Создайте резервную копию данных</strong>:
+    <p>Скопируйте важные файлы с <code>Рабочего стола</code>, <code>Документов</code>, <code>Загрузок</code> и папки <code>AppData</code> (скрытая папка в профиле пользователя) на внешний диск.</p>
+  </li>
+  <li><strong>Установите Windows на новый SSD</strong>:
+    <p>Используйте <em>Media Creation Tool</em> для создания установочной флешки. При установке выберите <code>Выборочная установка</code> и отформатируйте новый SSD.</p>
+  </li>
+  <li><strong>Восстановите данные и настройки</strong>:
+    <p>Перенесите сохранённые файлы обратно. Для восстановления программ используйте <em>Ninite</em> или <em>Chocolatey</em> (утилиты для пакетной установки ПО).</p>
+  </li>
+  <li><strong>Активируйте Windows</strong>:
+    <p>Если ваша лицензия привязана к учётной записи <em>Microsoft</em>, авторизуйтесь в системе — активация произойдёт автоматически. Для <em>OEM</em>-лицензий может потребоваться связаться с поддержкой.</p>
+  </li>
+</ol>
+
+<p>Этот метод дольше, но гарантирует <strong>чистую систему</strong> без накопленного "мусора". Кроме того, он единственный возможный вариант, если старый SSD отказывается определяться в системе.</p>
+
+<h2 id="faq-ответы-на-частые-вопросы">FAQ: ответы на частые вопросы</h2>
+
+<details>
+  <summary>Можно ли перенести Windows с SSD на SSD без программ, просто скопировав файлы?</summary>
+  <p>Нет. Операционная система состоит не только из видимых файлов, но и из <strong>загрузочных записей</strong>, <strong>реестра</strong> и <strong>служебных разделов</strong> (например, <code>EFI</code> и <code>Recovery</code>). Простое копирование приведёт к тому, что система не сможет загрузиться. Используйте специализированные программы для клонирования.</p>
+</details>
+
+<details>
+  <summary>Что делать, если после переноса Windows просит активацию?</summary>
+  <p>Это нормально, если:</p>
+  <ul>
+    <li>Вы перенесли систему на <strong>другую материнскую плату</strong> (изменилась конфигурация оборудования).</li>
+    <li>Использовалась <em>OEM</em>-лицензия (привязана к конкретному ПК).</li>
+  </ul>
+  <p>Решения:</p>
+  <ol>
+    <li>Если лицензия привязана к учётной записи <em>Microsoft</em>, авторизуйтесь — активация восстановится автоматически.</li>
+    <li>Для <em>OEM</em>-версий свяжитесь с поддержкой производителя ПК.</li>
+    <li>Используйте <code>slmgr /ipk XXX-XXX-XXX</code> (где <code>XXX</code> — ваш ключ) и <code>slmgr /ato</code> для принудительной активации.</li>
+  </ol>
+</details>
+
+<details>
+  <summary>Как перенести Windows с SSD на SSD, если новый диск меньше старого?</summary>
+  <p>В этом случае:</p>
+  <ol>
+    <li>Очистите старый SSD от ненужных файлов (используйте <em>CCleaner</em> или встроенную утилиту <code>Очистка диска</code>).</li>
+    <li>Уменьшите размер раздела <code>C:</code> до объёма, который поместится на новый SSD, с помощью <em>MiniTool Partition Wizard</em>.</li>
+    <li>Используйте программу для клонирования с опцией <code>Fit partitions to entire disk</code> (например, <em>AOMEI Backupper</em>).</li>
+    <li>Если свободного места всё равно не хватает, перенесите личные файлы на внешний диск, а после клонирования верните их обратно.</li>
+  </ol>
+  <p><strong>Важно:</strong> не уменьшайте раздел <code>C:</code> меньше, чем занимает система (проверьте в <code>Свойствах диска</code>).</p>
+</details>
+
+<details>
+  <summary>Можно ли перенести Windows с HDD на SSD и наоборот?</summary>
+  <p>Да, но есть нюансы:</p>
+  <ul>
+    <li><strong>С HDD на SSD:</strong> процесс идентичен описанному в статье. После переноса рекомендуется отключить <em>дефрагментацию</em> и активировать <em>TRIM</em>.</li>
+    <li><strong>С SSD на HDD:</strong> система будет работать, но ожидайте <strong>значительного падения скорости</strong> (особенно при загрузке и работе с файлами). Также на <em>HDD</em> лучше оставить <code>10–15%</code> свободного места для оптимальной работы.</li>
+  </ul>
+  <p>При переносе с <em>HDD</em> на <em>SSD</em> можно столкнуться с проблемой <strong>неправильного выравнивания разделов</strong>. Используйте программы, которые автоматически корректируют alignment (например, <em>Macrium Reflect</em>).</p>
+</details>
+
+<details>
+  <summary>Как перенести только систему, без личных файлов?</summary>
+  <p>Для этого:</p>
+  <ol>
+    <li>Создайте резервную копию личных данных на внешнем диске.</li>
+    <li>Используйте программу клонирования с опцией <code>Exclude files</code> (например, <em>AOMEI Backupper</em> позволяет исключить определённые папки).</li>
+    <li>Или установите Windows чисто на новый SSD, а затем перенесите только необходимые файлы (из <code>AppData</code>, <code>Документов</code> и т.д.).</li>
+  </ol>
+  <p>Учтите, что некоторые программы (например, игры или <em>Adobe Photoshop</em>) могут потребовать переустановки, так как их настройки хранятся в реестре.</p>
+</details></div>
+                    <!--#include virtual="/ssi/article_after.html" -->
+
+                </article>
+                <aside class="article-sidebar"><!--#include virtual="/ssi/sidebar_top.html" --><nav class="sidebar-search"><div class="sidebar-search-box"><input type="text" id="globalSearchInput" placeholder="🔍 Поиск статей..." autocomplete="off"><div class="search-dropdown" id="globalSearchDropdown"></div></div></nav><!--#include virtual="/ssi/sidebar_before_toc.html" --><nav class="sidebar-toc" id="sidebarToc"><h3>Содержание</h3><ul><li><a href="#подготовка-к-переносу-что-нужно-сделать-до-клонирования">Подготовка к переносу: что нужно сделать до клонирования</a></li><li><a href="#выбор-программы-для-клонирования-сравнение-популярных-решений">Выбор программы для клонирования: сравнение популярных решений</a></li><li><a href="#пошаговая-инструкция-клонируем-windows-на-новый-ssd">Пошаговая инструкция: клонируем Windows на новый SSD</a></li><li><a href="#проблемы-после-переноса-и-их-решения">Проблемы после переноса и их решения</a></li><li><a href="#оптимизация-windows-после-переноса-на-новый-ssd">Оптимизация Windows после переноса на новый SSD</a></li><li><a href="#перенос-windows-с-mbr-на-gpt-и-наоборот-особенности">Перенос Windows с MBR на GPT (и наоборот): особенности</a></li><li><a href="#альтернативные-методы-переноса-когда-клонирование-не-подходит">Альтернативные методы переноса: когда клонирование не подходит</a></li><li><a href="#faq-ответы-на-частые-вопросы">FAQ: ответы на частые вопросы</a></li></ul></nav><!--#include virtual="/ssi/sidebar_before_related.html" --><nav class="sidebar-related"><h3>Похожие статьи</h3><ul><li><a href="/articles/k/ka/kabel-na-perenosku.html" class="related-card">Как выбрать кабель для переноски: типы, сечение и безопасность</a></li><li><a href="/articles/p/pe/perenosnoj-porshnevoj-nasos.html" class="related-card">Переносной поршневой насос: выбор, применение и обслуживание</a></li><li><a href="/articles/z/za/zamarinovat-shampinony-dlya-shashlyka.html" class="related-card">Как замариновать шампиньоны для шашлыка: лучшие рецепты и секреты</a></li><li><a href="/articles/r/re/reno-eskejp-5.html" class="related-card">Renault Escape 5: обзор, характеристики и секреты выбора</a></li><li><a href="/articles/o/od/odnomestnyj-elektromobil-reno.html" class="related-card">Рено одноместный электромобиль 2026: цены, характеристики, отзывы</a></li></ul></nav><!--#include virtual="/ssi/sidebar_after_related.html" --></aside>
+            </div>
+        </div>
+    </main>
+
+    <!--#include virtual="/ssi/before_related_bottom.html" -->
+    <section class="related-bottom">
+        <div class="container">
+            <h2 class="related-bottom-heading">📖 Читайте также</h2>
+            <div class="related-bottom-grid"><a href="/articles/k/ka/kabel-na-perenosku.html" class="related-bottom-card"><span class="related-bottom-title">Как выбрать кабель для переноски: типы, сечение и безопасность</span><span class="related-bottom-desc">Полный гид по выбору кабеля для удлинителя. Расчет сечения, типы изоляции, правила безопасности и ра</span></a><a href="/articles/p/pe/perenosnoj-porshnevoj-nasos.html" class="related-bottom-card"><span class="related-bottom-title">Переносной поршневой насос: выбор, применение и обслуживание</span><span class="related-bottom-desc">Как выбрать поршневой насос для дома, дачи или авто? Обзор моделей, технические характеристики и сов</span></a><a href="/articles/z/za/zamarinovat-shampinony-dlya-shashlyka.html" class="related-bottom-card"><span class="related-bottom-title">Как замариновать шампиньоны для шашлыка: лучшие рецепты и секреты</span><span class="related-bottom-desc">Узнайте, как правильно замариновать шампиньоны для шашлыка. Проверенные рецепты с лимоном, соевым со</span></a><a href="/articles/r/re/reno-eskejp-5.html" class="related-bottom-card"><span class="related-bottom-title">Renault Escape 5: обзор, характеристики и секреты выбора</span><span class="related-bottom-desc">Подробный разбор Renault Escape 5: технические данные, сравнение с конкурентами, отзывы владельцев и</span></a><a href="/articles/o/od/odnomestnyj-elektromobil-reno.html" class="related-bottom-card"><span class="related-bottom-title">Рено одноместный электромобиль 2026: цены, характеристики, отзывы</span><span class="related-bottom-desc">Полный обзор одноместного электромобиля Renault: технические параметры, преимущества, недостатки, ср</span></a><a href="/articles/n/na/nasadka-na-ushm-renovator-otzyvy.html" class="related-bottom-card"><span class="related-bottom-title">Насадка на УШМ Реноватор: отзывы 2026, плюсы и минусы, выбор</span><span class="related-bottom-desc">Реальные отзывы о насадках для УШМ Реноватор: сравнение моделей, советы по выбору, ошибки при работе</span></a></div>
+        </div>
+    </section>
+    <!--#include virtual="/ssi/after_related_bottom.html" -->
+
+    <footer class="site-footer-premium">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <div class="footer-brand">🚙 Рено Гайд</div>
+                    <p class="footer-about">Рено - идеальный баланс французского комфорта и практичности. Подробные обзоры от Logan до Duster, честные отзывы владельцев и полезные советы по ремонту.
+</p>
+                </div>
+                <div class="footer-col">
+                    <h4>Разделы</h4>
+                    <ul><li><a href="/category/logan/">📁 Logan</a></li>
+<li><a href="/category/duster/">📁 Duster</a></li>
+<li><a href="/category/megane/">📁 Megane</a></li>
+<li><a href="/category/sandero/">📁 Sandero</a></li>
+<li><a href="/category/kaptur/">📁 Kaptur</a></li>
+<li><a href="/category/fluence/">📁 Fluence</a></li></ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Информация</h4>
+                    <ul>
+                        <li><a href="/">Главная</a></li>
+                        <li><a href="/about.html">О проекте</a></li>
+                        <li><a href="/categories.html">Все разделы</a></li>
+                        <li><a href="/contact.html">Контакты</a></li>
+                        <li><a href="/privacy.html">Конфиденциальность</a></li>
+                        <li><a href="/sitemap.xml">Карта сайта</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2026 Рено Гайд. Все права защищены.</p>
+                <!--LiveInternet counter--><div style="margin-top:10px;"><a href="https://www.liveinternet.ru/click"
+                target="_blank"><img id="licnt06C4" width="88" height="15" style="border:0" 
+                title="LiveInternet: показано число посетителей за сегодня"
+                src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAEALAAAAAABAAEAAAIBTAA7"
+                alt=""/></a><script>(function(d,s){d.getElementById("licnt06C4").src=
+                "https://counter.yadro.ru/hit?t26.5;r"+escape(d.referrer)+
+                ((typeof(s)=="undefined")?"":";s"+s.width+"*"+s.height+"*"+
+                (s.colorDepth?s.colorDepth:s.pixelDepth))+";u"+escape(d.URL)+
+                ";h"+escape(d.title.substring(0,150))+";"+Math.random()})(document,screen)</script></div><!--/LiveInternet-->
+            </div>
+        </div>
+    </footer>
+    <div id="cookie-consent" class="cookie-popup">
+        <div class="cookie-inner">
+            <span>🍪 Мы используем файлы cookie для улучшения работы сайта.</span>
+            <button id="cookie-accept" class="cookie-btn">Принять</button>
+        </div>
+    </div>
+    <script src="/static/js/main.js"></script>
+    <script>
+    (function() {
+        const popup = document.getElementById('cookie-consent');
+        const btn = document.getElementById('cookie-accept');
+        if (popup && btn && !localStorage.getItem('cookie-accepted')) {
+            popup.classList.add('visible');
+            btn.onclick = () => {
+                localStorage.setItem('cookie-accepted', 'true');
+                popup.classList.remove('visible');
+            };
+        }
+    })();
+    </script>
+    <!--#include virtual="/ssi/body_bottom.html" -->
+    <script src="/static/js/inject.js" defer></script>
+</body>
+</html>

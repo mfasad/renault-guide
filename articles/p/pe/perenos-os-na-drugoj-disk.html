@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 100 100%27><text y=%27.9em%27 font-size=%2790%27>🚙</text></svg>">
+    <title>Как перенести ОС на другой диск: пошаговая инструкция 2026 — Рено Гайд</title>
+    <meta name="description" content="Полный гайд по переносу Windows на SSD или HDD без переустановки. Инструкция по клонированию системы, выбору софта и настройке BIOS.">
+    <link rel="canonical" href="https://renault-guide.vercel.app/articles/p/pe/perenos-os-na-drugoj-disk.html">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Как перенести ОС на другой диск: пошаговая инструкция 2026">
+    <meta property="og:description" content="Полный гайд по переносу Windows на SSD или HDD без переустановки. Инструкция по клонированию системы, выбору софта и настройке BIOS.">
+    <meta property="og:locale" content="ru_RU">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/style.css?v=1776848103">
+    <style>
+    .site-footer-premium {
+        margin-top: 60px; padding: 40px 0 0; background: #1e293b; color: #94a3b8;
+    }
+    .footer-grid {
+        display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 40px;
+        padding-bottom: 32px; border-bottom: 1px solid #334155;
+    }
+    .footer-brand { font-size: 1.2rem; font-weight: 700; color: #f1f5f9; margin-bottom: 12px; }
+    .footer-about { font-size: 0.9rem; line-height: 1.6; margin-bottom: 8px; }
+    .footer-updated { font-size: 0.8rem; color: #64748b; }
+    .footer-col h4 { color: #f1f5f9; font-size: 0.95rem; margin-bottom: 16px; }
+    .footer-col ul { list-style: none; }
+    .footer-col li { margin-bottom: 8px; }
+    .footer-col a { color: #94a3b8; font-size: 0.9rem; transition: color 0.2s; }
+    .footer-col a:hover { color: #60a5fa; }
+    .footer-bottom { padding: 20px 0; text-align: center; font-size: 0.85rem; }
+    @media (max-width: 640px) {
+        .footer-grid { grid-template-columns: 1fr; gap: 24px; }
+    }
+    .cookie-popup {
+        position: fixed; bottom: 0; left: 0; right: 0; background: #1e293b; color: #fff;
+        padding: 16px; transition: transform 0.5s ease; z-index: 9999; border-top: 2px solid #2563eb;
+        transform: translateY(100%);
+    }
+    .cookie-popup.visible { transform: translateY(0); }
+    .cookie-inner { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; gap: 16px; font-size: 0.9rem; }
+    .cookie-btn { background: #2563eb; color: #fff; border: none; padding: 8px 20px; border-radius: 8px; font-weight: 600; cursor: pointer; white-space: nowrap; }
+    .cookie-btn:hover { background: #1d4ed8; }
+    @media (max-width: 640px) {
+        .cookie-inner { flex-direction: column; text-align: center; }
+    }
+</style>
+    
+    <!--#include virtual="/ssi/head.html" -->
+</head>
+<body>
+        <!--#include virtual="/ssi/body_top.html" -->
+    <style>
+    .nav-dropdown { position: relative; display: inline-block; }
+    .dropdown-toggle {
+        background: none; border: none; cursor: pointer;
+        font: inherit; color: inherit; padding: 8px 12px;
+        border-radius: 8px; transition: background 0.2s;
+    }
+    .dropdown-toggle:hover { background: rgba(0,0,0,0.05); }
+    .dropdown-menu {
+        display: none; position: absolute; right: 0; top: 100%;
+        min-width: 240px; max-height: 70vh; overflow-y: auto;
+        background: var(--card-bg, #fff); border: 1px solid var(--border, #e5e7eb);
+        border-radius: 12px; box-shadow: 0 12px 40px rgba(0,0,0,0.12);
+        padding: 8px 0; z-index: 1000;
+    }
+    .nav-dropdown::after {
+        content: ''; position: absolute; left: 0; right: 0;
+        top: 100%; height: 12px;
+    }
+    .nav-dropdown:hover .dropdown-menu,
+    .nav-dropdown:focus-within .dropdown-menu { display: block; }
+    .dropdown-item {
+        display: block; padding: 10px 20px; color: var(--text, #1f2937);
+        text-decoration: none; font-size: 0.95rem; transition: background 0.15s;
+        white-space: nowrap;
+    }
+    .dropdown-item:hover { background: rgba(37,99,235,0.06); color: var(--primary, #2563eb); }
+    @media (max-width: 768px) {
+        .main-nav > .nav-link { display: none; }
+        .dropdown-toggle { display: none; }
+        .dropdown-menu {
+            display: block !important; position: static;
+            box-shadow: none; border: none; border-radius: 0;
+            min-width: auto; max-height: none; padding: 0;
+            background: transparent;
+        }
+        .dropdown-item {
+            padding: 8px 0; font-size: 1rem;
+        }
+    }
+    </style>
+    <header class="site-header">
+        <div class="container header-inner">
+            <a href="/" class="logo">
+                <span class="logo-icon">🚙</span>
+                <span>Рено Гайд</span>
+            </a>
+            <button class="mobile-menu-btn" aria-label="Меню" id="menuBtn">☰</button>
+            <nav class="main-nav" id="mainNav">
+                <a href="/category/logan/" class="nav-link">📁 Logan</a>
+<a href="/category/duster/" class="nav-link">📁 Duster</a>
+<a href="/category/megane/" class="nav-link">📁 Megane</a>
+<a href="/category/sandero/" class="nav-link">📁 Sandero</a>
+<div class="nav-dropdown">
+            <button class="nav-link dropdown-toggle">📂 Все разделы ▾</button>
+            <div class="dropdown-menu"><a href="/category/logan/" class="dropdown-item">📁 Logan</a>
+<a href="/category/duster/" class="dropdown-item">📁 Duster</a>
+<a href="/category/megane/" class="dropdown-item">📁 Megane</a>
+<a href="/category/sandero/" class="dropdown-item">📁 Sandero</a>
+<a href="/category/kaptur/" class="dropdown-item">📁 Kaptur</a>
+<a href="/category/fluence/" class="dropdown-item">📁 Fluence</a>
+<a href="/category/scenic/" class="dropdown-item">📁 Scenic</a>
+<a href="/category/arkana/" class="dropdown-item">📁 Arkana</a>
+<a href="/category/symbol/" class="dropdown-item">📁 Symbol</a>
+<a href="/category/laguna/" class="dropdown-item">📁 Laguna</a>
+<a href="/category/kangoo/" class="dropdown-item">📁 Kangoo</a>
+<a href="/category/авто/" class="dropdown-item">📁 Авто</a>
+<a href="/category/master/" class="dropdown-item">📁 Master</a>
+<a href="/category/koleos/" class="dropdown-item">📁 Koleos</a>
+<a href="/category/captur/" class="dropdown-item">📁 Captur</a>
+<a href="/category/clio/" class="dropdown-item">📁 Clio</a>
+<a href="/category/trafic/" class="dropdown-item">📁 Trafic</a>
+<a href="/category/espace/" class="dropdown-item">📁 Espace</a>
+<a href="/category/kadjar/" class="dropdown-item">📁 Kadjar</a>
+<a href="/category/twingo/" class="dropdown-item">📁 Twingo</a>
+<a href="/category/drugoe/" class="dropdown-item">📁 Другое</a></div>
+        </div>
+            </nav>
+        </div>
+    </header>
+
+    <nav class="breadcrumbs" aria-label="Навигация">
+        <div class="container"><a href="/">Главная</a><span class="breadcrumb-sep">›</span><a href="/category/drugoe/">Другое</a><span class="breadcrumb-sep">›</span><span class="breadcrumb-current">Как перенести ОС на другой диск: пошаговая инструкция 2026</span></div>
+    </nav>
+
+    <main class="site-main">
+        <div class="container">
+            <div class="article-layout">
+                <article class="article-main">
+                    
+                    <h1>Полное руководство по переносу операционной системы на новый накопитель</h1>
+                    <nav class="mobile-toc"><details><summary>📋 Содержание</summary><ul><li><a href="#подготовка-оборудования-и-проверка-совместимости">Подготовка оборудования и проверка совместимости</a></li><li><a href="#выбор-программного-обеспечения-для-клонирования">Выбор программного обеспечения для клонирования</a></li><li><a href="#пошаговая-инструкция-по-процессу-клонирования">Пошаговая инструкция по процессу клонирования</a></li><li><a href="#настройка-bios-и-приоритет-загрузки">Настройка BIOS и приоритет загрузки</a></li><li><a href="#решение-типовых-проблем-при-миграции">Решение типовых проблем при миграции</a></li><li><a href="#оптимизация-системы-после-переноса">Оптимизация системы после переноса</a></li><li><a href="#faq-часто-задаваемые-вопросы">FAQ: Часто задаваемые вопросы</a></li></ul></details></nav>
+                    <!--#include virtual="/ssi/article_before.html" -->
+                    <div class="article-body"><p>Смена накопителя — это часто единственный способ дать старому компьютеру вторую жизнь или значительно ускорить работу современных приложений. Многие пользователи ошибочно полагают, что для установки Windows на новый SSD необходимо форматировать старый диск и заново настраивать все программы, драйверы и личные файлы. На самом деле, процесс миграции операционной системы стал гораздо проще благодаря современным утилитам для клонирования.</p>
+
+<p>Перенос системы позволяет сохранить текущую конфигурацию, установленное программное обеспечение и персональные данные в неизменном виде. Главное условие успешной миграции — корректная подготовка оборудования и выбор правильного инструмента для работы с разделами жесткого диска. Если вы планируете апгрейд, важно понимать разницу между простым копированием файлов и полноценным клонированием сектора за сектором.</p>
+
+<h2 id="подготовка-оборудования-и-проверка-совместимости">Подготовка оборудования и проверка совместимости</h2>
+
+<p>Прежде чем приступать к переносу <strong>операционной системы</strong>, необходимо убедиться, что ваш компьютер или ноутбук физически готов к установке нового накопителя. Для стационарных ПК это обычно не проблема: достаточно свободного отсека в корпусе и доступного кабеля SATA или разъема M.2 на материнской плате. В случае с ноутбуками все сложнее, так как часто требуется разборка корпуса для установки второго слота или замены основного диска.</p>
+
+<p>Критически важно проверить тип интерфейса подключаемого диска. Если у вас старый компьютер, он может поддерживать только <em>SATA III</em>, тогда как современные SSD часто используют интерфейс <em>NVMe</em>. Неправильное подключение приведет к тому, что система просто не увидит новый диск. Также обратите внимание на объем памяти: целевой диск должен быть равен или превышать объем занятого места на исходном накопителе, даже если он имеет больший физический объем.</p>
+
+<p>Следующий шаг — резервное копирование важных данных. Несмотря на то, что современные алгоритмы клонирования работают стабильно, риск потери информации при сбое питания или ошибке диска всегда существует. Создайте копию наиболее ценных файлов на внешний носитель или в облачное хранилище. Это страховка на случай, если процесс миграции пойдет не по плану и потребуется восстановление из бэкапа.</p>
+
+<ul>
+<li>✅ Проверьте наличие свободного слота M.2 или порта SATA на материнской плате</li>
+<li>✅ Убедитесь, что новый диск имеет объем, достаточный для размещения всех данных</li>
+<li>✅ Подготовьте внешний накопитель или облачное пространство для резервной копии</li>
+</ul>
+
+<h2 id="выбор-программного-обеспечения-для-клонирования">Выбор программного обеспечения для клонирования</h2>
+
+<p>Для переноса Windows на другой диск существует множество утилит, как платных, так и бесплатных. Производители накопителей, такие как Samsung, WD или Crucial, часто предлагают собственные версии профессионального софта, например, <em>Acronis True Image</em> или <em>Macrium Reflect</em>, которые можно скачать бесплатно при покупке их продукта. Эти программы оптимизированы под конкретное "железо" и обеспечивают высокую скорость работы.</p>
+
+<p>Если вы не привязаны к бренду диска, можно использовать универсальные решения. Одной из самых надежных считается <strong>DiskGenius</strong> или <em>AOMEI Backupper</em>. Они поддерживают клонирование как обычных, так и динамических дисков, а также позволяют корректировать размер разделов в процессе переноса. Важно выбирать ПО, которое умеет работать с файловой системой NTFS и корректно обрабатывает скрытые системные разделы, необходимые для загрузки.</p>
+
+<p>Не стоит недооценивать встроенные инструменты операционной системы, хотя они редко предоставляют функцию полного клонирования "одним кликом". В некоторых случаях, особенно при переходе с HDD на SSD, удобнее использовать загрузочные образы, создаваемые в среде <em>Windows PE</em>. Это позволяет запустить процесс клонирования до загрузки основной системы, что исключает конфликты с открытыми файлами.</p>
+
+<blockquote>
+<p>⚠️ Внимание: Избегайте использования пиратских версий утилит для клонирования. Нелицензионное ПО часто содержит скрытый вредоносный код, который может повредить структуру файловой таблицы и сделать невозможным запуск системы после переноса.</p>
+</blockquote>
+
+<ul>
+<li>💾 Используйте официальное ПО от производителя вашего нового SSD
+<li>🛡️ Проверяйте цифровую подпись утилиты перед запуском
+<li>📉 Убедитесь, что выбранная программа поддерживает ваш тип разделов (MBR или GPT)
+</li></li></li>
+</ul>
+
+<div class="attention-box attention-info"><div><strong>📊 Какой тип диска вы планируете установить?</strong><ul><li>HDD (обычный жесткий диск)</li><li>SSD SATA</li><li>NVMe M.2</li><li>Флешка для установки</li></ul></div></div>
+
+<h2 id="пошаговая-инструкция-по-процессу-клонирования">Пошаговая инструкция по процессу клонирования</h2>
+
+<p>Процесс миграции начинается с физического подключения нового диска. Если в вашем компьютере всего один порт SATA, вам может понадобиться USB-переходник для временного подключения накопителя. После подключения убедитесь, что система видит оба диска в <code>Управлении дисками</code>. Важно, чтобы новый диск был инициализирован, но не отформатирован, если вы планируете использовать автоматическое клонирование.</p>
+
+<p>Запустите выбранную утилиту и выберите опцию <strong>Клонирование диска</strong>. В качестве источника укажите текущий системный диск, а в качестве цели — новый накопитель. Если новый диск имеет больший объем, программа предложит автоматически расширить разделы или оставить неразмеченную область. Рекомендуется выбрать вариант с автоматическим распределением свободного места, чтобы избежать проблем с загрузкой.</p>
+
+<p>Внимательно проверьте отображаемую схему разделов перед запуском. Убедитесь, что системный раздел, загрузочный раздел EFI и раздел восстановления будут перенесены корректно. После подтверждения начнется процесс копирования данных. Это может занять от 20 минут до нескольких часов в зависимости от объема данных и скорости интерфейса. Не прерывайте процесс и не закрывайте программу до полного завершения.</p>
+
+<div class="checklist-block"><h4>☑️ Подготовка к клонированию</h4><label class="check-item"><input type="checkbox"><span>Подключить новый диск</span></label><label class="check-item"><input type="checkbox"><span>Запустить утилиту</span></label><label class="check-item"><input type="checkbox"><span>Выбрать источник и цель</span></label><label class="check-item"><input type="checkbox"><span>Запустить процесс копирования</span></label><div class="check-progress">Выполнено: <span class="check-count">0</span> / 4</div></div>
+
+<h2 id="настройка-bios-и-приоритет-загрузки">Настройка BIOS и приоритет загрузки</h2>
+
+<p>После успешного завершения клонирования компьютер нельзя просто перезагрузить. Если вы не измените настройки <strong>BIOS/UEFI</strong>, система продолжит загружаться со старого диска. Это может привести к конфликтам, если оба диска будут подключены одновременно. Зайдите в меню прошивки, нажав клавишу <code>Del</code>, <code>F2</code> или <code>F10</code> сразу после включения питания.</p>
+
+<p>В разделе <code>Boot Priority</code> или <code>Загрузка</code> найдите новый диск и переместите его на первое место в списке приоритетов. Также важно проверить режим работы контроллера: если система работала в режиме <em>AHCI</em>, новый диск также должен работать в этом же режиме. Неправильная смена режима может привести к "синему экрану смерти" при попытке запуска Windows.</p>
+
+<p>После сохранения настроек и перезагрузки система должна загрузиться с нового накопителя. Проверьте работоспособность всех программ и файлов. Если все прошло успешно, вы можете безопасно отключить старый диск или оставить его как хранилище данных. В случае проблем с загрузкой, проверьте, включен ли режим <em>Secure Boot</em>, если ваша система требует этого для загрузки.</p>
+
+<ul>
+<li>⚙️ Перейдите в раздел Boot в BIOS и установите новый диск первым в приоритете
+<li>🔍 Убедитесь, что режим SATA настроен на AHCI или NVMe (в зависимости от диска)
+<li>💻 Сохраните изменения и выйдите из BIOS, чтобы проверить загрузку
+</li></li></li>
+</ul>
+
+<details class="faq-item"><summary>Что делать, если система не видит новый диск?
+<p>Если BIOS не определяет подключенный накопитель, проверьте подключение кабелей. Попробуйте использовать другой порт SATA или кабель. Если диск M.2, убедитесь, что он плотно вставлен в слот и закреплен винтом. Также проверьте, не заблокирован ли диск в настройках Secure Boot или VMD Controller.--></p>
+
+<h2 id="решение-типовых-проблем-при-миграции">Решение типовых проблем при миграции</h2>
+
+<p>Иногда процесс переноса системы сталкивается с техническими сложностями. Одной из частых проблем является ошибка "Недостаточно места на целевом диске". Это происходит, когда программа не может корректно обработать фрагментированные разделы или скрытые системные блоки. В таком случае попробуйте сначала сжать разделы в <em>Управлении дисками</em> Windows, освободив немного места на исходном носителе.</p>
+
+<p>Другая распространенная проблема — отсутствие загрузочного меню после клонирования. Это обычно означает, что раздел EFI (ESP) не был корректно перенесен или поврежден. Для исправления ситуации может потребоваться использование консоли восстановления и утилиты <code>bootrec</code> для пересоздания загрузочных записей. Без этого Windows не сможет найти ядро системы.</p>
+
+<p>Также стоит учитывать, что некоторые антивирусные программы могут блокировать доступ к низкоуровневым операциям с диском во время клонирования. Рекомендуется временно отключить защиту или добавить утилиту для клонирования в исключения. Если после переноса система работает медленно, проверьте, включен ли режим <em>TRIM</em> для нового SSD, так как это критически важно для его производительности.</p>
+
+<!--WIDGET</summary><div class="faq-answer"><p>tip:Перед началом клонирования отключите все лишние периферийные устройства, кроме мыши и клавиатуры. Это снизит вероятность конфликтов драйверов и ускорит работу системы во время процесса копирования.</p></div></details>
+
+<table>
+<thead>
+<tr>
+<th>Проблема</th>
+<th>Причина</th>
+<th>Решение</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Диск не виден в BIOS</td>
+<td>Неправильный кабель или порт</td>
+<td>Замените SATA-кабель или попробуйте другой порт</td>
+</tr>
+<tr>
+<td>Ошибка при клонировании</td>
+<td>Поврежденные сектора на старом диске</td>
+<td>Запустите проверку поверхности диска (chkdsk)</td>
+</tr>
+<tr>
+<td>Синий экран после запуска</td>
+<td>Неверный режим SATA в BIOS</td>
+<td>Смените режим с IDE на AHCI или наоборот</td>
+</tr>
+<tr>
+<td>Медленная работа нового SSD</td>
+<td>Отключен TRIM или 4K-выравнивание</td>
+<td>Включите TRIM и проверьте выравнивание разделов</td>
+</tr>
+</tbody>
+</table>
+
+<h2 id="оптимизация-системы-после-переноса">Оптимизация системы после переноса</h2>
+
+<p>Когда система успешно работает с нового накопителя, необходимо провести ряд оптимизационных процедур. Для SSD-дисков критически важно убедиться, что отключена дефрагментация, так как она сокращает срок службы ячеек памяти. Вместо этого должна работать функция оптимизации (TRIM), которая автоматически очищает неиспользуемые блоки данных.</p>
+
+<p>Также стоит проверить наличие обновлений драйверов, особенно для контроллера хранения данных. Хотя Windows часто подтягивает их автоматически, производители <em>Intel</em> или <em>AMD</em> могут предлагать более производительные решения для своих чипсетов. Установка специализированных драйверов может заметно улучшить скорость отклика системы и стабильность работы.</p>
+
+<p>Если вы перенесли систему на диск большего объема, не забудьте расширить разделы, чтобы использовать все доступное пространство. В <code>Управлении дисками</code> вы можете объединить неразмеченную область с основным разделом. Это простая операция, но она требует наличия свободного места сразу за целевым разделом. <mark>Не пытайтесь расширять раздел через сторонние утилиты, если система не загружается, используйте только загрузочную флешку с восстановлением.</mark></p>
+
+<div class="attention-box attention-tip"><span class="attention-icon">💡</span><p>Правильная настройка режима AHCI и включение функции TRIM — это обязательные шаги для обеспечения максимальной производительности и долговечности нового SSD после переноса системы.</p></div>
+
+<h2 id="faq-часто-задаваемые-вопросы">FAQ: Часто задаваемые вопросы</h2>
+
+<details>
+<summary>Можно ли перенести систему, если новый диск меньше старого?</summary>
+<p>Нет, перенос системы на диск меньшего объема невозможен, если объем занятых данных на старом диске превышает емкость нового. Программа клонирования выдаст ошибку, так как физически не сможет разместить все данные.</p>
+</details>
+
+<details>
+<summary>Нужно ли форматировать новый диск перед клонированием?</summary>
+<p>Обычно нет. Большинство утилит для клонирования автоматически стирают все данные на целевом диске в процессе работы. Форматирование вручную может даже помешать корректному распределению разделов.</p>
+</details>
+
+<details>
+<summary>Что делать со старым диском после переноса?</summary>
+<p>Вы можете использовать его как дополнительный хранилище для файлов, игр или резервных копий. Если вы не планируете использовать его, лучше всего полностью отформатировать его перед продажей или утилизацией.</p>
+</details>
+
+<details>
+<summary>Влияет ли перенос системы на лицензию Windows?</summary>
+<p>В большинстве случаев цифровая лицензия привязывается к оборудованию (материнской плате). Поскольку при переносе системы на другой диск материнская плата не меняется, активация Windows должна сохраниться автоматически. В редких случаях может потребоваться повторная активация через учетную запись Microsoft.</p>
+</details>
+
+<details>
+<summary>Сколько времени занимает процесс клонирования?</summary>
+<p>Время зависит от объема данных и скорости дисков. Для системы с 50 Гб данных на SSD это может занять 15-20 минут. Если переносите с HDD и объем данных составляет 500 Гб, процесс может длиться 2-4 часа.</p>
+</details></div>
+                    <!--#include virtual="/ssi/article_after.html" -->
+
+                </article>
+                <aside class="article-sidebar"><!--#include virtual="/ssi/sidebar_top.html" --><nav class="sidebar-search"><div class="sidebar-search-box"><input type="text" id="globalSearchInput" placeholder="🔍 Поиск статей..." autocomplete="off"><div class="search-dropdown" id="globalSearchDropdown"></div></div></nav><!--#include virtual="/ssi/sidebar_before_toc.html" --><nav class="sidebar-toc" id="sidebarToc"><h3>Содержание</h3><ul><li><a href="#подготовка-оборудования-и-проверка-совместимости">Подготовка оборудования и проверка совместимости</a></li><li><a href="#выбор-программного-обеспечения-для-клонирования">Выбор программного обеспечения для клонирования</a></li><li><a href="#пошаговая-инструкция-по-процессу-клонирования">Пошаговая инструкция по процессу клонирования</a></li><li><a href="#настройка-bios-и-приоритет-загрузки">Настройка BIOS и приоритет загрузки</a></li><li><a href="#решение-типовых-проблем-при-миграции">Решение типовых проблем при миграции</a></li><li><a href="#оптимизация-системы-после-переноса">Оптимизация системы после переноса</a></li><li><a href="#faq-часто-задаваемые-вопросы">FAQ: Часто задаваемые вопросы</a></li></ul></nav><!--#include virtual="/ssi/sidebar_before_related.html" --><nav class="sidebar-related"><h3>Похожие статьи</h3><ul><li><a href="/articles/c/ch/chem-diagnostirovat-reno.html" class="related-card">Как диагностировать Renault: 7 способов для всех моделей</a></li><li><a href="/articles/r/re/reno-mytishchi-servis.html" class="related-card">Рено Мытищи сервис: официальные дилеры, цены и отзывы 2026</a></li><li><a href="/articles/m/ma/marinovannye-shampinony-kak-sdelat.html" class="related-card">Маринованные шампиньоны в домашних условиях — 5 рецептов с фото</a></li><li><a href="/articles/p/po/podushka-kabiny-na-reno-magnum.html" class="related-card">Подушка кабины Renault Magnum: выбор, замена и особенности</a></li><li><a href="/articles/k/ka/kak-zamarinovat-nutriyu.html" class="related-card">Как замариновать нутрию в домашних условиях: 5 проверенных рецептов</a></li></ul></nav><!--#include virtual="/ssi/sidebar_after_related.html" --></aside>
+            </div>
+        </div>
+    </main>
+
+    <!--#include virtual="/ssi/before_related_bottom.html" -->
+    <section class="related-bottom">
+        <div class="container">
+            <h2 class="related-bottom-heading">📖 Читайте также</h2>
+            <div class="related-bottom-grid"><a href="/articles/c/ch/chem-diagnostirovat-reno.html" class="related-bottom-card"><span class="related-bottom-title">Как диагностировать Renault: 7 способов для всех моделей</span><span class="related-bottom-desc">Подробное руководство по диагностике Renault: от самодиагностики до профессиональных сканеров. Сравн</span></a><a href="/articles/r/re/reno-mytishchi-servis.html" class="related-bottom-card"><span class="related-bottom-title">Рено Мытищи сервис: официальные дилеры, цены и отзывы 2026</span><span class="related-bottom-desc">Адреса, услуги и особенности сервисных центров Renault в Мытищах. Сравнение цен на ТО, гарантийное о</span></a><a href="/articles/m/ma/marinovannye-shampinony-kak-sdelat.html" class="related-bottom-card"><span class="related-bottom-title">Маринованные шампиньоны в домашних условиях — 5 рецептов с фото</span><span class="related-bottom-desc">Как быстро и вкусно замариновать шампиньоны: пошаговые рецепты с уксусом, лимоном, чесноком и специя</span></a><a href="/articles/p/po/podushka-kabiny-na-reno-magnum.html" class="related-bottom-card"><span class="related-bottom-title">Подушка кабины Renault Magnum: выбор, замена и особенности</span><span class="related-bottom-desc">Как выбрать и заменить подушку кабины на Renault Magnum? Обзор оригинальных и аналогов, инструкция п</span></a><a href="/articles/k/ka/kak-zamarinovat-nutriyu.html" class="related-bottom-card"><span class="related-bottom-title">Как замариновать нутрию в домашних условиях: 5 проверенных рецептов</span><span class="related-bottom-desc">Пошаговые инструкции по маринованию нутрии: от выбора мяса до секретов приготовления. Рецепты для жа</span></a><a href="/articles/k/ka/kak-zamarinovat-leshcha.html" class="related-bottom-card"><span class="related-bottom-title">Как замариновать леща: пошаговый рецепт идеальной закуски</span><span class="related-bottom-desc">Узнайте, как правильно замариновать леща дома. Секреты выбора рыбы, состав маринада и пошаговая инст</span></a></div>
+        </div>
+    </section>
+    <!--#include virtual="/ssi/after_related_bottom.html" -->
+
+    <footer class="site-footer-premium">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <div class="footer-brand">🚙 Рено Гайд</div>
+                    <p class="footer-about">Рено - идеальный баланс французского комфорта и практичности. Подробные обзоры от Logan до Duster, честные отзывы владельцев и полезные советы по ремонту.
+</p>
+                </div>
+                <div class="footer-col">
+                    <h4>Разделы</h4>
+                    <ul><li><a href="/category/logan/">📁 Logan</a></li>
+<li><a href="/category/duster/">📁 Duster</a></li>
+<li><a href="/category/megane/">📁 Megane</a></li>
+<li><a href="/category/sandero/">📁 Sandero</a></li>
+<li><a href="/category/kaptur/">📁 Kaptur</a></li>
+<li><a href="/category/fluence/">📁 Fluence</a></li></ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Информация</h4>
+                    <ul>
+                        <li><a href="/">Главная</a></li>
+                        <li><a href="/about.html">О проекте</a></li>
+                        <li><a href="/categories.html">Все разделы</a></li>
+                        <li><a href="/contact.html">Контакты</a></li>
+                        <li><a href="/privacy.html">Конфиденциальность</a></li>
+                        <li><a href="/sitemap.xml">Карта сайта</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2026 Рено Гайд. Все права защищены.</p>
+                <!--LiveInternet counter--><div style="margin-top:10px;"><a href="https://www.liveinternet.ru/click"
+                target="_blank"><img id="licnt06C4" width="88" height="15" style="border:0" 
+                title="LiveInternet: показано число посетителей за сегодня"
+                src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAEALAAAAAABAAEAAAIBTAA7"
+                alt=""/></a><script>(function(d,s){d.getElementById("licnt06C4").src=
+                "https://counter.yadro.ru/hit?t26.5;r"+escape(d.referrer)+
+                ((typeof(s)=="undefined")?"":";s"+s.width+"*"+s.height+"*"+
+                (s.colorDepth?s.colorDepth:s.pixelDepth))+";u"+escape(d.URL)+
+                ";h"+escape(d.title.substring(0,150))+";"+Math.random()})(document,screen)</script></div><!--/LiveInternet-->
+            </div>
+        </div>
+    </footer>
+    <div id="cookie-consent" class="cookie-popup">
+        <div class="cookie-inner">
+            <span>🍪 Мы используем файлы cookie для улучшения работы сайта.</span>
+            <button id="cookie-accept" class="cookie-btn">Принять</button>
+        </div>
+    </div>
+    <script src="/static/js/main.js"></script>
+    <script>
+    (function() {
+        const popup = document.getElementById('cookie-consent');
+        const btn = document.getElementById('cookie-accept');
+        if (popup && btn && !localStorage.getItem('cookie-accepted')) {
+            popup.classList.add('visible');
+            btn.onclick = () => {
+                localStorage.setItem('cookie-accepted', 'true');
+                popup.classList.remove('visible');
+            };
+        }
+    })();
+    </script>
+    <!--#include virtual="/ssi/body_bottom.html" -->
+    <script src="/static/js/inject.js" defer></script>
+</body>
+</html>

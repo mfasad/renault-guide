@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 100 100%27><text y=%27.9em%27 font-size=%2790%27>🚙</text></svg>">
+    <title>После переноса системы на SSD система не загружается: решения — Рено Гайд</title>
+    <meta name="description" content="Система не загружается после установки SSD? Узнайте причины сбоя загрузчика, настройки BIOS и методы восстановления Windows. Полное руководство по диагностике.">
+    <link rel="canonical" href="https://renault-guide.vercel.app/articles/p/po/posle-perenosa-sistemy-na-ssd-sistema-ne-zagruzhaetsya.html">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="После переноса системы на SSD система не загружается: решения">
+    <meta property="og:description" content="Система не загружается после установки SSD? Узнайте причины сбоя загрузчика, настройки BIOS и методы восстановления Windows. Полное руководство по диагностике.">
+    <meta property="og:locale" content="ru_RU">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/style.css?v=1776848103">
+    <style>
+    .site-footer-premium {
+        margin-top: 60px; padding: 40px 0 0; background: #1e293b; color: #94a3b8;
+    }
+    .footer-grid {
+        display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 40px;
+        padding-bottom: 32px; border-bottom: 1px solid #334155;
+    }
+    .footer-brand { font-size: 1.2rem; font-weight: 700; color: #f1f5f9; margin-bottom: 12px; }
+    .footer-about { font-size: 0.9rem; line-height: 1.6; margin-bottom: 8px; }
+    .footer-updated { font-size: 0.8rem; color: #64748b; }
+    .footer-col h4 { color: #f1f5f9; font-size: 0.95rem; margin-bottom: 16px; }
+    .footer-col ul { list-style: none; }
+    .footer-col li { margin-bottom: 8px; }
+    .footer-col a { color: #94a3b8; font-size: 0.9rem; transition: color 0.2s; }
+    .footer-col a:hover { color: #60a5fa; }
+    .footer-bottom { padding: 20px 0; text-align: center; font-size: 0.85rem; }
+    @media (max-width: 640px) {
+        .footer-grid { grid-template-columns: 1fr; gap: 24px; }
+    }
+    .cookie-popup {
+        position: fixed; bottom: 0; left: 0; right: 0; background: #1e293b; color: #fff;
+        padding: 16px; transition: transform 0.5s ease; z-index: 9999; border-top: 2px solid #2563eb;
+        transform: translateY(100%);
+    }
+    .cookie-popup.visible { transform: translateY(0); }
+    .cookie-inner { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; gap: 16px; font-size: 0.9rem; }
+    .cookie-btn { background: #2563eb; color: #fff; border: none; padding: 8px 20px; border-radius: 8px; font-weight: 600; cursor: pointer; white-space: nowrap; }
+    .cookie-btn:hover { background: #1d4ed8; }
+    @media (max-width: 640px) {
+        .cookie-inner { flex-direction: column; text-align: center; }
+    }
+</style>
+    
+    <!--#include virtual="/ssi/head.html" -->
+</head>
+<body>
+        <!--#include virtual="/ssi/body_top.html" -->
+    <style>
+    .nav-dropdown { position: relative; display: inline-block; }
+    .dropdown-toggle {
+        background: none; border: none; cursor: pointer;
+        font: inherit; color: inherit; padding: 8px 12px;
+        border-radius: 8px; transition: background 0.2s;
+    }
+    .dropdown-toggle:hover { background: rgba(0,0,0,0.05); }
+    .dropdown-menu {
+        display: none; position: absolute; right: 0; top: 100%;
+        min-width: 240px; max-height: 70vh; overflow-y: auto;
+        background: var(--card-bg, #fff); border: 1px solid var(--border, #e5e7eb);
+        border-radius: 12px; box-shadow: 0 12px 40px rgba(0,0,0,0.12);
+        padding: 8px 0; z-index: 1000;
+    }
+    .nav-dropdown::after {
+        content: ''; position: absolute; left: 0; right: 0;
+        top: 100%; height: 12px;
+    }
+    .nav-dropdown:hover .dropdown-menu,
+    .nav-dropdown:focus-within .dropdown-menu { display: block; }
+    .dropdown-item {
+        display: block; padding: 10px 20px; color: var(--text, #1f2937);
+        text-decoration: none; font-size: 0.95rem; transition: background 0.15s;
+        white-space: nowrap;
+    }
+    .dropdown-item:hover { background: rgba(37,99,235,0.06); color: var(--primary, #2563eb); }
+    @media (max-width: 768px) {
+        .main-nav > .nav-link { display: none; }
+        .dropdown-toggle { display: none; }
+        .dropdown-menu {
+            display: block !important; position: static;
+            box-shadow: none; border: none; border-radius: 0;
+            min-width: auto; max-height: none; padding: 0;
+            background: transparent;
+        }
+        .dropdown-item {
+            padding: 8px 0; font-size: 1rem;
+        }
+    }
+    </style>
+    <header class="site-header">
+        <div class="container header-inner">
+            <a href="/" class="logo">
+                <span class="logo-icon">🚙</span>
+                <span>Рено Гайд</span>
+            </a>
+            <button class="mobile-menu-btn" aria-label="Меню" id="menuBtn">☰</button>
+            <nav class="main-nav" id="mainNav">
+                <a href="/category/logan/" class="nav-link">📁 Logan</a>
+<a href="/category/duster/" class="nav-link">📁 Duster</a>
+<a href="/category/megane/" class="nav-link">📁 Megane</a>
+<a href="/category/sandero/" class="nav-link">📁 Sandero</a>
+<div class="nav-dropdown">
+            <button class="nav-link dropdown-toggle">📂 Все разделы ▾</button>
+            <div class="dropdown-menu"><a href="/category/logan/" class="dropdown-item">📁 Logan</a>
+<a href="/category/duster/" class="dropdown-item">📁 Duster</a>
+<a href="/category/megane/" class="dropdown-item">📁 Megane</a>
+<a href="/category/sandero/" class="dropdown-item">📁 Sandero</a>
+<a href="/category/kaptur/" class="dropdown-item">📁 Kaptur</a>
+<a href="/category/fluence/" class="dropdown-item">📁 Fluence</a>
+<a href="/category/scenic/" class="dropdown-item">📁 Scenic</a>
+<a href="/category/arkana/" class="dropdown-item">📁 Arkana</a>
+<a href="/category/symbol/" class="dropdown-item">📁 Symbol</a>
+<a href="/category/laguna/" class="dropdown-item">📁 Laguna</a>
+<a href="/category/kangoo/" class="dropdown-item">📁 Kangoo</a>
+<a href="/category/авто/" class="dropdown-item">📁 Авто</a>
+<a href="/category/master/" class="dropdown-item">📁 Master</a>
+<a href="/category/koleos/" class="dropdown-item">📁 Koleos</a>
+<a href="/category/captur/" class="dropdown-item">📁 Captur</a>
+<a href="/category/clio/" class="dropdown-item">📁 Clio</a>
+<a href="/category/trafic/" class="dropdown-item">📁 Trafic</a>
+<a href="/category/espace/" class="dropdown-item">📁 Espace</a>
+<a href="/category/kadjar/" class="dropdown-item">📁 Kadjar</a>
+<a href="/category/twingo/" class="dropdown-item">📁 Twingo</a>
+<a href="/category/drugoe/" class="dropdown-item">📁 Другое</a></div>
+        </div>
+            </nav>
+        </div>
+    </header>
+
+    <nav class="breadcrumbs" aria-label="Навигация">
+        <div class="container"><a href="/">Главная</a><span class="breadcrumb-sep">›</span><a href="/category/drugoe/">Другое</a><span class="breadcrumb-sep">›</span><span class="breadcrumb-current">После переноса системы на SSD система не загружается: решения</span></div>
+    </nav>
+
+    <main class="site-main">
+        <div class="container">
+            <div class="article-layout">
+                <article class="article-main">
+                    
+                    <h1>Почему система не загружается после переноса на SSD и как это исправить</h1>
+                    <nav class="mobile-toc"><details><summary>📋 Содержание</summary><ul><li><a href="#проверка-приоритета-загрузочных-устройств-в-bios">Проверка приоритета загрузочных устройств в BIOS</a></li><li><a href="#рассинхронизация-режимов-uefi-и-legacy">Рассинхронизация режимов UEFI и Legacy</a></li><li><a href="#восстановление-загрузочной-записи-windows">Восстановление загрузочной записи Windows</a></li><li><a href="#диагностика-sata-режимов-и-контроллера">Диагностика SATA-режимов и контроллера</a></li><li><a href="#специфика-клонирования-и-скрытые-разделы">Специфика клонирования и скрытые разделы</a></li><li><a href="#физическая-неисправность-и-проверка-диска">Физическая неисправность и проверка диска</a></li><li><a href="#альтернативные-методы-восстановления">Альтернативные методы восстановления</a></li></ul></details></nav>
+                    <!--#include virtual="/ssi/article_before.html" -->
+                    <div class="article-body"><p>Многие пользователи сталкиваются с неприятной ситуацией, когда после клонирования операционной системы или полной переустановки на новый <strong>SSD</strong> компьютер отказывается загружаться. Экран остается черным, появляются сообщения об отсутствии загрузочного устройства или возникает бесконечный цикл перезагрузок. Это не означает, что ваш новый диск бракованный или клонирование прошло неудачно.</p>
+<p>Чаще всего проблема кроется в рассинхронизации настроек <code>BIOS</code> или <code>UEFI</code> и структуры разделов на диске. Современные накопители требуют специфических конфигураций загрузочных записей, которые отличаются от устаревших стандартов. Паниковать не стоит — в большинстве случаев ошибка устраняется корректировкой параметров в прошивке материнской платы или восстановлением загрузчика через специальные утилиты.</p>
+
+<h2 id="проверка-приоритета-загрузочных-устройств-в-bios">Проверка приоритета загрузочных устройств в BIOS</h2>
+<p>Самой банальной, но частой причиной невозможности запуска является то, что материнская плата продолжает пытаться загрузиться с старого жесткого диска <em>HDD</em> или с USB-накопителя, игнорируя новый <strong>SSD</strong>. В настройках прошивки необходимо вручную указать приоритет.</p>
+<p>При включении компьютера сразу же нажимайте клавишу входа в <code>BIOS</code> (обычно это <code>Del</code>, <code>F2</code> или <code>F10</code>, в зависимости от производителя). Найдите раздел <code>Boot</code> или <code>Загрузка</code> и убедитесь, что ваш новый диск стоит на первом месте в списке приоритетов. Если диск не отображается в списке вовсе, проблема может быть в физическом подключении или режиме работы контроллера.</p>
+<p>Иногда система видит диск, но не может прочитать с него загрузчик из-за конфликта режимов <code>Legacy</code> и <code>UEFI</code>. Если вы переносили систему с диска, где использовался старый стиль разделов <em>MBR</em>, а в BIOS включен режим <code>UEFI</code>, загрузка не состоится. Необходимо либо переключить режим на <code>Legacy</code> (CSM), либо переклонировать систему с конвертацией в <em>GPT</em>.</p>
+
+<h2 id="рассинхронизация-режимов-uefi-и-legacy">Рассинхронизация режимов UEFI и Legacy</h2>
+<p>Одна из самых сложных технических проблем возникает при несоответствии стиля разметки диска и режима работы прошивки. Если вы перенесли систему, созданную в режиме <code>Legacy</code> с таблицей разделов <em>MBR</em>, на новый диск, но в <code>BIOS</code> установлен режим <code>UEFI</code>, система не загрузится. Аналогичная ситуация происходит в обратном случае.</p>
+<p>Для исправления ситуации необходимо зайти в настройки <code>BIOS</code> и найти параметр <code>Boot Mode</code>. Если ваш диск размечен в стиле <em>GPT</em>, выберите <code>UEFI Only</code>. Если использовался <em>MBR</em>, активируйте опцию <code>Legacy Support</code> или <code>CSM</code>. Иногда помогает отключение опции <code>Secure Boot</code>, которая может блокировать загрузку не подписанных загрузчиков.</p>
+<p>Важно понимать, что автоматическое переключение режимов не всегда срабатывает корректно. Если вы не знаете, в каком режиме была установлена исходная система, придется перебирать варианты. Однако, если вы использовали профессиональный софт для клонирования с конвертацией, скорее всего, проблема именно в настройках <code>BIOS</code>.</p>
+
+<div class="attention-box attention-info"><div><strong>📊 В каком режиме был настроен ваш старый диск?</strong><ul><li>Legacy (MBR)</li><li>UEFI (GPT)</li><li>Не знаю</li><li>Смешанный режим</li></ul></div></div>
+
+<h2 id="восстановление-загрузочной-записи-windows">Восстановление загрузочной записи Windows</h2>
+<p>Если настройки <code>BIOS</code> верны, а система все равно не стартует, вероятно, повреждена или отсутствует <strong>загрузочная запись</strong> (MBR или BCD). Это часто случается при прерывании процесса клонирования или при использовании дешевых переходников. Для восстановления потребуется загрузочная флешка с образом Windows.</p>
+<p>Загрузитесь с флешки, выберите язык и нажмите «Восстановление системы». Перейдите в <code>Поиск и устранение неисправностей</code> -> <code>Командная строка</code>. Введите команду <code>bootrec /fixmbr</code> для восстановления главной загрузочной записи, а затем <code>bootrec /fixboot</code>. Если система выдает отказ доступа, может потребоваться команда <code>bootrec /rebuildbcd</code>, которая найдет установленные системы и добавит их в меню загрузки.</p>
+<p>Для систем <em>GPT</em> процедура немного отличается. Необходимо убедиться, что активен скрытый раздел восстановления. В командной строке запустите утилиту <code>diskpart</code>, затем <code>list vol</code>. Найдите маленький раздел (около 100-500 МБ) с файловой системой <code>FAT32</code>, выделите его командой <code>select vol X</code> и задайте букву <code>assign letter=Z</code>. После этого выполните команду <code>bcdboot C:\Windows /s Z: /f UEFI</code> (где C — буква диска с системой, а Z — буква системного раздела).</p>
+
+<blockquote>⚠️ Внимание: При работе с командами <code>diskpart</code> и <code>bootrec</code> будьте предельно внимательны с выбором дисков. Ошибочное форматирование или очистка неправильного раздела приведет к безвозвратной потере всех данных на накопителе.</blockquote>
+
+<details class="faq-item"><summary>Как узнать стиль разделов без загрузки системы?</summary><div class="faq-answer"><p>Если у вас есть загрузочная флешка, зайдите в командную строку и введите diskpart. Затем выполните list disk. Если у диска есть звездочка (*) в колонке GPT, значит он использует стиль GPT. Если звездочки нет — стиль MBR.</p></div></details>
+
+<h2 id="диагностика-sata-режимов-и-контроллера">Диагностика SATA-режимов и контроллера</h2>
+<p>Иногда проблема кроется не в программном обеспечении, а в настройках работы контроллера дисков. В <code>BIOS</code> существует параметр <code>SATA Mode</code>, который может быть установлен в режимы <code>IDE</code>, <code>AHCI</code> или <code>RAID</code>. Если система была установлена в режиме <code>AHCI</code>, а вы переключили контроллер в <code>RAID</code> (или наоборот), драйверы не смогут инициализировать диск, и загрузка прервется.</p>
+<p>Особенно критично это для современных систем, где по умолчанию используется режим <code>AHCI</code>. Устаревшие системы иногда требуют режима <code>IDE</code> для корректной работы старых драйверов. Проверьте текущее значение в разделе <code>Advanced</code> -> <code>SATA Configuration</code>. Попробуйте переключить режим, сохраните настройки и перезагрузите компьютер.</p>
+<p>Если после смены режима система загружается, но выдает ошибки или работает нестабильно, возможно, в реестре не прописаны необходимые драйверы. В таком случае лучше вернуть прежнее значение. Также стоит проверить кабель SATA и порт на материнской плате — некачественный контакт может имитировать отсутствие диска.</p>
+
+<div class="checklist-block"><h4>☑️ Чек-лист проверки подключения SSD</h4><label class="check-item"><input type="checkbox"><span>Проверить кабель SATA на предмет повреждений</span></label><label class="check-item"><input type="checkbox"><span>Попробовать другой порт на материнской плате</span></label><label class="check-item"><input type="checkbox"><span>Убедиться, что диск определяется в BIOS</span></label><label class="check-item"><input type="checkbox"><span>Проверить питание от блока питания</span></label><div class="check-progress">Выполнено: <span class="check-count">0</span> / 4</div></div>
+
+<h2 id="специфика-клонирования-и-скрытые-разделы">Специфика клонирования и скрытые разделы</h2>
+<p>При использовании программ для клонирования, таких как <em>Acronis True Image</em>, <em>Macrium Reflect</em> или <em>AOMEI Backupper</em>, важно учитывать структуру разделов. Часто пользователи копируют только основной раздел с Windows, забывая о скрытом системном разделе, который содержит загрузчик.</p>
+<p>Если на целевом диске отсутствует этот небольшой раздел (обычно 100-500 МБ), система не сможет загрузиться, даже если файлы Windows скопированы идеально. При клонировании всегда выбирайте опцию «Клонировать весь диск», а не отдельные разделы. Это гарантирует, что все необходимые служебные области будут перенесены на новый <strong>SSD</strong>.</p>
+<p>Если вы клонировали диск вручную или с помощью утилит, которые не поддерживают перенос скрытых разделов, вам придется создать их заново. В управлении дисками Windows создайте новый раздел на 500 МБ, отформатируйте его в <code>FAT32</code> и сделайте активным, а затем восстановите загрузчик через командную строку, как описано выше.</p>
+
+<div class="attention-box attention-tip"><span class="attention-icon">💡</span><p>Скрытый раздел EFI или System Reserved критически важен для загрузки; его отсутствие делает невозможным запуск операционной системы даже при полностью скопированных файлах.</p></div>
+
+<h2 id="физическая-неисправность-и-проверка-диска">Физическая неисправность и проверка диска</h2>
+<p>Если программные методы не помогают, существует вероятность физической неисправности самого <em>SSD</em> или его интерфейса. Новый накопитель может быть бракованным, либо он может не получать достаточное питание. Проверьте индикаторы на диске (если они есть) и попробуйте подключить его к другому компьютеру.</p>
+<p>В <code>BIOS</code> используйте утилиту <code>S.M.A.R.T.</code> для проверки состояния диска. Если статус «Bad» или есть ошибки чтения/записи, диск подлежит замене по гарантии. Также стоит проверить версию прошивки контроллера SSD — иногда производители выпускают обновления, исправляющие проблемы с совместимостью.</p>
+<p>Для диагностики можно использовать загрузочные утилиты от производителя диска (например, <em>Samsung Magician</em> или <em>WD Dashboard</em>), которые можно записать на флешку. Они позволяют проверить здоровье накопителя и обновить его прошивку без загрузки основной операционной системы.</p>
+
+<table>
+<thead>
+<tr>
+<th>Проблема</th>
+<th>Вероятная причина</th>
+<th>Решение</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Диск не определяется в BIOS</td>
+<td>Неисправный кабель или порт</td>
+<td>Заменить кабель SATA и порт</td>
+</tr>
+<tr>
+<td>Черный экран после выбора диска</td>
+<td>Неверный режим загрузки (UEFI/Legacy)</td>
+<td>Сменить режим в BIOS или восстановить загрузчик</td>
+</tr>
+<tr>
+<td>Ошибки Bootmgr is missing</td>
+<td>Отсутствует загрузочный раздел</td>
+<td>Создать раздел и выполнить bcdboot</td>
+</tr>
+<tr>
+<td>Бесконечная перезагрузка</td>
+<td>Повреждение системных файлов</td>
+<td>Восстановление через установочную флешку</td>
+</tr>
+</tbody>
+</table>
+
+<blockquote>⚠️ Внимание: Если диск не определяется в BIOS даже после замены кабеля и порта, возможно, контроллер накопителя вышел из строя. Не пытайтесь его включать повторно, чтобы не усугубить ситуацию, и сразу обратитесь в сервисный центр.</blockquote>
+
+<h2 id="альтернативные-методы-восстановления">Альтернативные методы восстановления</h2>
+<p>Если стандартные команды не дают результата, можно попробовать использовать автоматизированные утилиты восстановления, такие как <em>Boot Repair</em> (для Linux) или специализированные версии <em>EasyBCD</em> для Windows. Эти программы имеют графический интерфейс и могут автоматически проанализировать структуру загрузки.</p>
+<p>В некоторых случаях помогает полный сброс настроек <code>BIOS</code> до заводских. Для этого нужно найти джампер <code>CLR_CMOS</code> на материнской плате или вынуть батарейку на 5 минут. Это сбросит все настройки, включая приоритеты загрузки и режимы SATA, что иногда позволяет системе «подружиться» с новым диском.</p>
+<p>Последним вариантом является повторное клонирование системы, но с использованием другого ПО или метода. Если вы использовали клонирование образа, попробуйте выполнить чистую установку Windows на новый <strong>SSD</strong>, предварительно отключив старый диск. Это исключит конфликты дублирующихся идентификаторов томов.</p>
+
+<div class="attention-box attention-tip"><span class="attention-icon">💡</span><p>Перед началом любых манипуляций с разделами и загрузкой обязательно создайте резервную копию важных данных, если у вас есть возможность подключить диск как второй к другому компьютеру.</p></div>
+
+<details>
+<summary>Почему система видит SSD, но не загружается?</summary>
+<p>Это чаще всего указывает на проблему с загрузочной записью (MBR/BCD) или несоответствие режима загрузки (UEFI/Legacy). Диск физически исправен, но прошивка не может найти инструкцию для старта системы.</p>
+</details>
+
+<details>
+<summary>Нужно ли форматировать SSD перед переносом системы?</summary>
+<p>Если вы используете функцию «Клонирование диска», форматирование не требуется — программа сама перепишет структуру. Однако, если вы устанавливаете систему с нуля или копируете файлы вручную, диск необходимо отформатировать в нужную файловую систему (NTFS).</p>
+</details>
+
+<details>
+<summary>Можно ли загрузиться, если отключить старый HDD?</summary>
+<p>Да, в большинстве случаев это даже рекомендуется. Отключение старого диска исключает путаницу в приоритетах загрузки и позволяет системе использовать загрузчик на новом SSD без конфликтов.</p>
+</details>
+
+<details>
+<summary>Что делать, если BIOS не видит новый SSD?</summary>
+<p>Проверьте физическое подключение кабелей, попробуйте другой порт SATA. Убедитесь, что диск получает питание. Если диск не виден даже после замены кабелей, возможно, он неисправен или несовместим с вашим контроллером.</p>
+</details></div>
+                    <!--#include virtual="/ssi/article_after.html" -->
+
+                </article>
+                <aside class="article-sidebar"><!--#include virtual="/ssi/sidebar_top.html" --><nav class="sidebar-search"><div class="sidebar-search-box"><input type="text" id="globalSearchInput" placeholder="🔍 Поиск статей..." autocomplete="off"><div class="search-dropdown" id="globalSearchDropdown"></div></div></nav><!--#include virtual="/ssi/sidebar_before_toc.html" --><nav class="sidebar-toc" id="sidebarToc"><h3>Содержание</h3><ul><li><a href="#проверка-приоритета-загрузочных-устройств-в-bios">Проверка приоритета загрузочных устройств в BIOS</a></li><li><a href="#рассинхронизация-режимов-uefi-и-legacy">Рассинхронизация режимов UEFI и Legacy</a></li><li><a href="#восстановление-загрузочной-записи-windows">Восстановление загрузочной записи Windows</a></li><li><a href="#диагностика-sata-режимов-и-контроллера">Диагностика SATA-режимов и контроллера</a></li><li><a href="#специфика-клонирования-и-скрытые-разделы">Специфика клонирования и скрытые разделы</a></li><li><a href="#физическая-неисправность-и-проверка-диска">Физическая неисправность и проверка диска</a></li><li><a href="#альтернативные-методы-восстановления">Альтернативные методы восстановления</a></li></ul></nav><!--#include virtual="/ssi/sidebar_before_related.html" --><nav class="sidebar-related"><h3>Похожие статьи</h3><ul><li><a href="/articles/k/ka/kak-sdelat-cherenok-dlya-litovki.html" class="related-card">Как сделать черенок для литовки: пошаговая инструкция с фото</a></li><li><a href="/articles/k/ka/kak-zamarinovat-kurinye-plechiki.html" class="related-card">Как замариновать куриные плечики: 5 секретных рецептов</a></li><li><a href="/articles/z/zh/zhan-reno-rytsar.html" class="related-card">Жан Рено Рыцарь: история, модели и секреты французского автопрома</a></li><li><a href="/articles/k/ka/kak-sdelat-marinovannyj-luk-dlya-shashlyka.html" class="related-card">Как сделать идеальный маринованный лук для шашлыка: 5 секретов</a></li><li><a href="/articles/k/ka/kak-rabotaet-trenoga.html" class="related-card">Как работает тренога: принцип действия, виды и правила выбора</a></li></ul></nav><!--#include virtual="/ssi/sidebar_after_related.html" --></aside>
+            </div>
+        </div>
+    </main>
+
+    <!--#include virtual="/ssi/before_related_bottom.html" -->
+    <section class="related-bottom">
+        <div class="container">
+            <h2 class="related-bottom-heading">📖 Читайте также</h2>
+            <div class="related-bottom-grid"><a href="/articles/k/ka/kak-sdelat-cherenok-dlya-litovki.html" class="related-bottom-card"><span class="related-bottom-title">Как сделать черенок для литовки: пошаговая инструкция с фото</span><span class="related-bottom-desc">Узнайте, как правильно изготовить черенок для литовки своими руками: выбор материала, инструменты, п</span></a><a href="/articles/k/ka/kak-zamarinovat-kurinye-plechiki.html" class="related-bottom-card"><span class="related-bottom-title">Как замариновать куриные плечики: 5 секретных рецептов</span><span class="related-bottom-desc">Узнайте, как замариновать куриные плечики для сочного результата. Лучшие специи, время выдержки и хи</span></a><a href="/articles/z/zh/zhan-reno-rytsar.html" class="related-bottom-card"><span class="related-bottom-title">Жан Рено Рыцарь: история, модели и секреты французского автопрома</span><span class="related-bottom-desc">Кто такой Жан Рено Рыцарь? Легендарные модели Renault, связанные с этим именем, технические особенно</span></a><a href="/articles/k/ka/kak-sdelat-marinovannyj-luk-dlya-shashlyka.html" class="related-bottom-card"><span class="related-bottom-title">Как сделать идеальный маринованный лук для шашлыка: 5 секретов</span><span class="related-bottom-desc">Узнайте, как быстро замариновать лук для шашлыка. Проверенные рецепты с уксусом, маслом и специями. </span></a><a href="/articles/k/ka/kak-rabotaet-trenoga.html" class="related-bottom-card"><span class="related-bottom-title">Как работает тренога: принцип действия, виды и правила выбора</span><span class="related-bottom-desc">Подробный разбор того, как работает тренога. Изучите механику фиксации, типы креплений, материалы и </span></a><a href="/articles/k/ke/kemping-na-myse-meganom.html" class="related-bottom-card"><span class="related-bottom-title">Кемпинг на мысе Меганом: полное руководство, карты и советы</span><span class="related-bottom-desc">Полный гид по кемпингу на мысе Меганом: где разбить палатку, как добраться, правила безопасности и л</span></a></div>
+        </div>
+    </section>
+    <!--#include virtual="/ssi/after_related_bottom.html" -->
+
+    <footer class="site-footer-premium">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <div class="footer-brand">🚙 Рено Гайд</div>
+                    <p class="footer-about">Рено - идеальный баланс французского комфорта и практичности. Подробные обзоры от Logan до Duster, честные отзывы владельцев и полезные советы по ремонту.
+</p>
+                </div>
+                <div class="footer-col">
+                    <h4>Разделы</h4>
+                    <ul><li><a href="/category/logan/">📁 Logan</a></li>
+<li><a href="/category/duster/">📁 Duster</a></li>
+<li><a href="/category/megane/">📁 Megane</a></li>
+<li><a href="/category/sandero/">📁 Sandero</a></li>
+<li><a href="/category/kaptur/">📁 Kaptur</a></li>
+<li><a href="/category/fluence/">📁 Fluence</a></li></ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Информация</h4>
+                    <ul>
+                        <li><a href="/">Главная</a></li>
+                        <li><a href="/about.html">О проекте</a></li>
+                        <li><a href="/categories.html">Все разделы</a></li>
+                        <li><a href="/contact.html">Контакты</a></li>
+                        <li><a href="/privacy.html">Конфиденциальность</a></li>
+                        <li><a href="/sitemap.xml">Карта сайта</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2026 Рено Гайд. Все права защищены.</p>
+                <!--LiveInternet counter--><div style="margin-top:10px;"><a href="https://www.liveinternet.ru/click"
+                target="_blank"><img id="licnt06C4" width="88" height="15" style="border:0" 
+                title="LiveInternet: показано число посетителей за сегодня"
+                src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAEALAAAAAABAAEAAAIBTAA7"
+                alt=""/></a><script>(function(d,s){d.getElementById("licnt06C4").src=
+                "https://counter.yadro.ru/hit?t26.5;r"+escape(d.referrer)+
+                ((typeof(s)=="undefined")?"":";s"+s.width+"*"+s.height+"*"+
+                (s.colorDepth?s.colorDepth:s.pixelDepth))+";u"+escape(d.URL)+
+                ";h"+escape(d.title.substring(0,150))+";"+Math.random()})(document,screen)</script></div><!--/LiveInternet-->
+            </div>
+        </div>
+    </footer>
+    <div id="cookie-consent" class="cookie-popup">
+        <div class="cookie-inner">
+            <span>🍪 Мы используем файлы cookie для улучшения работы сайта.</span>
+            <button id="cookie-accept" class="cookie-btn">Принять</button>
+        </div>
+    </div>
+    <script src="/static/js/main.js"></script>
+    <script>
+    (function() {
+        const popup = document.getElementById('cookie-consent');
+        const btn = document.getElementById('cookie-accept');
+        if (popup && btn && !localStorage.getItem('cookie-accepted')) {
+            popup.classList.add('visible');
+            btn.onclick = () => {
+                localStorage.setItem('cookie-accepted', 'true');
+                popup.classList.remove('visible');
+            };
+        }
+    })();
+    </script>
+    <!--#include virtual="/ssi/body_bottom.html" -->
+    <script src="/static/js/inject.js" defer></script>
+</body>
+</html>

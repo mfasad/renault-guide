@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 100 100%27><text y=%27.9em%27 font-size=%2790%27>🚙</text></svg>">
+    <title>Перенос файлов по SSH: лучшие способы и команды для Linux/Windows — Рено Гайд</title>
+    <meta name="description" content="Как безопасно передавать файлы по SSH: scp, rsync, sftp и GUI-инструменты. Пошаговые инструкции с примерами команд и типичными ошибками.">
+    <link rel="canonical" href="https://renault-guide.vercel.app/articles/p/pe/perenos-fajlov-po-ssh.html">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Перенос файлов по SSH: лучшие способы и команды для Linux/Windows">
+    <meta property="og:description" content="Как безопасно передавать файлы по SSH: scp, rsync, sftp и GUI-инструменты. Пошаговые инструкции с примерами команд и типичными ошибками.">
+    <meta property="og:locale" content="ru_RU">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/style.css?v=1776848103">
+    <style>
+    .site-footer-premium {
+        margin-top: 60px; padding: 40px 0 0; background: #1e293b; color: #94a3b8;
+    }
+    .footer-grid {
+        display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 40px;
+        padding-bottom: 32px; border-bottom: 1px solid #334155;
+    }
+    .footer-brand { font-size: 1.2rem; font-weight: 700; color: #f1f5f9; margin-bottom: 12px; }
+    .footer-about { font-size: 0.9rem; line-height: 1.6; margin-bottom: 8px; }
+    .footer-updated { font-size: 0.8rem; color: #64748b; }
+    .footer-col h4 { color: #f1f5f9; font-size: 0.95rem; margin-bottom: 16px; }
+    .footer-col ul { list-style: none; }
+    .footer-col li { margin-bottom: 8px; }
+    .footer-col a { color: #94a3b8; font-size: 0.9rem; transition: color 0.2s; }
+    .footer-col a:hover { color: #60a5fa; }
+    .footer-bottom { padding: 20px 0; text-align: center; font-size: 0.85rem; }
+    @media (max-width: 640px) {
+        .footer-grid { grid-template-columns: 1fr; gap: 24px; }
+    }
+    .cookie-popup {
+        position: fixed; bottom: 0; left: 0; right: 0; background: #1e293b; color: #fff;
+        padding: 16px; transition: transform 0.5s ease; z-index: 9999; border-top: 2px solid #2563eb;
+        transform: translateY(100%);
+    }
+    .cookie-popup.visible { transform: translateY(0); }
+    .cookie-inner { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; gap: 16px; font-size: 0.9rem; }
+    .cookie-btn { background: #2563eb; color: #fff; border: none; padding: 8px 20px; border-radius: 8px; font-weight: 600; cursor: pointer; white-space: nowrap; }
+    .cookie-btn:hover { background: #1d4ed8; }
+    @media (max-width: 640px) {
+        .cookie-inner { flex-direction: column; text-align: center; }
+    }
+</style>
+    
+    <!--#include virtual="/ssi/head.html" -->
+</head>
+<body>
+        <!--#include virtual="/ssi/body_top.html" -->
+    <style>
+    .nav-dropdown { position: relative; display: inline-block; }
+    .dropdown-toggle {
+        background: none; border: none; cursor: pointer;
+        font: inherit; color: inherit; padding: 8px 12px;
+        border-radius: 8px; transition: background 0.2s;
+    }
+    .dropdown-toggle:hover { background: rgba(0,0,0,0.05); }
+    .dropdown-menu {
+        display: none; position: absolute; right: 0; top: 100%;
+        min-width: 240px; max-height: 70vh; overflow-y: auto;
+        background: var(--card-bg, #fff); border: 1px solid var(--border, #e5e7eb);
+        border-radius: 12px; box-shadow: 0 12px 40px rgba(0,0,0,0.12);
+        padding: 8px 0; z-index: 1000;
+    }
+    .nav-dropdown::after {
+        content: ''; position: absolute; left: 0; right: 0;
+        top: 100%; height: 12px;
+    }
+    .nav-dropdown:hover .dropdown-menu,
+    .nav-dropdown:focus-within .dropdown-menu { display: block; }
+    .dropdown-item {
+        display: block; padding: 10px 20px; color: var(--text, #1f2937);
+        text-decoration: none; font-size: 0.95rem; transition: background 0.15s;
+        white-space: nowrap;
+    }
+    .dropdown-item:hover { background: rgba(37,99,235,0.06); color: var(--primary, #2563eb); }
+    @media (max-width: 768px) {
+        .main-nav > .nav-link { display: none; }
+        .dropdown-toggle { display: none; }
+        .dropdown-menu {
+            display: block !important; position: static;
+            box-shadow: none; border: none; border-radius: 0;
+            min-width: auto; max-height: none; padding: 0;
+            background: transparent;
+        }
+        .dropdown-item {
+            padding: 8px 0; font-size: 1rem;
+        }
+    }
+    </style>
+    <header class="site-header">
+        <div class="container header-inner">
+            <a href="/" class="logo">
+                <span class="logo-icon">🚙</span>
+                <span>Рено Гайд</span>
+            </a>
+            <button class="mobile-menu-btn" aria-label="Меню" id="menuBtn">☰</button>
+            <nav class="main-nav" id="mainNav">
+                <a href="/category/logan/" class="nav-link">📁 Logan</a>
+<a href="/category/duster/" class="nav-link">📁 Duster</a>
+<a href="/category/megane/" class="nav-link">📁 Megane</a>
+<a href="/category/sandero/" class="nav-link">📁 Sandero</a>
+<div class="nav-dropdown">
+            <button class="nav-link dropdown-toggle">📂 Все разделы ▾</button>
+            <div class="dropdown-menu"><a href="/category/logan/" class="dropdown-item">📁 Logan</a>
+<a href="/category/duster/" class="dropdown-item">📁 Duster</a>
+<a href="/category/megane/" class="dropdown-item">📁 Megane</a>
+<a href="/category/sandero/" class="dropdown-item">📁 Sandero</a>
+<a href="/category/kaptur/" class="dropdown-item">📁 Kaptur</a>
+<a href="/category/fluence/" class="dropdown-item">📁 Fluence</a>
+<a href="/category/scenic/" class="dropdown-item">📁 Scenic</a>
+<a href="/category/arkana/" class="dropdown-item">📁 Arkana</a>
+<a href="/category/symbol/" class="dropdown-item">📁 Symbol</a>
+<a href="/category/laguna/" class="dropdown-item">📁 Laguna</a>
+<a href="/category/kangoo/" class="dropdown-item">📁 Kangoo</a>
+<a href="/category/авто/" class="dropdown-item">📁 Авто</a>
+<a href="/category/master/" class="dropdown-item">📁 Master</a>
+<a href="/category/koleos/" class="dropdown-item">📁 Koleos</a>
+<a href="/category/captur/" class="dropdown-item">📁 Captur</a>
+<a href="/category/clio/" class="dropdown-item">📁 Clio</a>
+<a href="/category/trafic/" class="dropdown-item">📁 Trafic</a>
+<a href="/category/espace/" class="dropdown-item">📁 Espace</a>
+<a href="/category/kadjar/" class="dropdown-item">📁 Kadjar</a>
+<a href="/category/twingo/" class="dropdown-item">📁 Twingo</a>
+<a href="/category/drugoe/" class="dropdown-item">📁 Другое</a></div>
+        </div>
+            </nav>
+        </div>
+    </header>
+
+    <nav class="breadcrumbs" aria-label="Навигация">
+        <div class="container"><a href="/">Главная</a><span class="breadcrumb-sep">›</span><a href="/category/drugoe/">Другое</a><span class="breadcrumb-sep">›</span><span class="breadcrumb-current">Перенос файлов по SSH: лучшие способы и команды для Linux/Windows</span></div>
+    </nav>
+
+    <main class="site-main">
+        <div class="container">
+            <div class="article-layout">
+                <article class="article-main">
+                    
+                    <h1>Перенос файлов по SSH: полное руководство с примерами команд</h1>
+                    <nav class="mobile-toc"><details><summary>📋 Содержание</summary><ul><li><a href="#1-базовые-команды-для-переноса-файлов-scp-и-sftp">1. Базовые команды для переноса файлов: scp и sftp</a></li><li><a href="#2-продвинутая-синхронизация-с-rsync-почему-это-лучше-scp">2. Продвинутая синхронизация с rsync: почему это лучше scp</a></li><li><a href="#3-перенос-файлов-в-windows-winscp-putty-и-wsl">3. Перенос файлов в Windows: WinSCP, PuTTY и WSL</a></li><li><a href="#4-типичные-ошибки-и-их-решения">4. Типичные ошибки и их решения</a></li><li><a href="#5-автоматизация-переноса-cron-и-ssh-ключи-без-пароля">5. Автоматизация переноса: cron и SSH-ключи без пароля</a></li><li><a href="#6-альтернативные-инструменты-rclone-lftp-и-облачные-бэкапы">6. Альтернативные инструменты: rclone, lftp и облачные бэкапы</a></li><li><a href="#faq-частые-вопросы-о-переносе-файлов-по-ssh">FAQ: Частые вопросы о переносе файлов по SSH</a></li></ul></details></nav>
+                    <!--#include virtual="/ssi/article_before.html" -->
+                    <div class="article-body"><p>Передача файлов через <strong>SSH</strong> — один из самых надёжных способов обмена данными между удалёнными серверами или локальными машинами. В отличие от <em>FTP</em> или <em>HTTP</em>, протокол <strong>SSH (Secure Shell)</strong> шифрует весь трафик, защищая информацию от перехвата. Но как правильно организовать перенос файлов, если вы никогда этого не делали? Какие инструменты выбрать — консольные утилиты вроде <code>scp</code> и <code>rsync</code> или графические клиенты типа <em>WinSCP</em>?</p>
+
+<p>В этой статье мы разберём все актуальные методы: от базовых команд для <em>Linux/macOS</em> до настроек для <em>Windows</em>, а также типичные ошибки, которые могут прервать передачу. Вы узнаете, как копировать файлы между серверами без потери данных, синхронизировать папки с минимальной нагрузкой на сеть и даже автоматизировать резервное копирование. Особое внимание уделим <mark>проблеме обрыва соединения при передаче больших файлов (>10 ГБ) и способам её решения через настройку тайм-аутов SSH</mark>.</p>
+
+<h2 id="1-базовые-команды-для-переноса-файлов-scp-и-sftp">1. Базовые команды для переноса файлов: <code>scp</code> и <code>sftp</code></h2>
+
+<p>Начнём с классики — утилиты <code>scp</code> (Secure Copy Protocol), которая входит в стандартный набор инструментов <em>OpenSSH</em>. Её синтаксис прост, но требует понимания структуры команды. Например, чтобы скопировать файл <code>report.txt</code> с локальной машины на удалённый сервер, используйте:</p>
+
+<pre><code>scp /путь/к/report.txt пользователь@сервер:/путь/на/сервере/</code></pre>
+
+<p>Обратите внимание на ключевые элементы команды:
+<ul>
+  <li>🔹 <strong>Локальный путь</strong> — откуда копируем (может быть относительным или абсолютным).</li>
+  <li>🔹 <strong>Учётные данные</strong> — имя пользователя и адрес сервера (или IP).</li>
+  <li>🔹 <strong>Удалённый путь</strong> — куда сохраняем (обязательно с двоеточием перед путём!).</li>
+</ul>
+</p>
+
+<p>Для обратного копирования (с сервера на локальную машину) просто поменяйте местами пути:</p>
+<pre><code>scp пользователь@сервер:/путь/на/сервере/report.txt /локальный/путь/</code></pre>
+
+<p>Альтернатива <code>scp</code> — интерактивный протокол <code>sftp</code>, который работает как FTP, но через SSH. Он удобен для навигации по файловой системе удалённого сервера:</p>
+<pre><code>sftp пользователь@сервер
+<p>put локальный_файл.txt  # Загрузить на сервер</p>
+<p>get удалённый_файл.txt # Скачать с сервера</p>
+<p>exit</code></pre></p>
+
+<blockquote>⚠️ <strong>Внимание:</strong> При использовании <code>scp</code> для рекурсивного копирования папок (<code>scp -r</code>) проверьте свободное место на целевом диске. Команда не предупреждает о переполнении, а прерванная передача может оставить неполные файлы.</blockquote>
+
+<div class="attention-box attention-info"><div><strong>📊 Какой протокол вы чаще используете для передачи файлов?</strong><ul><li>SSH (scp/sftp)</li><li>FTP</li><li>HTTP/HTTPS</li><li>Облачные сервисы (Google Drive, Dropbox)</li><li>Другой</li></ul></div></div>
+
+<h2 id="2-продвинутая-синхронизация-с-rsync-почему-это-лучше-scp">2. Продвинутая синхронизация с <code>rsync</code>: почему это лучше <code>scp</code></h2>
+
+<p>Если вам нужно не просто скопировать файлы, а <strong>синхронизировать папки</strong> с учётом изменений, <code>rsync</code> станет идеальным решением. Эта утилита передаёт только различия между файлами, экономя трафик и время. Базовая команда для синхронизации локальной папки с удалённым сервером:</p>
+
+<pre><code>rsync -avz -e ssh /локальная/папка/ пользователь@сервер:/удалённая/папка/</code></pre>
+
+<p>Расшифруем ключи:
+<ul>
+  <li>🔹 <code>-a</code> — архивный режим (сохраняет права доступа, владельца, временные метки).</li>
+  <li>🔹 <code>-v</code> — подробный вывод (verbose) для отслеживания процесса.</li>
+  <li>🔹 <code>-z</code> — сжатие данных при передаче.</li>
+  <li>🔹 <code>-e ssh</code> — использование SSH в качестве транспорта.</li>
+</ul>
+</p>
+
+<p>Преимущества <code>rsync</code> перед <code>scp</code>:
+<ul>
+  <li>🔹 Возобновление прерванной передачи (с ключом <code>--partial</code>).</li>
+  <li>🔹 Исключение ненужных файлов (например, <code>--exclude "*.tmp"</code>).</li>
+  <li>🔹 Контроль пропускной способности (<code>--bwlimit=1000</code> для ограничения до 1000 КБ/с).</li>
+</ul>
+</p>
+
+<p>Пример синхронизации с исключением временных файлов и ограничением скорости:</p>
+<pre><code>rsync -avz --exclude "*.tmp" --bwlimit=5000 -e ssh /backup/ user@192.168.1.100:/remote/backup/</code></pre>
+
+
+<p>Проверьте свободное место на целевом диске|Убедитесь, что SSH-ключи добавлены в agent|Запустите тестовую синхронизацию с ключом --dry-run|Настройте исключения для ненужных файлов|Ограничьте скорость передачи, если сеть перегружена</p>
+<p>--></p>
+
+<h2 id="3-перенос-файлов-в-windows-winscp-putty-и-wsl">3. Перенос файлов в Windows: <em>WinSCP</em>, <em>PuTTY</em> и <em>WSL</em></h2>
+
+<p>Пользователям <em>Windows</em> доступно несколько способов работы с SSH:
+<ul>
+  <li>🔹 <strong>WinSCP</strong> — графический клиент с поддержкой <code>SCP</code> и <code>SFTP</code>.</li>
+  <li>🔹 <strong>PuTTY</strong> + <code>pscp</code> — консольные утилиты для командной строки.</li>
+  <li>🔹 <strong>WSL (Windows Subsystem for Linux)</strong> — полноценный <em>Linux</em>-терминал внутри Windows.</li>
+</ul>
+</p>
+
+<p>Для начала работы с <em>WinSCP</em>:
+<ol>
+  <li>Скачайте и установите программу с <a href="https://winscp.net/">официального сайта</a>.</li>
+  <li>Введите данные подключения: хост, имя пользователя, пароль (или путь к ключу SSH).</li>
+  <li>Выберите протокол <code>SFTP</code> или <code>SCP</code>.</li>
+  <li>Перетаскивайте файлы между локальной и удалённой панелями.</li>
+</ol>
+</p>
+
+<p>Если предпочитаете командную строку, используйте <code>pscp</code> (входит в пакет <em>PuTTY</em>):</p>
+<pre><code>pscp C:\путь\к\файлу.txt пользователь@сервер:/путь/на/сервере/
+</code></pre>
+
+<p>Для <em>WSL</em> (например, <em>Ubuntu</em> в Windows) все команды <code>scp</code>/<code>rsync</code> работают так же, как в нативном <em>Linux</em>. Убедитесь, что SSH-сервер запущен на целевой машине:</p>
+<pre><code>sudo service ssh start  # Для Ubuntu/Debian
+</code></pre>
+
+<blockquote>⚠️ <strong>Внимание:</strong> В <em>Windows 10/11</em> встроенный SSH-клиент может конфликтовать с <em>PuTTY</em>. Если команды <code>scp</code> не работают, проверьте переменную окружения <code>PATH</code> или используйте полные пути к утилитам (например, <code>C:\Program Files\PuTTY\pscp.exe</code>).</blockquote>
+
+<h2 id="4-типичные-ошибки-и-их-решения">4. Типичные ошибки и их решения</h2>
+
+<p>Даже опытные администраторы сталкиваются с проблемами при передаче файлов по SSH. Рассмотрим самые распространённые:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Ошибка</th>
+      <th>Причина</th>
+      <th>Решение</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>Permission denied (publickey)</code></td>
+      <td>SSH-ключ не добавлен в <code>authorized_keys</code> или неправильные права на файлы.</td>
+      <td>Проверьте права: <code>chmod 600 ~/.ssh/authorized_keys</code> и <code>chmod 700 ~/.ssh</code>.</td>
+    </tr>
+    <tr>
+      <td><code>Connection timed out</code></td>
+      <td>Файрвол блокирует порт 22 или сервер не отвечает.</td>
+      <td>Проверьте порт: <code>telnet сервер 22</code> или <code>nc -zv сервер 22</code>.</td>
+    </tr>
+    <tr>
+      <td><code>scp: ambiguous target</code></td>
+      <td>Несколько файлов с одинаковыми именами в целевой папке.</td>
+      <td>Укажите полный путь или переименуйте файлы.</td>
+    </tr>
+    <tr>
+      <td><code>rsync: failed to set times on</code></td>
+      <td>Недостаточно прав для изменения временных меток.</td>
+      <td>Используйте <code>sudo</code> или ключ <code>--no-times</code>.</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Ещё одна частая проблема — <strong>обрыв соединения при передаче больших файлов</strong>. Это происходит из-за тайм-аута SSH-сессии. Решение:</p>
+<ul>
+  <li>🔹 На сервере отредактируйте <code>/etc/ssh/sshd_config</code>, добавив:
+    <pre><code>ClientAliveInterval 60
+<p>ClientAliveCountMax 3</code></pre></p>
+  </li>
+  <li>🔹 Перезапустите SSH-сервер: <code>sudo systemctl restart sshd</code>.</li>
+</ul>
+
+<details class="faq-item"><summary>Как ускорить передачу файлов по SSH?</summary><div class="faq-answer"><p>
+<p>Используйте сжатие в rsync (<code>-z</code>) или включайте его глобально в <code>/etc/ssh/ssh_config</code> с параметром <code>Compression yes</code>. Также поможет увеличение размера буфера TCP: на сервере добавьте в <code>/etc/sysctl.conf</code> строку <code>net.core.rmem_max=16777216</code> и примените изменения командой <code>sysctl -p</code>.</p>
+<p></p></div></details></p>
+
+<h2 id="5-автоматизация-переноса-cron-и-ssh-ключи-без-пароля">5. Автоматизация переноса: <code>cron</code> и SSH-ключи без пароля</h2>
+
+<p>Для регулярного резервного копирования или синхронизации файлов настройте <strong>автоматические задачи</strong> с помощью <code>cron</code> и SSH-ключей без пароля. Это исключит необходимость вводить credentials при каждом подключении.</p>
+
+<p>Шаги для настройки:
+<ol>
+  <li>Сгенерируйте ключ на локальной машине (если ещё нет):
+    <pre><code>ssh-keygen -t ed25519 -C "backup-key"</code></pre>
+  </li>
+  <li>Скопируйте публичный ключ на сервер:
+    <pre><code>ssh-copy-id пользователь@сервер</code></pre>
+  </li>
+  <li>Проверьте подключение без пароля:
+    <pre><code>ssh пользователь@сервер</code></pre>
+  </li>
+  <li>Добавьте задачу в <code>cron</code> (например, ежедневное резервное копирование в 2:00):
+    <pre><code>0 2 * * * rsync -avz --delete /данные/ пользователь@сервер:/backup/данные/</code></pre>
+  </li>
+</ol>
+</p>
+
+<p>Для <em>Windows</em> аналогичную автоматизацию можно настроить через <em>Планировщик заданий</em> (Task Scheduler), запуская скрипт с <code>pscp</code> или <code>rsync</code> из <em>WSL</em>.</p>
+
+<blockquote>⚠️ <strong>Внимание:</strong> Ключи без пароля удобны, но повышают риск компрометации. Ограничьте их использование конкретными командами в <code>~/.ssh/authorized_keys</code> с префиксом <code>command="rsync --server --sender -vlogDtprze.iLsfxCIve . /backup/"</code>.</blockquote>
+
+
+<code>0 2 * * * rsync -avz /данные/ пользователь@сервер:/backup/ 2>&1 | logger -t backup_rsync</code>
+<p>Просматривайте логи командой <code>journalctl -t backup_rsync</code> или в <code>/var/log/syslog</code>.</p>
+<p>--></p>
+
+<h2 id="6-альтернативные-инструменты-rclone-lftp-и-облачные-бэкапы">6. Альтернативные инструменты: <em>rclone</em>, <em>lftp</em> и облачные бэкапы</h2>
+
+<p>Если SSH по какой-то причине не подходит, рассмотрите альтернативы:</p>
+
+<ul>
+  <li>🔹 <strong>rclone</strong> — утилита для синхронизации с облачными хранилищами (<em>Google Drive</em>, <em>S3</em>, <em>Dropbox</em>) и SFTP. Пример:
+    <pre><code>rclone copy /локальная/папка remote:sftp:/удаленная/папка/ --sftp-host сервер --sftp-user пользователь</code></pre>
+  </li>
+  <li>🔹 <strong>lftp</strong> — продвинутый FTP-клиент с поддержкой <code>SFTP</code> и возможностью возобновления закачки:
+    <pre><code>lftp -e "set sftp:connect-program 'ssh -a -x -T'; mirror -R /локальная/папка /удаленная/папка" -u пользователь,пароль sftp://сервер</code></pre>
+  </li>
+  <li>🔹 <strong>Облачные сервисы</strong> (например, <em>AWS S3</em> или <em>Backblaze B2</em>) — для географически распределённых бэкапов.</li>
+</ul>
+
+<p>Сравнение инструментов:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Инструмент</th>
+      <th>Протокол</th>
+      <th>Возобновление</th>
+      <th>Сжатие</th>
+      <th>Шифрование</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>scp</code></td>
+      <td>SSH</td>
+      <td>❌ Нет</td>
+      <td>❌ Нет</td>
+      <td>✅ Да</td>
+    </tr>
+    <tr>
+      <td><code>rsync</code></td>
+      <td>SSH</td>
+      <td>✅ Да (<code>--partial</code>)</td>
+      <td>✅ Да (<code>-z</code>)</td>
+      <td>✅ Да</td>
+    </tr>
+    <tr>
+      <td><em>WinSCP</em></td>
+      <td>SFTP/SCP</td>
+      <td>✅ Да</td>
+      <td>❌ Нет</td>
+      <td>✅ Да</td>
+    </tr>
+    <tr>
+      <td><em>rclone</em></td>
+      <td>SFTP/Облака</td>
+      <td>✅ Да</td>
+      <td>✅ Да</td>
+      <td>✅ Да</td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="attention-box attention-tip"><span class="attention-icon">💡</span><p>Для передачи файлов >100 ГБ оптимально использовать <code>rsync</code> с ключами <code>--partial --progress -P</code> — это позволит возобновлять передачу и отслеживать прогресс в реальном времени.</p></div>
+
+<h2 id="faq-частые-вопросы-о-переносе-файлов-по-ssh">FAQ: Частые вопросы о переносе файлов по SSH</h2>
+
+<details>
+  <summary>Можно ли передавать файлы между двумя удалёнными серверами без локальной машины?</summary>
+  <p>Да, используйте команду <code>rsync</code> с опцией <code>-e ssh</code> и указанием обоих серверов:</p>
+  <pre><code>rsync -avz -e ssh пользователь1@сервер1:/путь/ пользователь2@сервер2:/путь/</code></pre>
+  <p>Убедитесь, что между серверами настроен обмен SSH-ключами.</p>
+</details>
+
+<details>
+  <summary>Как передать файлы с сохранением прав доступа и владельца?</summary>
+  <p>Используйте <code>rsync</code> с ключом <code>-a</code> (архивный режим) и <code>--chmod</code>/<code>--chown</code> при необходимости:</p>
+  <pre><code>rsync -av --chmod=Du=rwx,Dg=rx,Do=rx,Fug=rw,Fo=r --chown=пользователь:группа /источник/ цель/</code></pre>
+</details>
+
+<details>
+  <summary>Почему <code>scp</code> медленно передаёт файлы по сравнению с <code>rsync</code>?</summary>
+  <p><code>scp</code> копирует файлы целиком, тогда как <code>rsync</code> передаёт только изменения (дельта-копирование) и поддерживает сжатие (<code>-z</code>). Кроме того, <code>rsync</code> оптимизирует использование буферов.</p>
+</details>
+
+<details>
+  <summary>Как защитить передаваемые данные от перехвата в локальной сети?</summary>
+  <p>SSH уже шифрует трафик, но для дополнительной защиты:
+  <ul>
+    <li>🔹 Используйте нестандартный порт SSH (измените в <code>/etc/ssh/sshd_config</code>).</li>
+    <li>🔹 Настройте <code>fail2ban</code> для блокировки брутфорс-атак.</li>
+    <li>🔹 Отключите авторизацию по паролю (<code>PasswordAuthentication no</code>).</li>
+  </ul>
+  </p>
+</details>
+
+<details>
+  <summary>Можно ли передавать файлы по SSH на Android-устройство?</summary>
+  <p>Да, если на Android установлен SSH-сервер (например, <em>Termux</em> + <em>openssh</em>). Подключайтесь к нему так же, как к обычному Linux-серверу. Для передачи файлов используйте <code>scp</code> или <em>SFTP-клиенты</em> (например, <em>Solid Explorer</em>).</p>
+</details></div>
+                    <!--#include virtual="/ssi/article_after.html" -->
+
+                </article>
+                <aside class="article-sidebar"><!--#include virtual="/ssi/sidebar_top.html" --><nav class="sidebar-search"><div class="sidebar-search-box"><input type="text" id="globalSearchInput" placeholder="🔍 Поиск статей..." autocomplete="off"><div class="search-dropdown" id="globalSearchDropdown"></div></div></nav><!--#include virtual="/ssi/sidebar_before_toc.html" --><nav class="sidebar-toc" id="sidebarToc"><h3>Содержание</h3><ul><li><a href="#1-базовые-команды-для-переноса-файлов-scp-и-sftp">1. Базовые команды для переноса файлов: scp и sftp</a></li><li><a href="#2-продвинутая-синхронизация-с-rsync-почему-это-лучше-scp">2. Продвинутая синхронизация с rsync: почему это лучше scp</a></li><li><a href="#3-перенос-файлов-в-windows-winscp-putty-и-wsl">3. Перенос файлов в Windows: WinSCP, PuTTY и WSL</a></li><li><a href="#4-типичные-ошибки-и-их-решения">4. Типичные ошибки и их решения</a></li><li><a href="#5-автоматизация-переноса-cron-и-ssh-ключи-без-пароля">5. Автоматизация переноса: cron и SSH-ключи без пароля</a></li><li><a href="#6-альтернативные-инструменты-rclone-lftp-и-облачные-бэкапы">6. Альтернативные инструменты: rclone, lftp и облачные бэкапы</a></li><li><a href="#faq-частые-вопросы-о-переносе-файлов-по-ssh">FAQ: Частые вопросы о переносе файлов по SSH</a></li></ul></nav><!--#include virtual="/ssi/sidebar_before_related.html" --><nav class="sidebar-related"><h3>Похожие статьи</h3><ul><li><a href="/articles/k/ka/kak-marinovat-skumbriyu-v-domashnikh-usloviyakh-vkusno-svezhemorozhenuyu.html" class="related-card">Как мариновать скумбрию свежемороженую: 7 рецептов с фото</a></li><li><a href="/articles/p/pe/perenosnoj-radiopriemnik-s-khoroshim-priemom.html" class="related-card">Топ-10 переносных радиоприемников с отличным приемом в 2026 году</a></li><li><a href="/articles/b/by/bystryj-retsept-marinovannykh-shampinonov-za-10-minut.html" class="related-card">Маринованные шампиньоны за 10 минут: быстрый рецепт с уксусом</a></li><li><a href="/articles/s/sa/salat-iz-varenoj-kurinoj-grudki-i-pekinskoj-kapusty.html" class="related-card">Салат с куриной грудкой и пекинской капустой: 5 рецептов с фото</a></li><li><a href="/articles/k/ka/kak-prigotovit-marinovannye-shampinony.html" class="related-card">Маринованные шампиньоны: 5 рецептов с фото и секретами приготовления</a></li></ul></nav><!--#include virtual="/ssi/sidebar_after_related.html" --></aside>
+            </div>
+        </div>
+    </main>
+
+    <!--#include virtual="/ssi/before_related_bottom.html" -->
+    <section class="related-bottom">
+        <div class="container">
+            <h2 class="related-bottom-heading">📖 Читайте также</h2>
+            <div class="related-bottom-grid"><a href="/articles/k/ka/kak-marinovat-skumbriyu-v-domashnikh-usloviyakh-vkusno-svezhemorozhenuyu.html" class="related-bottom-card"><span class="related-bottom-title">Как мариновать скумбрию свежемороженую: 7 рецептов с фото</span><span class="related-bottom-desc">Пошаговые инструкции, как правильно разморозить и мариновать скумбрию в домашних условиях. Рецепты с</span></a><a href="/articles/p/pe/perenosnoj-radiopriemnik-s-khoroshim-priemom.html" class="related-bottom-card"><span class="related-bottom-title">Топ-10 переносных радиоприемников с отличным приемом в 2026 году</span><span class="related-bottom-desc">Как выбрать портативный радиоприемник с мощной антенной? Обзор лучших моделей с FM/AM/DAB+, сравнени</span></a><a href="/articles/b/by/bystryj-retsept-marinovannykh-shampinonov-za-10-minut.html" class="related-bottom-card"><span class="related-bottom-title">Маринованные шампиньоны за 10 минут: быстрый рецепт с уксусом</span><span class="related-bottom-desc">Узнайте, как приготовить хрустящие маринованные шампиньоны всего за 10 минут. Простой рецепт с уксус</span></a><a href="/articles/s/sa/salat-iz-varenoj-kurinoj-grudki-i-pekinskoj-kapusty.html" class="related-bottom-card"><span class="related-bottom-title">Салат с куриной грудкой и пекинской капустой: 5 рецептов с фото</span><span class="related-bottom-desc">Как приготовить диетический салат из вареной куриной грудки и пекинской капусты: пошаговые рецепты, </span></a><a href="/articles/k/ka/kak-prigotovit-marinovannye-shampinony.html" class="related-bottom-card"><span class="related-bottom-title">Маринованные шампиньоны: 5 рецептов с фото и секретами приготовления</span><span class="related-bottom-desc">Как быстро и вкусно мариновать шампиньоны в домашних условиях: пошаговые рецепты, сроки хранения, се</span></a><a href="/articles/k/ka/kak-gotovit-marinovannye-midii.html" class="related-bottom-card"><span class="related-bottom-title">Как готовить маринованные мидии: пошаговый рецепт</span><span class="related-bottom-desc">Узнайте, как правильно готовить маринованные мидии в домашних условиях. Секреты маринада, выбор молл</span></a></div>
+        </div>
+    </section>
+    <!--#include virtual="/ssi/after_related_bottom.html" -->
+
+    <footer class="site-footer-premium">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <div class="footer-brand">🚙 Рено Гайд</div>
+                    <p class="footer-about">Рено - идеальный баланс французского комфорта и практичности. Подробные обзоры от Logan до Duster, честные отзывы владельцев и полезные советы по ремонту.
+</p>
+                </div>
+                <div class="footer-col">
+                    <h4>Разделы</h4>
+                    <ul><li><a href="/category/logan/">📁 Logan</a></li>
+<li><a href="/category/duster/">📁 Duster</a></li>
+<li><a href="/category/megane/">📁 Megane</a></li>
+<li><a href="/category/sandero/">📁 Sandero</a></li>
+<li><a href="/category/kaptur/">📁 Kaptur</a></li>
+<li><a href="/category/fluence/">📁 Fluence</a></li></ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Информация</h4>
+                    <ul>
+                        <li><a href="/">Главная</a></li>
+                        <li><a href="/about.html">О проекте</a></li>
+                        <li><a href="/categories.html">Все разделы</a></li>
+                        <li><a href="/contact.html">Контакты</a></li>
+                        <li><a href="/privacy.html">Конфиденциальность</a></li>
+                        <li><a href="/sitemap.xml">Карта сайта</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2026 Рено Гайд. Все права защищены.</p>
+                <!--LiveInternet counter--><div style="margin-top:10px;"><a href="https://www.liveinternet.ru/click"
+                target="_blank"><img id="licnt06C4" width="88" height="15" style="border:0" 
+                title="LiveInternet: показано число посетителей за сегодня"
+                src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAEALAAAAAABAAEAAAIBTAA7"
+                alt=""/></a><script>(function(d,s){d.getElementById("licnt06C4").src=
+                "https://counter.yadro.ru/hit?t26.5;r"+escape(d.referrer)+
+                ((typeof(s)=="undefined")?"":";s"+s.width+"*"+s.height+"*"+
+                (s.colorDepth?s.colorDepth:s.pixelDepth))+";u"+escape(d.URL)+
+                ";h"+escape(d.title.substring(0,150))+";"+Math.random()})(document,screen)</script></div><!--/LiveInternet-->
+            </div>
+        </div>
+    </footer>
+    <div id="cookie-consent" class="cookie-popup">
+        <div class="cookie-inner">
+            <span>🍪 Мы используем файлы cookie для улучшения работы сайта.</span>
+            <button id="cookie-accept" class="cookie-btn">Принять</button>
+        </div>
+    </div>
+    <script src="/static/js/main.js"></script>
+    <script>
+    (function() {
+        const popup = document.getElementById('cookie-consent');
+        const btn = document.getElementById('cookie-accept');
+        if (popup && btn && !localStorage.getItem('cookie-accepted')) {
+            popup.classList.add('visible');
+            btn.onclick = () => {
+                localStorage.setItem('cookie-accepted', 'true');
+                popup.classList.remove('visible');
+            };
+        }
+    })();
+    </script>
+    <!--#include virtual="/ssi/body_bottom.html" -->
+    <script src="/static/js/inject.js" defer></script>
+</body>
+</html>

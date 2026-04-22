@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 100 100%27><text y=%27.9em%27 font-size=%2790%27>🚙</text></svg>">
+    <title>Перенос UniFi Controller на другой ПК: пошаговая инструкция 2026 — Рено Гайд</title>
+    <meta name="description" content="Как безопасно перенести UniFi Controller с сохранением настроек на новый компьютер? Подробное руководство с проверенными методами и типичными ошибками.">
+    <link rel="canonical" href="https://renault-guide.vercel.app/articles/u/un/unifi-controller-perenos-na-drugoj-kompyuter.html">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Перенос UniFi Controller на другой ПК: пошаговая инструкция 2026">
+    <meta property="og:description" content="Как безопасно перенести UniFi Controller с сохранением настроек на новый компьютер? Подробное руководство с проверенными методами и типичными ошибками.">
+    <meta property="og:locale" content="ru_RU">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/style.css?v=1776848103">
+    <style>
+    .site-footer-premium {
+        margin-top: 60px; padding: 40px 0 0; background: #1e293b; color: #94a3b8;
+    }
+    .footer-grid {
+        display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 40px;
+        padding-bottom: 32px; border-bottom: 1px solid #334155;
+    }
+    .footer-brand { font-size: 1.2rem; font-weight: 700; color: #f1f5f9; margin-bottom: 12px; }
+    .footer-about { font-size: 0.9rem; line-height: 1.6; margin-bottom: 8px; }
+    .footer-updated { font-size: 0.8rem; color: #64748b; }
+    .footer-col h4 { color: #f1f5f9; font-size: 0.95rem; margin-bottom: 16px; }
+    .footer-col ul { list-style: none; }
+    .footer-col li { margin-bottom: 8px; }
+    .footer-col a { color: #94a3b8; font-size: 0.9rem; transition: color 0.2s; }
+    .footer-col a:hover { color: #60a5fa; }
+    .footer-bottom { padding: 20px 0; text-align: center; font-size: 0.85rem; }
+    @media (max-width: 640px) {
+        .footer-grid { grid-template-columns: 1fr; gap: 24px; }
+    }
+    .cookie-popup {
+        position: fixed; bottom: 0; left: 0; right: 0; background: #1e293b; color: #fff;
+        padding: 16px; transition: transform 0.5s ease; z-index: 9999; border-top: 2px solid #2563eb;
+        transform: translateY(100%);
+    }
+    .cookie-popup.visible { transform: translateY(0); }
+    .cookie-inner { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; gap: 16px; font-size: 0.9rem; }
+    .cookie-btn { background: #2563eb; color: #fff; border: none; padding: 8px 20px; border-radius: 8px; font-weight: 600; cursor: pointer; white-space: nowrap; }
+    .cookie-btn:hover { background: #1d4ed8; }
+    @media (max-width: 640px) {
+        .cookie-inner { flex-direction: column; text-align: center; }
+    }
+</style>
+    
+    <!--#include virtual="/ssi/head.html" -->
+</head>
+<body>
+        <!--#include virtual="/ssi/body_top.html" -->
+    <style>
+    .nav-dropdown { position: relative; display: inline-block; }
+    .dropdown-toggle {
+        background: none; border: none; cursor: pointer;
+        font: inherit; color: inherit; padding: 8px 12px;
+        border-radius: 8px; transition: background 0.2s;
+    }
+    .dropdown-toggle:hover { background: rgba(0,0,0,0.05); }
+    .dropdown-menu {
+        display: none; position: absolute; right: 0; top: 100%;
+        min-width: 240px; max-height: 70vh; overflow-y: auto;
+        background: var(--card-bg, #fff); border: 1px solid var(--border, #e5e7eb);
+        border-radius: 12px; box-shadow: 0 12px 40px rgba(0,0,0,0.12);
+        padding: 8px 0; z-index: 1000;
+    }
+    .nav-dropdown::after {
+        content: ''; position: absolute; left: 0; right: 0;
+        top: 100%; height: 12px;
+    }
+    .nav-dropdown:hover .dropdown-menu,
+    .nav-dropdown:focus-within .dropdown-menu { display: block; }
+    .dropdown-item {
+        display: block; padding: 10px 20px; color: var(--text, #1f2937);
+        text-decoration: none; font-size: 0.95rem; transition: background 0.15s;
+        white-space: nowrap;
+    }
+    .dropdown-item:hover { background: rgba(37,99,235,0.06); color: var(--primary, #2563eb); }
+    @media (max-width: 768px) {
+        .main-nav > .nav-link { display: none; }
+        .dropdown-toggle { display: none; }
+        .dropdown-menu {
+            display: block !important; position: static;
+            box-shadow: none; border: none; border-radius: 0;
+            min-width: auto; max-height: none; padding: 0;
+            background: transparent;
+        }
+        .dropdown-item {
+            padding: 8px 0; font-size: 1rem;
+        }
+    }
+    </style>
+    <header class="site-header">
+        <div class="container header-inner">
+            <a href="/" class="logo">
+                <span class="logo-icon">🚙</span>
+                <span>Рено Гайд</span>
+            </a>
+            <button class="mobile-menu-btn" aria-label="Меню" id="menuBtn">☰</button>
+            <nav class="main-nav" id="mainNav">
+                <a href="/category/logan/" class="nav-link">📁 Logan</a>
+<a href="/category/duster/" class="nav-link">📁 Duster</a>
+<a href="/category/megane/" class="nav-link">📁 Megane</a>
+<a href="/category/sandero/" class="nav-link">📁 Sandero</a>
+<div class="nav-dropdown">
+            <button class="nav-link dropdown-toggle">📂 Все разделы ▾</button>
+            <div class="dropdown-menu"><a href="/category/logan/" class="dropdown-item">📁 Logan</a>
+<a href="/category/duster/" class="dropdown-item">📁 Duster</a>
+<a href="/category/megane/" class="dropdown-item">📁 Megane</a>
+<a href="/category/sandero/" class="dropdown-item">📁 Sandero</a>
+<a href="/category/kaptur/" class="dropdown-item">📁 Kaptur</a>
+<a href="/category/fluence/" class="dropdown-item">📁 Fluence</a>
+<a href="/category/scenic/" class="dropdown-item">📁 Scenic</a>
+<a href="/category/arkana/" class="dropdown-item">📁 Arkana</a>
+<a href="/category/symbol/" class="dropdown-item">📁 Symbol</a>
+<a href="/category/laguna/" class="dropdown-item">📁 Laguna</a>
+<a href="/category/kangoo/" class="dropdown-item">📁 Kangoo</a>
+<a href="/category/авто/" class="dropdown-item">📁 Авто</a>
+<a href="/category/master/" class="dropdown-item">📁 Master</a>
+<a href="/category/koleos/" class="dropdown-item">📁 Koleos</a>
+<a href="/category/captur/" class="dropdown-item">📁 Captur</a>
+<a href="/category/clio/" class="dropdown-item">📁 Clio</a>
+<a href="/category/trafic/" class="dropdown-item">📁 Trafic</a>
+<a href="/category/espace/" class="dropdown-item">📁 Espace</a>
+<a href="/category/kadjar/" class="dropdown-item">📁 Kadjar</a>
+<a href="/category/twingo/" class="dropdown-item">📁 Twingo</a>
+<a href="/category/drugoe/" class="dropdown-item">📁 Другое</a></div>
+        </div>
+            </nav>
+        </div>
+    </header>
+
+    <nav class="breadcrumbs" aria-label="Навигация">
+        <div class="container"><a href="/">Главная</a><span class="breadcrumb-sep">›</span><a href="/category/drugoe/">Другое</a><span class="breadcrumb-sep">›</span><span class="breadcrumb-current">Перенос UniFi Controller на другой ПК: пошаговая инструкция 2026</span></div>
+    </nav>
+
+    <main class="site-main">
+        <div class="container">
+            <div class="article-layout">
+                <article class="article-main">
+                    
+                    <h1>Перенос UniFi Controller на другой компьютер: полное руководство без потери данных</h1>
+                    <nav class="mobile-toc"><details><summary>📋 Содержание</summary><ul><li><a href="#подготовка-к-переносу-что-нужно-сделать-до-начала-миграции">Подготовка к переносу: что нужно сделать ДО начала миграции</a></li><li><a href="#метод-1-перенос-через-резервную-копию-рекомендованный-способ">Метод 1: Перенос через резервную копию (рекомендованный способ)</a></li><li><a href="#метод-2-клонирование-папки-с-данными-для-опытных-пользователей">Метод 2: Клонирование папки с данными (для опытных пользователей)</a></li><li><a href="#метод-3-перенос-на-docker-контейнер-оптимально-для-серверов">Метод 3: Перенос на Docker-контейнер (оптимально для серверов)</a></li><li><a href="#типичные-ошибки-и-их-решения">Типичные ошибки и их решения</a></li><li><a href="#перенос-на-macos-особенности-и-лайфхаки">Перенос на macOS: особенности и лайфхаки</a></li><li><a href="#что-делать-после-успешного-переноса">Что делать после успешного переноса?</a></li><li><a href="#faq-частые-вопросы-по-переносу-unifi-controller">FAQ: Частые вопросы по переносу UniFi Controller</a></li></ul></details></nav>
+                    <!--#include virtual="/ssi/article_before.html" -->
+                    <div class="article-body"><p>Перенос <strong>UniFi Controller</strong> на другой компьютер — задача, с которой рано или поздно сталкивается каждый администратор сети на базе оборудования <em>Ubiquiti</em>. Причины могут быть разными: обновление железа, переход на серверную ОС, миграция в облако или банальная замена устаревшего ПК. Однако даже опытные пользователи нередко допускают критические ошибки, которые приводят к потере настроек устройств, сбоям в работе сети или невозможности восстановления бэкапов.</p>
+
+<p>В этой статье мы разберём <mark>три официально поддерживаемых метода переноса</mark> (включая нюансы для разных версий контроллера), подробно остановимся на резервном копировании и восстановлении конфигураций, а также проанализируем типичные проблемы — от ошибок базы данных <em>MongoDB</em> до конфликтов версий Java. Особое внимание уделим переносу на <em>Linux</em>-системы и виртуальные машины, где процесс имеет свои специфические моменты.</p>
+
+<h2 id="подготовка-к-переносу-что-нужно-сделать-до-начала-миграции">Подготовка к переносу: что нужно сделать ДО начала миграции</h2>
+
+<p>Прежде чем приступать к переносу, критически важно убедиться, что текущая система готова к миграции. Начните с проверки версии <strong>UniFi Controller</strong> — она должна совпадать на обоих устройствах (или быть выше на целевом ПК). Используйте команду:</p>
+
+<pre><code>cat /usr/lib/unifi/version.properties | grep "version"</code></pre>
+
+<p>Если версии разнятся, сначала обновите контроллер на <strong>исходном</strong> компьютере до актуальной стабильной сборки. Это предотвратит конфликты при восстановлении бэкапа. Также обязательно:</p>
+
+<ul>
+  <li>🔍 Проверьте свободное место на диске целевого ПК (минимум <strong>5 ГБ</strong> для контроллера + бэкапы).</li>
+  <li>🔌 Убедитесь, что порты <code>8080</code> (управление), <code>8443</code> (HTTPS), <code>8880</code> (портал) и <code>8843</code> (гостевой портал) свободны.</li>
+  <li>🛡️ Отключите <em>автообновление</em> контроллера на время переноса (в настройках <code>Settings → Maintenance</code>).</li>
+  <li>📡 Зафиксируйте текущие IP-адреса устройств (можно экспортировать список через <code>Clients → Export</code>).</li>
+</ul>
+
+<blockquote>⚠️ <strong>Внимание:</strong> Если вы используете <em>UniFi OS Console</em> (UDM, UDR), перенос контроллера на внешний ПК приведёт к потере интеграции с экосистемой Ubiquiti. В этом случае рекомендуется мигрировать на <em>UniFi Network Application</em> в Docker.</blockquote>
+
+<p>Для пользователей <em>Windows</em> дополнительно проверьте версию <em>Java</em> — контроллер требует <code>Java 8</code> или <code>Java 11</code> (но не новее!). На <em>Linux</em> установочный пакет обычно включает нужную версию автоматически, но на <em>Debian/Ubuntu</em> может потребоваться ручная установка:</p>
+
+<pre><code>sudo apt install openjdk-11-jre-headless</code></pre>
+
+<div class="attention-box attention-info"><div><strong>📊 Какую ОС вы используете для UniFi Controller?</strong><ul><li>Windows</li><li>Linux (Debian/Ubuntu)</li><li>macOS</li><li>UniFi OS Console (UDM/UDR)</li><li>Docker/Виртуальная машина</li></ul></div></div>
+
+<h2 id="метод-1-перенос-через-резервную-копию-рекомендованный-способ">Метод 1: Перенос через резервную копию (рекомендованный способ)</h2>
+
+<p>Самый надёжный и универсальный способ — создание полного бэкапа на исходном ПК и восстановление его на целевом. Этот метод работает для всех версий контроллера, включая <em>UniFi Network 7.x/8.x</em>, и сохраняет:</p>
+
+<ul>
+  <li>📋 Все настройки сетей (Wi-Fi, VLAN, firewall).</li>
+  <li>📊 Статистику трафика и события (если не использовался <code>auto-backup</code>).</li>
+  <li>🔑 Данные авторизации и гостевые порталы.</li>
+  <li>🖥️ Конфигурации устройств (но не прошивки!).</li>
+</ul>
+
+<p>Чтобы создать бэкап:</p>
+<ol>
+  <li>Откройте веб-интерфейс контроллера (<code>https://[IP-адрес]:8443</code>).</li>
+  <li>Перейдите в <code>Settings → System → Backup</code>.</li>
+  <li>Нажмите <code>Download Backup</code> и сохраните файл <code>.unf</code>.</li>
+  <li>Скопируйте файл на целевой ПК (например, через <em>WinSCP</em> или <code>scp</code>).</li>
+</ol>
+
+<p>Для восстановления на новом ПК:</p>
+<ol>
+  <li>Установите <strong>чистую версию</strong> UniFi Controller (такой же или новее).</li>
+  <li>При первом запуске выберите <code>Restore from Backup</code>.</li>
+  <li>Загрузите файл <code>.unf</code> и дождитесь завершения процесса (может занять до 10 минут).</li>
+</ol>
+
+<blockquote>⚠️ <strong>Внимание:</strong> Если при восстановлении появляется ошибка <code>"Invalid backup file"</code>, проверьте совместимость версий контроллера. Бэкапы из <em>UniFi 6.x</em> не восстанавливаются в <em>7.x</em> без предварительного обновления исходной системы.</blockquote>
+
+
+<p>Убедиться, что версии контроллера совпадают|Проверьте целостность файла .unf (размер > 1 МБ)|Отключите брандмауэр на целевом ПК|Подготовьте резервный доступ к устройствам (на случай сбоя)--></p>
+
+<h2 id="метод-2-клонирование-папки-с-данными-для-опытных-пользователей">Метод 2: Клонирование папки с данными (для опытных пользователей)</h2>
+
+<p>Этот способ подходит, если вы переносите контроллер в пределах одной ОС (например, с <em>Ubuntu 20.04</em> на <em>Ubuntu 22.04</em>) и хотите избежать восстановления из бэкапа. Он предполагает копирование ключевых папок с данными:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Папка</th>
+      <th>Содержимое</th>
+      <th>Путь в Windows</th>
+      <th>Путь в Linux</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>data</code></td>
+      <td>Конфигурации, базы данных <em>MongoDB</em></td>
+      <td><code>C:\Users\All Users\Ubiquiti UniFi\data</code></td>
+      <td><code>/usr/lib/unifi/data</code></td>
+    </tr>
+    <tr>
+      <td><code>logs</code></td>
+      <td>Логи системы (необязательно)</td>
+      <td><code>C:\Users\All Users\Ubiquiti UniFi\logs</code></td>
+      <td><code>/usr/lib/unifi/logs</code></td>
+    </tr>
+    <tr>
+      <td><code>run</code></td>
+      <td>Временные файлы (не копировать!)</td>
+      <td><code>C:\Users\All Users\Ubiquiti UniFi\run</code></td>
+      <td><code>/usr/lib/unifi/run</code></td>
+    </tr>
+    <tr>
+      <td><code>work</code></td>
+      <td>Кэш и сессии (не критично)</td>
+      <td><code>C:\Users\All Users\Ubiquiti UniFi\work</code></td>
+      <td><code>/usr/lib/unifi/work</code></td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Алгоритм действий:</p>
+<ol>
+  <li>Остановите службу контроллера:
+    <ul>
+      <li>На <em>Windows</em>: <code>net stop "UniFi"</code></li>
+      <li>На <em>Linux</em>: <code>sudo systemctl stop unifi</code></li>
+    </ol>
+  </li>
+  <li>Скопируйте папку <code>data</code> на новый ПК (сохраняя права доступа!).</li>
+  <li>Установите <strong>ту же версию</strong> контроллера на целевой машине.</li>
+  <li>Замените папку <code>data</code> скопированной и перезапустите службу.</li>
+</ol>
+
+<p>Преимущество метода — сохранение <strong>всех исторических данных</strong> (в отличие от бэкапа). Однако есть риски:</p>
+<ul>
+  <li>🚨 Конфликты при смене архитектуры (x86 → ARM).</li>
+  <li>🚨 Повреждение базы <em>MongoDB</em> при некорректном копировании.</li>
+  <li>🚨 Несовместимость с новыми версиями Java.</li>
+</ul>
+
+<details class="faq-item"><summary>Что делать если после копирования контроллер не запускается?</summary><div class="faq-answer"><p>
+<p>Если служба не стартует, проверьте логи в <code>/usr/lib/unifi/logs/server.log</code>. Частая ошибка — права на папку <code>data</code> (должны быть <code>unifi:unifi</code>). Исправляется командой:</p>
+<pre><code>sudo chown -R unifi:unifi /usr/lib/unifi/data</code></pre>
+<p>Если проблема в базе MongoDB, попробуйте восстановить её через <code>mongod --repair</code> (требует остановки контроллера).</p></div></details></p>
+
+<h2 id="метод-3-перенос-на-docker-контейнер-оптимально-для-серверов">Метод 3: Перенос на Docker-контейнер (оптимально для серверов)</h2>
+
+<p>Если целевой ПК работает под управлением <em>Docker</em>, перенос упрощается благодаря изоляции окружения. Главное преимущество — возможность запуска контроллера в любой ОС (включая <em>NAS</em> на базе <em>Synology/QNAP</em>). Используем официальный образ <code>linuxserver/unifi-controller</code>:</p>
+
+<pre><code>docker run -d \
+<p>--name=unifi-controller \</p>
+<p>-e PUID=1000 \</p>
+<p>-e PGID=1000 \</p>
+<p>-e TZ=Europe/Moscow \</p>
+<p>-p 8443:8443 \</p>
+<p>-p 8080:8080 \</p>
+<p>-p 3478:3478/udp \</p>
+<p>-v /path/to/unifi/data:/config \</p>
+<p>--restart unless-stopped \</p>
+<p>linuxserver/unifi-controller:latest</code></pre></p>
+
+<p>Для переноса данных:</p>
+<ol>
+  <li>Скопируйте папку <code>data</code> из старой установки в монтируемый том Docker (<code>/path/to/unifi/data</code>).</li>
+  <li>Убедитесь, что в <code>docker-compose.yml</code> указаны те же порты, что и на исходном ПК.</li>
+  <li>Запустите контейнер и проверьте доступность веб-интерфейса.</li>
+</ol>
+
+<p>Особенности Docker-переноса:</p>
+<ul>
+  <li>🐳 Поддерживаются все версии контроллера (включая <em>UniFi 8.x</em>).</li>
+  <li>🔄 Легко откатиться к предыдущей версии при сбое.</li>
+  <li>🔒 Требуется настройка <code>firewalld</code>/<code>ufw</code> для открытия портов.</li>
+</ul>
+
+<div class="attention-box attention-tip"><span class="attention-icon">💡</span><p>Если вы используете <em>UniFi OS Console</em> (UDM), для переноса на Docker сначала экспортируйте бэкап через <code>Settings → Backup</code>, затем восстановите его в контейнере. Это единственный поддерживаемый способ миграции с UDM.</p></div>
+
+<h2 id="типичные-ошибки-и-их-решения">Типичные ошибки и их решения</h2>
+
+<p>Даже при следовании инструкциям пользователи сталкиваются с проблемами. Рассмотрим самые распространённые:</p>
+
+<h3>1. Ошибка "Device Disconnected" после переноса</h3>
+<p>Причина: устройства <em>UniFi</em> "забыли" новый IP-адрес контроллера. Решение:</p>
+<ul>
+  <li>🔄 Перезагрузите точки доступа через PoE или кнопку <code>Reset</code>.</li>
+  <li>📡 Используйте утилиту <em>UniFi Discovery Tool</em> для принудительного переподключения.</li>
+  <li>🔧 Вручную укажите IP контроллера через SSH:
+    <pre><code>set-inform http://[новый_IP]:8080/inform</code></pre>
+  </li>
+</ul>
+
+<h3>2. Контроллер не запускается после восстановления бэкапа</h3>
+<p>Чаще всего связано с:</p>
+<ul>
+  <li>🗃️ Повреждённым файлом <code>.unf</code> (проверьте контрольную сумму).</li>
+  <li>🛠️ Несовместимостью версий <em>MongoDB</em> (обновите контроллер до восстановления).</li>
+  <li>🔐 Недостаточными правами на папки (на <em>Linux</em> выполните <code>chmod -R 775 /usr/lib/unifi</code>).</li>
+</ul>
+
+<h3>3. Потеря статистики после миграции</h3>
+<p>Если в бэкапе не сохранены исторические данные, проверьте:</p>
+<ul>
+  <li>⏳ Настройки <code>Settings → System → Auto-Backup</code> (должен быть включён <code>Include Historical Stats</code>).</li>
+  <li>🗑️ Папку <code>data/stat</code> — она должна быть скопирована при клонировании.</li>
+</ul>
+
+<div class="attention-box attention-tip"><span class="attention-icon">💡</span><p>Если после переноса устройства не появляются в новом контроллере, проверьте настройки <code>Device Authentication</code> в <code>Settings → System</code>. Возможно, требуется сбросить их до заводских и заново усыновить (adopt).</p></div>
+
+<h2 id="перенос-на-macos-особенности-и-лайфхаки">Перенос на macOS: особенности и лайфхаки</h2>
+
+<p>Пользователи <em>macOS</em> часто сталкиваются с проблемами из-за особенностей файловой системы и управления правами. Вот ключевые моменты:</p>
+
+<ul>
+  <li>🍎 Установите контроллер через <code>Homebrew</code>:
+    <pre><code>brew install --cask unifi-controller</code></pre>
+  </li>
+  <li>📁 Папка с данными находится в <code>/Applications/UniFi.app/Contents/Resources/data</code>.</li>
+  <li>🔐 Для копирования данных используйте <code>Terminal</code> с правами <code>sudo</code>.</li>
+  <li>🚫 Избегайте переноса через <em>Time Machine</em> — это может нарушить структуру базы <em>MongoDB</em>.</li>
+</ul>
+
+<p>Если после переноса контроллер не запускается, проверьте:</p>
+<ol>
+  <li>Наличие <em>Java</em> (установите через <code>brew install --cask temurin</code>).</li>
+  <li>Права на папку <code>data</code>:
+    <pre><code>sudo chown -R $(whoami) /Applications/UniFi.app/Contents/Resources/data</code></pre>
+  </li>
+  <li>Отсутствие конфликтов с встроенным брандмауэром <em>macOS</em> (разрешите входящие соединения на порты <code>8080</code>, <code>8443</code>).</li>
+</ol>
+
+<h2 id="что-делать-после-успешного-переноса">Что делать после успешного переноса?</h2>
+
+<p>Миграция завершена, но работа не окончена. Выполните эти шаги, чтобы избежать проблем в будущем:</p>
+
+<ol>
+  <li><strong>Обновите IP-адрес контроллера</strong> в настройках DHCP-сервера (если использовался статический IP).</li>
+  <li><strong>Проверьте лицензии</strong> (для <em>UniFi Protect</em> или <em>Talk</em>) — они могут быть привязаны к старому ПК.</li>
+  <li><strong>Настройте автоматическое резервное копирование</strong>:
+    <pre><code>Settings → System → Auto-Backup → Enable</code></pre>
+  </li>
+  <li><strong>Тестируйте производительность</strong> — на слабых ПК (например, <em>Raspberry Pi</em>) контроллер может тормозить при большом количестве устройств.</li>
+</ol>
+
+<p>Для мониторинга стабильности используйте:</p>
+<ul>
+  <li>📊 Встроенную аналитику в <code>Insights → Performance</code>.</li>
+  <li>🔧 Логи в <code>/usr/lib/unifi/logs</code> (ищите ошибки <code>MongoDB</code> или <code>Java Heap Space</code>).</li>
+  <li>📈 Внешние инструменты вроде <em>Grafana</em> + <em>Prometheus</em> для продвинутого мониторинга.</li>
+</ul>
+
+<div class="attention-box attention-tip"><span class="attention-icon">💡</span><p>После переноса обязательно обновите <strong>DNS-записи</strong> для домена контроллера (если использовался). Это предотвратит проблемы с подключением устройств через Интернет (например, для удалённого управления через <em>UniFi Mobile App</em>).</p></div>
+
+<h2 id="faq-частые-вопросы-по-переносу-unifi-controller">FAQ: Частые вопросы по переносу UniFi Controller</h2>
+
+<details>
+  <summary>Можно ли перенести контроллер с Windows на Linux?</summary>
+  <p>Да, но только через <strong>бэкап</strong> (метод 1). Клонирование папок (метод 2) не рекомендуется из-за различий в файловой системе и правах доступа. При восстановлении на Linux убедитесь, что:</p>
+  <ul>
+    <li>Версия контроллера на целевом ПК <strong>не ниже</strong>, чем на исходном.</li>
+    <li>Установлена совместимая версия <em>Java</em> (обычно <code>openjdk-11-jre-headless</code>).</li>
+    <li>Порты <code>8080</code>, <code>8443</code> открыты в <code>ufw</code>/<code>firewalld</code>.</li>
+  </ul>
+</details>
+
+<details>
+  <summary>Почему после переноса устройства не подключаются к новому контроллеру?</summary>
+  <p>Это типичная проблема, связанная с кэшированием старого IP-адреса контроллера. Решения:</p>
+  <ol>
+    <li>Перезагрузите устройства (отключите/включите питание).</li>
+    <li>Используйте команду <code>set-inform</code> через SSH:
+      <pre><code>ssh ubnt@[IP_устройства]
+<p>set-inform http://[новый_IP_контроллера]:8080/inform</code></pre></p>
+    </li>
+    <li>Проверьте, что на новом ПК <strong>отключён брандмауэр</strong> (временно для теста).</li>
+    <li>Убедитесь, что устройства находятся в той же подсети, что и контроллер.</li>
+  </ol>
+  <p>Если ничего не помогает, выполните сброс устройства к заводским настройкам (удерживайте кнопку <code>Reset</code> 10 секунд) и усыновите его заново.</p>
+</details>
+
+<details>
+  <summary>Как перенести контроллер на UniFi Cloud Key или UDM?</summary>
+  <p>Перенос <strong>на</strong> <em>UniFi OS Console</em> (UDM, UDR, Cloud Key) имеет ограничения:</p>
+  <ul>
+    <li>🔄 <strong>С внешнего ПК на UDM</strong>: восстановите бэкап через <code>Settings → Backup → Restore</code>. Однако <strong>не все настройки</strong> переносятся (например, гостевые порталы могут потребовать повторной настройки).</li>
+    <li>🔀 <strong>С UDM на внешний ПК</strong>: экспортируйте бэкап через веб-интерфейс UDM, затем восстановите его на новом контроллере (версия должна быть <strong>не ниже</strong>, чем на UDM).</li>
+  </ul>
+  <p>Важно: <em>UniFi OS Console</em> использует собственную версию контроллера, которая может не совпадать с последними стабильными сборками для ПК. Перед переносом проверьте совместимость на <a href="https://community.ui.com/" target="_blank">официальном форуме Ubiquiti</a>.</p>
+</details>
+
+<details>
+  <summary>Можно ли перенести контроллер без потери истории статистики?</summary>
+  <p>Да, но только если:</p>
+  <ul>
+    <li>📊 Вы используете <strong>метод клонирования папок</strong> (метод 2) и копируете <code>data/stat</code>.</li>
+    <li>🔄 В бэкапе (метод 1) включена опция <code>Include Historical Stats</code> (доступна в <em>UniFi 6.x</em> и новее).</li>
+    <li>🗃️ Вы переносите контроллер на ту же версию ПО (например, <em>7.4.162 → 7.4.162</em>).</li>
+  </ul>
+  <p>Если история всё равно пропала, проверьте:</p>
+  <ul>
+    <li>Наличие файлов <code>*.stat</code> в папке <code>data/stat</code>.</li>
+    <li>Права доступа к папке (должны позволять запись пользователю <code>unifi</code>).</li>
+    <li>Логи на предмет ошибок <em>MongoDB</em> (например, <code>"Failed to load stats"</code>).</li>
+  </ul>
+</details>
+
+<details>
+  <summary>Как перенести контроллер на Raspberry Pi?</summary>
+  <p><em>Raspberry Pi</em> (особенно модели 4/5) отлично подходит для контроллера, но имеет нюансы:</p>
+  <ol>
+    <li>Используйте <strong>Docker</strong> или официальный <code>.deb</code>-пакет для <em>ARM</em>.</li>
+    <li>Увеличьте <code>swap</code>-файл до 2 ГБ (для <em>MongoDB</em>):
+      <pre><code>sudo dphys-swapfile swapoff
+<p>sudo nano /etc/dphys-swapfile  # измените CONF_SWAPSIZE=2048</p>
+<p>sudo dphys-swapfile setup</p>
+<p>sudo dphys-swapfile swapon</code></pre></p>
+    </li>
+    <li>Отключите <em>Bluetooth</em> и <em>Wi-Fi</em> на Pi, чтобы освободить ресурсы.</li>
+    <li>Для <em>UniFi 8.x</em> требуется <em>64-битная ОС</em> (например, <em>Raspberry Pi OS Lite 64-bit</em>).</li>
+  </ol>
+  <p>Производительность: на <em>RPi 4</em> с 4 ГБ ОЗУ контроллер стабильно работает с <strong>до 50 устройств</strong>. Для больших сетей используйте <em>RPi 5</em> или мини-ПК на <em>x86</em>.</p>
+</details></div>
+                    <!--#include virtual="/ssi/article_after.html" -->
+
+                </article>
+                <aside class="article-sidebar"><!--#include virtual="/ssi/sidebar_top.html" --><nav class="sidebar-search"><div class="sidebar-search-box"><input type="text" id="globalSearchInput" placeholder="🔍 Поиск статей..." autocomplete="off"><div class="search-dropdown" id="globalSearchDropdown"></div></div></nav><!--#include virtual="/ssi/sidebar_before_toc.html" --><nav class="sidebar-toc" id="sidebarToc"><h3>Содержание</h3><ul><li><a href="#подготовка-к-переносу-что-нужно-сделать-до-начала-миграции">Подготовка к переносу: что нужно сделать ДО начала миграции</a></li><li><a href="#метод-1-перенос-через-резервную-копию-рекомендованный-способ">Метод 1: Перенос через резервную копию (рекомендованный способ)</a></li><li><a href="#метод-2-клонирование-папки-с-данными-для-опытных-пользователей">Метод 2: Клонирование папки с данными (для опытных пользователей)</a></li><li><a href="#метод-3-перенос-на-docker-контейнер-оптимально-для-серверов">Метод 3: Перенос на Docker-контейнер (оптимально для серверов)</a></li><li><a href="#типичные-ошибки-и-их-решения">Типичные ошибки и их решения</a></li><li><a href="#перенос-на-macos-особенности-и-лайфхаки">Перенос на macOS: особенности и лайфхаки</a></li><li><a href="#что-делать-после-успешного-переноса">Что делать после успешного переноса?</a></li><li><a href="#faq-частые-вопросы-по-переносу-unifi-controller">FAQ: Частые вопросы по переносу UniFi Controller</a></li></ul></nav><!--#include virtual="/ssi/sidebar_before_related.html" --><nav class="sidebar-related"><h3>Похожие статьи</h3><ul><li><a href="/articles/m/ma/marinovannye-yajtsa-otzyvy.html" class="related-card">Маринованные яйца: отзывы, рецепты и секреты приготовления в 2026</a></li><li><a href="/articles/k/ke/kenguryatnik-na-avto-zakon.html" class="related-card">Кенгурятник на авто: закон 2026, штрафы и правила установки</a></li><li><a href="/articles/v/v-/v-chem-vezti-kota-esli-net-perenoski.html" class="related-card">Как перевезти кота без переноски: безопасные альтернативы и лайфхаки</a></li><li><a href="/articles/m/ma/marinovannaya-skumbriya-s-tomatnoj-pastoj-i-lukom.html" class="related-card">Маринованная скумбрия с томатной пастой: рецепт и секреты</a></li><li><a href="/articles/c/ch/chem-propitat-cherenok-lopaty.html" class="related-card">Чем пропитать черенок лопаты: 7 проверенных способов защиты от гниения</a></li></ul></nav><!--#include virtual="/ssi/sidebar_after_related.html" --></aside>
+            </div>
+        </div>
+    </main>
+
+    <!--#include virtual="/ssi/before_related_bottom.html" -->
+    <section class="related-bottom">
+        <div class="container">
+            <h2 class="related-bottom-heading">📖 Читайте также</h2>
+            <div class="related-bottom-grid"><a href="/articles/m/ma/marinovannye-yajtsa-otzyvy.html" class="related-bottom-card"><span class="related-bottom-title">Маринованные яйца: отзывы, рецепты и секреты приготовления в 2026</span><span class="related-bottom-desc">Реальные отзывы о маринованных яйцах: вкус, срок хранения, лучшие рецепты и ошибки. Как правильно ма</span></a><a href="/articles/k/ke/kenguryatnik-na-avto-zakon.html" class="related-bottom-card"><span class="related-bottom-title">Кенгурятник на авто: закон 2026, штрафы и правила установки</span><span class="related-bottom-desc">Разбираемся, законно ли устанавливать кенгурятник на машину в 2026 году. Штрафы, требования ГИБДД, и</span></a><a href="/articles/v/v-/v-chem-vezti-kota-esli-net-perenoski.html" class="related-bottom-card"><span class="related-bottom-title">Как перевезти кота без переноски: безопасные альтернативы и лайфхаки</span><span class="related-bottom-desc">Срочно нужно везти кота, а переноски нет? Узнайте проверенные способы транспортировки в одежде, коро</span></a><a href="/articles/m/ma/marinovannaya-skumbriya-s-tomatnoj-pastoj-i-lukom.html" class="related-bottom-card"><span class="related-bottom-title">Маринованная скумбрия с томатной пастой: рецепт и секреты</span><span class="related-bottom-desc">Как приготовить маринованную скумбрию с томатной пастой и луком дома. Подробный рецепт, выбор рыбы, </span></a><a href="/articles/c/ch/chem-propitat-cherenok-lopaty.html" class="related-bottom-card"><span class="related-bottom-title">Чем пропитать черенок лопаты: 7 проверенных способов защиты от гниения</span><span class="related-bottom-desc">Как выбрать пропитку для черенка лопаты? Обзор масел, смол и современных составов для защиты дерева </span></a><a href="/articles/l/lu/luchshaya-smazka-dlya-plastikovykh-shesterenok.html" class="related-bottom-card"><span class="related-bottom-title">Лучшая смазка для пластиковых шестеренок: ТОП-7 составов 2026 года</span><span class="related-bottom-desc">Какую смазку выбрать для пластиковых шестеренок: сравнение силиконовых, тефлоновых и синтетических с</span></a></div>
+        </div>
+    </section>
+    <!--#include virtual="/ssi/after_related_bottom.html" -->
+
+    <footer class="site-footer-premium">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <div class="footer-brand">🚙 Рено Гайд</div>
+                    <p class="footer-about">Рено - идеальный баланс французского комфорта и практичности. Подробные обзоры от Logan до Duster, честные отзывы владельцев и полезные советы по ремонту.
+</p>
+                </div>
+                <div class="footer-col">
+                    <h4>Разделы</h4>
+                    <ul><li><a href="/category/logan/">📁 Logan</a></li>
+<li><a href="/category/duster/">📁 Duster</a></li>
+<li><a href="/category/megane/">📁 Megane</a></li>
+<li><a href="/category/sandero/">📁 Sandero</a></li>
+<li><a href="/category/kaptur/">📁 Kaptur</a></li>
+<li><a href="/category/fluence/">📁 Fluence</a></li></ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Информация</h4>
+                    <ul>
+                        <li><a href="/">Главная</a></li>
+                        <li><a href="/about.html">О проекте</a></li>
+                        <li><a href="/categories.html">Все разделы</a></li>
+                        <li><a href="/contact.html">Контакты</a></li>
+                        <li><a href="/privacy.html">Конфиденциальность</a></li>
+                        <li><a href="/sitemap.xml">Карта сайта</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2026 Рено Гайд. Все права защищены.</p>
+                <!--LiveInternet counter--><div style="margin-top:10px;"><a href="https://www.liveinternet.ru/click"
+                target="_blank"><img id="licnt06C4" width="88" height="15" style="border:0" 
+                title="LiveInternet: показано число посетителей за сегодня"
+                src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAEALAAAAAABAAEAAAIBTAA7"
+                alt=""/></a><script>(function(d,s){d.getElementById("licnt06C4").src=
+                "https://counter.yadro.ru/hit?t26.5;r"+escape(d.referrer)+
+                ((typeof(s)=="undefined")?"":";s"+s.width+"*"+s.height+"*"+
+                (s.colorDepth?s.colorDepth:s.pixelDepth))+";u"+escape(d.URL)+
+                ";h"+escape(d.title.substring(0,150))+";"+Math.random()})(document,screen)</script></div><!--/LiveInternet-->
+            </div>
+        </div>
+    </footer>
+    <div id="cookie-consent" class="cookie-popup">
+        <div class="cookie-inner">
+            <span>🍪 Мы используем файлы cookie для улучшения работы сайта.</span>
+            <button id="cookie-accept" class="cookie-btn">Принять</button>
+        </div>
+    </div>
+    <script src="/static/js/main.js"></script>
+    <script>
+    (function() {
+        const popup = document.getElementById('cookie-consent');
+        const btn = document.getElementById('cookie-accept');
+        if (popup && btn && !localStorage.getItem('cookie-accepted')) {
+            popup.classList.add('visible');
+            btn.onclick = () => {
+                localStorage.setItem('cookie-accepted', 'true');
+                popup.classList.remove('visible');
+            };
+        }
+    })();
+    </script>
+    <!--#include virtual="/ssi/body_bottom.html" -->
+    <script src="/static/js/inject.js" defer></script>
+</body>
+</html>
